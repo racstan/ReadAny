@@ -22,7 +22,7 @@ export interface ProviderConfig {
   keyPlaceholder: string;
 }
 
-const OPTIONAL_API_KEY_PROVIDERS = new Set(["ollama", "lmstudio"]);
+const OPTIONAL_API_KEY_PROVIDERS = new Set(["ollama", "lmstudio", "opencode", "pi"]);
 
 export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
   openai: {
@@ -200,6 +200,22 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
     needsV1Suffix: true,
     placeholder: "https://aihubmix.com",
     keyPlaceholder: "sk-...",
+  },
+  opencode: {
+    id: "opencode",
+    name: "OpenCode (Local Proxy)",
+    defaultBaseUrl: "http://localhost:4010/v1",
+    needsV1Suffix: false,
+    placeholder: "http://localhost:4010/v1",
+    keyPlaceholder: "None (local proxy) or optional key",
+  },
+  pi: {
+    id: "pi",
+    name: "Pi Agent (Local RPC/Bridge)",
+    defaultBaseUrl: "http://localhost:31415/v1",
+    needsV1Suffix: false,
+    placeholder: "http://localhost:31415/v1",
+    keyPlaceholder: "None (local agent) or optional key",
   },
   custom: {
     id: "custom",
@@ -566,6 +582,8 @@ export function detectProviderFromUrl(url: string): string {
   if (urlLower.includes("mistral.ai")) return "mistral";
   if (urlLower.includes("perplexity.ai")) return "perplexity";
   if (urlLower.includes("aihubmix.com")) return "aihubmix";
+  if (urlLower.includes("4010") || urlLower.includes("4096") || urlLower.includes("opencode")) return "opencode";
+  if (urlLower.includes("31415") || urlLower.includes("pi.dev")) return "pi";
 
   return "custom";
 }

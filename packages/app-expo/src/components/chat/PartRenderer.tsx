@@ -111,8 +111,8 @@ function ReasoningPartView({ part }: { part: ReasoningPart }) {
           )}
           <Text style={s.headerText}>
             {part.status === "running"
-              ? t("streaming.reasoningRunning", "思考中...")
-              : t("streaming.reasoningDone", "思考完成")}
+              ? t("streaming.reasoningRunning", "Thinking...")
+              : t("streaming.reasoningDone", "Thinking complete")}
           </Text>
         </View>
         <View style={[s.chevron, isOpen && s.chevronOpen]}>
@@ -207,7 +207,7 @@ function ToolCallPartView({ part }: { part: ToolCallPart }) {
           </Text>
           {hasError ? (
             <View style={s.errorBadge}>
-              <Text style={s.errorBadgeText}>{t("streaming.toolFailed", "调用失败")}</Text>
+              <Text style={s.errorBadgeText}>{t("streaming.toolFailed", "Failed")}</Text>
             </View>
           ) : null}
           {queryText ? (
@@ -224,7 +224,7 @@ function ToolCallPartView({ part }: { part: ToolCallPart }) {
         <View style={s.body}>
           {Object.keys(part.args).length > 0 && (
             <View style={s.section}>
-              <Text style={s.sectionTitle}>{t("common.params", "参数")}</Text>
+              <Text style={s.sectionTitle}>{t("common.params", "Parameters")}</Text>
               <View style={s.codeBlock}>
                 {Object.entries(part.args).map(([key, value]) => (
                   <Text key={key} style={s.codeText}>
@@ -239,7 +239,7 @@ function ToolCallPartView({ part }: { part: ToolCallPart }) {
           )}
           {part.result !== undefined && (
             <View style={s.section}>
-              <Text style={s.sectionTitle}>{t("common.result", "结果")}</Text>
+              <Text style={s.sectionTitle}>{t("common.result", "Result")}</Text>
               <View style={s.codeBlockScroll}>
                 <ScrollView style={{ maxHeight: 200 }} nestedScrollEnabled>
                   <Text style={s.codeText}>
@@ -253,8 +253,8 @@ function ToolCallPartView({ part }: { part: ToolCallPart }) {
           )}
           {hasError && (
             <View style={s.errorBlock}>
-              <Text style={s.errorTitle}>{t("streaming.toolFailedDetail", "工具调用失败")}</Text>
-              <Text style={s.errorText}>{errorMessage || t("streaming.toolFailed", "调用失败")}</Text>
+              <Text style={s.errorTitle}>{t("streaming.toolFailedDetail", "Tool execution failed")}</Text>
+              <Text style={s.errorText}>{errorMessage || t("streaming.toolFailed", "Failed")}</Text>
             </View>
           )}
         </View>

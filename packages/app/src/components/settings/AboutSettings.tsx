@@ -36,7 +36,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 /**
- * AboutSettings — 关于页面
+ * AboutSettings
  */
 import React, { useEffect, useRef, useState } from "react";
 // Timer cleanup for the copy feedback flag (unmount-safe).
@@ -338,7 +338,7 @@ export function AboutSettings() {
       {/* Links */}
       <div className="w-full max-w-md space-y-2">
         <a
-          href="https://github.com/codedogQBY/ReadAny"
+          href="https://github.com/racstan/ReadAny"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-between rounded-lg bg-muted/60 p-3 transition-colors hover:bg-muted"
@@ -351,7 +351,7 @@ export function AboutSettings() {
         </a>
 
         <a
-          href="https://github.com/codedogQBY/ReadAny/issues"
+          href="https://github.com/racstan/ReadAny/issues"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-between rounded-lg bg-muted/60 p-3 transition-colors hover:bg-muted"
@@ -366,7 +366,7 @@ export function AboutSettings() {
 
       {/* Copyright */}
       <div className="mt-8 text-center text-xs text-muted-foreground/60">
-        <p>© 2026 codedogQBY. All rights reserved.</p>
+        <p>© 2026 racstan. All rights reserved.</p>
         <p className="mt-1">{t("settings.license")}</p>
       </div>
     </div>

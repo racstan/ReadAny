@@ -167,7 +167,7 @@
     "deleteTitle": "Delete Font",
     "deleteConfirm": "Delete font \"{{name}}\"?",
     "addedAt": "Added",
-    "preview": "Preview: Reading changes the world. 阅读改变世界",
+    "preview": "Preview: Reading changes the world.",
     "error": "Error",
     "fromFile": "Local File",
     "fromUrl": "Online URL",

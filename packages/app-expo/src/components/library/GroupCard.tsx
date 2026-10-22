@@ -204,11 +204,11 @@ export const GroupCard = memo(function GroupCard({
           {group.name}
         </Text>
         <Text style={bookStyles.bookAuthor} numberOfLines={1}>
-          {t("library.groupBookCount", { count: books.length, defaultValue: `${books.length} 本` })}
+          {t("library.groupBookCount", { count: books.length, defaultValue: `${books.length} books` })}
         </Text>
         <View style={bookStyles.tagsRow}>
           <View style={bookStyles.newBadge}>
-            <Text style={bookStyles.newText}>{t("library.group", "分组")}</Text>
+            <Text style={bookStyles.newText}>{t("library.group", "Group")}</Text>
           </View>
         </View>
         <View style={bookStyles.statusRow} />

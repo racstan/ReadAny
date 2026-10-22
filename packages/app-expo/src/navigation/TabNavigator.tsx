@@ -72,7 +72,7 @@ export function TabNavigator() {
         name="Library"
         component={LibraryScreen}
         options={{
-          tabBarLabel: t("tabs.library", "书架"),
+          tabBarLabel: t("tabs.library", "Library"),
           tabBarIcon: ({ color, size }) => <BookOpenIcon color={color} size={size} />,
         }}
       />
@@ -88,7 +88,7 @@ export function TabNavigator() {
         name="Notes"
         component={NotesScreen}
         options={{
-          tabBarLabel: t("tabs.notes", "笔记"),
+          tabBarLabel: t("tabs.notes", "Notes"),
           tabBarIcon: ({ color, size }) => <NotebookPenIcon color={color} size={size} />,
         }}
       />
@@ -96,7 +96,7 @@ export function TabNavigator() {
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: t("tabs.profile", "我的"),
+          tabBarLabel: t("tabs.profile", "Profile"),
           tabBarIcon: ({ color, size }) => <UserIcon color={color} size={size} />,
         }}
       />

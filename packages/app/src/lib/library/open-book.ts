@@ -101,7 +101,7 @@ export async function openDesktopBook({
       syncStore.config.type === "webdav" ? "sync_webdav_password" : "sync_s3_secret_key";
     const password = await platform.kvGetItem(secretKey);
     if (!password) {
-      toast.error(t("library.passwordNotFound", "未找到同步密码，请重新配置"));
+      toast.error(t("library.passwordNotFound", "Sync password not found, please reconfigure"));
       return false;
     }
 
@@ -123,13 +123,13 @@ export async function openDesktopBook({
         toast.error(
           t(
             "library.downloadNotFound",
-            "远端没有这本书的文件，可能源设备还未上传成功。请回到那台设备重新打开/同步一次，或在此处重新导入。",
+            "The book file was not found on remote. The source device may not have uploaded it yet. Please open/sync from that device, or re-import here.",
           ),
         );
         return false;
       }
       if (outcome === "error") {
-        toast.error(t("library.downloadFailed", "下载失败，请重试"));
+        toast.error(t("library.downloadFailed", "Download failed, please try again"));
         return false;
       }
       const vmState = useVectorModelStore.getState();
@@ -151,7 +151,7 @@ export async function openDesktopBook({
       console.error("[openDesktopBook] Failed to download remote book:", error);
       await setBookSyncStatus(book.id, "remote");
       await loadBooks();
-      toast.error(t("library.downloadFailed", "下载失败，请重试"));
+      toast.error(t("library.downloadFailed", "Download failed, please try again"));
       return false;
     } finally {
       pendingDownloads.delete(book.id);
@@ -175,13 +175,13 @@ export async function openDesktopBook({
   if (!fileAccessible) {
     // File missing or never had one — prompt user to re-import
     const shouldReimport = await useMissingBookPromptStore.getState().showPrompt({
-      title: t("reader.reimportPromptTitle", "书籍文件缺失"),
+      title: t("reader.reimportPromptTitle", "Book file missing"),
       description: t(
         "reader.reimportDialogDescriptionDesktop",
-        "笔记和阅读记录都还在，重新导入即可继续。",
+        "Notes and reading records are preserved. Re-import the file to continue.",
       ),
-      confirmLabel: t("reader.reimportSelectFile", "重新导入"),
-      cancelLabel: t("common.cancel", "取消"),
+      confirmLabel: t("reader.reimportSelectFile", "Re-import"),
+      cancelLabel: t("common.cancel", "Cancel"),
     });
     if (!shouldReimport) {
       return false;
@@ -199,17 +199,17 @@ export async function openDesktopBook({
     const candidate = await inspectDeletedBookCandidate(book.id, selectedPath);
     if (candidate && shouldConfirmReimportCandidate(book, candidate)) {
       const shouldContinue = await useMissingBookPromptStore.getState().showPrompt({
-        title: t("reader.reimportMismatchTitle", "这份文件看起来和原书不太一致"),
+        title: t("reader.reimportMismatchTitle", "File does not match original book"),
         description: t(
           "reader.reimportMismatchDescription",
-          "原书《{{originalTitle}}》与当前文件《{{candidateTitle}}》信息差异较大。仍要把它接回原来的笔记和阅读统计吗？",
+          "Original book \"{{originalTitle}}\" differs significantly from \"{{candidateTitle}}\". Link it to previous notes and reading statistics anyway?",
           {
             originalTitle: book.meta.title,
-            candidateTitle: candidate.title || t("reader.unknownBook", "未命名书籍"),
+            candidateTitle: candidate.title || t("reader.unknownBook", "Unknown Book"),
           },
         ),
-        confirmLabel: t("reader.reimportContinue", "继续接回"),
-        cancelLabel: t("reader.reimportPickAnotherFile", "重新选择"),
+        confirmLabel: t("reader.reimportContinue", "Continue linking"),
+        cancelLabel: t("reader.reimportPickAnotherFile", "Choose another file"),
       });
       if (!shouldContinue) {
         return false;
@@ -218,11 +218,11 @@ export async function openDesktopBook({
 
     const restoredBook = await reimportDeletedBook(book.id, selectedPath);
     if (!restoredBook) {
-      toast.error(t("reader.reimportFailed", "重新导入失败，请稍后再试。"));
+      toast.error(t("reader.reimportFailed", "Re-import failed, please try again later."));
       return false;
     }
 
-    toast.success(t("reader.reimportSuccess", "书籍已重新导入，笔记和阅读记录已恢复。"));
+    toast.success(t("reader.reimportSuccess", "Book re-imported successfully. Notes and reading records restored."));
     openReaderTab(restoredBook, initialCfi);
     return true;
   }

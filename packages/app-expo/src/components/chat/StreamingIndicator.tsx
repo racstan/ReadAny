@@ -14,11 +14,11 @@ export function StreamingIndicator({ step }: StreamingIndicatorProps) {
   const getLabel = () => {
     switch (step) {
       case "thinking":
-        return t("streaming.thinking", "正在思考...");
+        return t("streaming.thinking", "Thinking...");
       case "tool_calling":
-        return t("streaming.toolCalling", "正在调用工具...");
+        return t("streaming.toolCalling", "Calling tool...");
       case "responding":
-        return t("streaming.responding", "正在回复...");
+        return t("streaming.responding", "Responding...");
     }
   };
 

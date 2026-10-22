@@ -7,9 +7,9 @@ Goal: manually exercise the full `readany` CLI surface against real and isolated
 ## Environments
 
 - Real desktop library:
-  `/Users/tuntuntutu/Library/Application Support/com.readany.app`
+  `~/Library/Application Support/com.readany.app`
 - Real installed command:
-  `/Users/tuntuntutu/.local/bin/readany`
+  `~/.local/bin/readany`
 - Isolated write-test library:
   temporary copies of the real desktop library via `rsync -a ...`
 - Repo build:
@@ -19,7 +19,7 @@ Goal: manually exercise the full `readany` CLI surface against real and isolated
 
 - `readany doctor --json` reports `readanyHome` as `com.readany.app`
 - `readany books list --json` returns 35 books
-- Current reader context is available and points at `代码整洁之道`
+- Current reader context is available and points at `Clean Code`
 - Real library has:
   - highlights: 60 total
   - notes: 0 total
@@ -73,9 +73,9 @@ Goal: manually exercise the full `readany` CLI surface against real and isolated
 ### Book/library read commands against real data
 
 - `readany books list --json --limit 5`
-  - actual: non-empty result, includes `代码整洁之道`
-- `readany books search 整洁 --json`
-  - actual: returns `代码整洁之道`
+  - actual: non-empty result, includes `Clean Code`
+- `readany books search clean --json`
+  - actual: returns `Clean Code`
 - `readany book get 2d1c4b06-01c9-4464-8fe6-15583b6f94ec --json`
   - actual: returns expected metadata
 - `readany chapters list 2d1c4b06-01c9-4464-8fe6-15583b6f94ec --json`
@@ -91,11 +91,11 @@ Goal: manually exercise the full `readany` CLI surface against real and isolated
 
 ### Notes / highlights / knowledge / rag
 
-- `readany notes search 代码 --json --limit 5`
+- `readany notes search code --json --limit 5`
   - actual: succeeds; real library currently has zero notes, so result is empty as expected
-- `readany highlights search 完美 --json --book 76fc5d6d-f63d-45f6-a67a-74e1a92f9aae --limit 5`
+- `readany highlights search perfect --json --book 76fc5d6d-f63d-45f6-a67a-74e1a92f9aae --limit 5`
   - actual: returns 5 real highlight matches
-- `readany knowledge search 行动 --json --book 76fc5d6d-f63d-45f6-a67a-74e1a92f9aae --limit 5 --content-limit 120`
+- `readany knowledge search action --json --book 76fc5d6d-f63d-45f6-a67a-74e1a92f9aae --limit 5 --content-limit 120`
   - actual: returns a real book match
 - `readany rag search clean --book 2d1c4b06-01c9-4464-8fe6-15583b6f94ec --json --limit 3`
   - actual: returns RAG results
@@ -145,7 +145,7 @@ Goal: manually exercise the full `readany` CLI surface against real and isolated
 ### EPUB validate / export
 
 - Real-book validation on isolated copies:
-  - `代码整洁之道` draft validate fails with 1 source-book issue:
+  - `Clean Code` draft validate fails with 1 source-book issue:
     missing `kindle:embed:...` resource reference
   - `陰の実力者になりたくて！ ０７` draft validate fails with 2 source-book issues:
     missing manifest items `p-colophon2` and `p-bookwalker`

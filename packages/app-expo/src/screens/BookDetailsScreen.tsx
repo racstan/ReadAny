@@ -97,13 +97,12 @@ type PickedCoverSource = {
 
 const LANGUAGE_PRESETS = [
   { value: "", label: "—" },
-  { value: "zh-CN", label: "中文" },
-  { value: "zh-TW", label: "繁體中文" },
   { value: "en", label: "English" },
-  { value: "ja", label: "日本語" },
-  { value: "ko", label: "한국어" },
-  { value: "fr", label: "Français" },
-  { value: "es", label: "Español" },
+  { value: "zh", label: "Chinese" },
+  { value: "ja", label: "Japanese" },
+  { value: "ko", label: "Korean" },
+  { value: "fr", label: "French" },
+  { value: "es", label: "Spanish" },
   { value: "de", label: "Deutsch" },
   { value: "it", label: "Italiano" },
   { value: "pt", label: "Português" },
@@ -155,9 +154,9 @@ function getDaysInMonth(year: string, month: string) {
 }
 
 function datePrecisionLabel(precision: DatePrecision, t: TFunction) {
-  if (precision === "day") return t("library.detailsDatePrecisionDay", "年月日");
-  if (precision === "month") return t("library.detailsDatePrecisionMonth", "年月");
-  return t("library.detailsDatePrecisionYear", "仅年份");
+  if (precision === "day") return t("library.detailsDatePrecisionDay", "Day");
+  if (precision === "month") return t("library.detailsDatePrecisionMonth", "Month");
+  return t("library.detailsDatePrecisionYear", "Year only");
 }
 
 function formatMonthLabel(month: string, locale: string) {
@@ -479,10 +478,10 @@ export function BookDetailsScreen({ route }: Props) {
       const bytes = await platform.readFile(selected.uri);
       await platform.writeFile(targetPath, bytes);
       await persistCoverUrl(relativePath);
-      Alert.alert(t("common.success", "成功"), t("library.detailsCoverSaved", "封面已保存"));
+      Alert.alert(t("common.success", "Success"), t("library.detailsCoverSaved", "Cover saved"));
     } catch (error) {
       console.warn("[BookDetailsScreen] Failed to change cover:", error);
-      Alert.alert(t("common.failed", "失败"), t("common.failed", "失败"));
+      Alert.alert(t("common.failed", "Failed"), t("common.failed", "Failed"));
     }
   }, [book, persistCoverUrl, t, values]);
 
@@ -492,16 +491,16 @@ export function BookDetailsScreen({ route }: Props) {
         style={[styles.container, { backgroundColor: colors.background }]}
         edges={["top"]}
       >
-        <SettingsHeader title={t("library.detailsTitle", "书籍详情")} />
+        <SettingsHeader title={t("library.detailsTitle", "Book Details")} />
         <View style={styles.missingWrap}>
-          <Text style={styles.missingText}>{t("library.bookNotFound", "书籍不存在")}</Text>
+          <Text style={styles.missingText}>{t("library.bookNotFound", "Book not found")}</Text>
         </View>
       </SafeAreaView>
     );
   }
 
   const progressPct = getBookProgressPercent(book.progress);
-  const groupName = resolveGroupName(book, groups, t("sidebar.uncategorized", "未分类"));
+  const groupName = resolveGroupName(book, groups, t("sidebar.uncategorized", "Uncategorized"));
   const reviewCount = values.reviews.filter((review) => review.content.trim()).length;
 
   return (
@@ -509,7 +508,7 @@ export function BookDetailsScreen({ route }: Props) {
       style={[styles.container, { backgroundColor: colors.background }]}
       edges={["top"]}
     >
-      <SettingsHeader title={t("library.detailsTitle", "书籍详情")} />
+      <SettingsHeader title={t("library.detailsTitle", "Book Details")} />
       <View style={styles.flex}>
         <KeyboardAwareScrollView
           style={styles.flex}
@@ -552,7 +551,7 @@ export function BookDetailsScreen({ route }: Props) {
                 >
                   <EditIcon size={12} color={colors.mutedForeground} />
                   <Text style={styles.coverActionText}>
-                    {t("library.detailsChangeCover", "更换")}
+                    {t("library.detailsChangeCover", "Change")}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -563,7 +562,7 @@ export function BookDetailsScreen({ route }: Props) {
                 >
                   <Trash2Icon size={12} color={colors.mutedForeground} />
                   <Text style={styles.coverActionText}>
-                    {t("library.detailsClearCover", "清除")}
+                    {t("library.detailsClearCover", "Clear")}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -571,7 +570,7 @@ export function BookDetailsScreen({ route }: Props) {
             <View style={styles.heroCopy}>
               <InlineEditableHeroInput
                 value={values.title}
-                placeholder={t("library.detailsBookTitle", "书名")}
+                placeholder={t("library.detailsBookTitle", "Title")}
                 textStyle={styles.heroTitleText}
                 placeholderStyle={styles.heroTitlePlaceholder}
                 multiline
@@ -580,15 +579,15 @@ export function BookDetailsScreen({ route }: Props) {
               />
               <InlineEditableHeroInput
                 value={values.author}
-                placeholder={t("library.detailsUnknownAuthor", "未知作者")}
+                placeholder={t("library.detailsUnknownAuthor", "Unknown author")}
                 textStyle={styles.heroAuthorText}
                 placeholderStyle={styles.heroAuthorPlaceholder}
                 onChangeText={(text) => setField("author", text)}
                 styles={styles}
               />
               <RatingField
-                label={t("library.detailsRating", "评分")}
-                noRatingLabel={t("library.detailsNoRating", "未评分")}
+                label={t("library.detailsRating", "Rating")}
+                noRatingLabel={t("library.detailsNoRating", "No rating")}
                 value={values.rating}
                 onChange={setRating}
                 styles={styles}
@@ -599,7 +598,7 @@ export function BookDetailsScreen({ route }: Props) {
                   <View style={[styles.progressFill, { width: `${progressPct}%` }]} />
                 </View>
                 <Text style={styles.progressText}>
-                  {t("library.detailsProgressValue", "{{progress}}% 已读", {
+                  {t("library.detailsProgressValue", "{{progress}}% read", {
                     progress: progressPct,
                   })}
                 </Text>
@@ -609,22 +608,22 @@ export function BookDetailsScreen({ route }: Props) {
 
           <View style={styles.metaStrip}>
             <MetaItem
-              label={t("library.detailsSync", "同步")}
+              label={t("library.detailsSync", "Sync")}
               value={syncStatusLabel(book.syncStatus, t)}
               styles={styles}
             />
-            <MetaItem label={t("library.group", "分组")} value={groupName} styles={styles} />
+            <MetaItem label={t("library.group", "Group")} value={groupName} styles={styles} />
             <MetaItem
-              label={t("library.detailsVector", "向量")}
+              label={t("library.detailsVector", "Vector")}
               value={
                 book.isVectorized
-                  ? t("home.vec_indexed", "已索引")
-                  : t("home.notVectorized", "未索引")
+                  ? t("home.vec_indexed", "Indexed")
+                  : t("home.notVectorized", "Not indexed")
               }
               styles={styles}
             />
             <MetaItem
-              label={t("library.detailsFormat", "格式")}
+              label={t("library.detailsFormat", "Format")}
               value={book.format.toUpperCase()}
               styles={styles}
               last
@@ -634,13 +633,13 @@ export function BookDetailsScreen({ route }: Props) {
           <View style={styles.tabBar}>
             <DetailsTabButton
               active={activeTab === "basic"}
-              label={t("library.detailsTabBasic", "基本信息")}
+              label={t("library.detailsTabBasic", "Basic Info")}
               onPress={() => setActiveTab("basic")}
               styles={styles}
             />
             <DetailsTabButton
               active={activeTab === "reviews"}
-              label={t("library.detailsTabReviews", "书评")}
+              label={t("library.detailsTabReviews", "Reviews")}
               count={reviewCount}
               onPress={() => setActiveTab("reviews")}
               styles={styles}
@@ -651,21 +650,21 @@ export function BookDetailsScreen({ route }: Props) {
             <View style={styles.tabContent}>
               <View style={styles.editorPanel}>
                 <EditableInfoRow
-                  label={t("library.detailsPublisher", "出版社")}
+                  label={t("library.detailsPublisher", "Publisher")}
                   value={values.publisher}
                   placeholder="—"
                   onCommit={(text) => setField("publisher", text)}
                   styles={styles}
                 />
                 <PickerInfoRow
-                  label={t("library.detailsLanguage", "语言")}
+                  label={t("library.detailsLanguage", "Language")}
                   value={values.language}
                   placeholder="—"
                   options={LANGUAGE_PRESETS}
                   onPress={() =>
                     setOptionPickerTarget({
                       field: "language",
-                      label: t("library.detailsLanguage", "语言"),
+                      label: t("library.detailsLanguage", "Language"),
                       value: values.language,
                       options: LANGUAGE_PRESETS,
                     })
@@ -673,7 +672,7 @@ export function BookDetailsScreen({ route }: Props) {
                   styles={styles}
                 />
                 <DateInfoRow
-                  label={t("library.detailsPublishDate", "出版日期")}
+                  label={t("library.detailsPublishDate", "Publish Date")}
                   value={values.publishDate}
                   locale={i18n.language}
                   onPress={() => setDatePickerOpen(true)}
@@ -691,20 +690,20 @@ export function BookDetailsScreen({ route }: Props) {
                   styles={styles}
                 />
                 <PickerInfoRow
-                  label={t("library.group", "分组")}
+                  label={t("library.group", "Group")}
                   value={values.groupId}
-                  placeholder={t("sidebar.uncategorized", "未分类")}
+                  placeholder={t("sidebar.uncategorized", "Uncategorized")}
                   options={[
-                    { value: "", label: t("sidebar.uncategorized", "未分类") },
+                    { value: "", label: t("sidebar.uncategorized", "Uncategorized") },
                     ...groups.map((group) => ({ value: group.id, label: group.name })),
                   ]}
                   onPress={() =>
                     setOptionPickerTarget({
                       field: "groupId",
-                      label: t("library.group", "分组"),
+                      label: t("library.group", "Group"),
                       value: values.groupId,
                       options: [
-                        { value: "", label: t("sidebar.uncategorized", "未分类") },
+                        { value: "", label: t("sidebar.uncategorized", "Uncategorized") },
                         ...groups.map((group) => ({ value: group.id, label: group.name })),
                       ],
                     })
@@ -714,12 +713,12 @@ export function BookDetailsScreen({ route }: Props) {
                 />
               </View>
               <TagField
-                label={t("library.detailsTags", "标签")}
+                label={t("library.detailsTags", "Tags")}
                 value={values.tagsText}
                 allTags={allTags}
                 newTag={newTag}
-                emptyLabel={t("sidebar.noTags", "还没有标签")}
-                placeholder={t("sidebar.tagPlaceholder", "标签名称")}
+                emptyLabel={t("sidebar.noTags", "No tags yet")}
+                placeholder={t("sidebar.tagPlaceholder", "Tag name")}
                 onChange={(text) => setField("tagsText", text)}
                 onNewTagChange={setNewTag}
                 onAddTag={(tag) => {
@@ -730,17 +729,17 @@ export function BookDetailsScreen({ route }: Props) {
                 styles={styles}
               />
               <EditableLongTextField
-                label={t("library.detailsDescription", "简介")}
+                label={t("library.detailsDescription", "Description")}
                 value={values.description}
-                placeholder={t("library.detailsDescriptionPlaceholder", "补充这本书的简介")}
-                editLabel={t("library.detailsEditDescription", "编辑简介")}
+                placeholder={t("library.detailsDescriptionPlaceholder", "Add a description for this book")}
+                editLabel={t("library.detailsEditDescription", "Edit description")}
                 onEdit={() =>
                   setTextEditorTarget({
                     kind: "field",
                     field: "description",
-                    label: t("library.detailsDescription", "简介"),
+                    label: t("library.detailsDescription", "Description"),
                     value: values.description,
-                    placeholder: t("library.detailsDescriptionPlaceholder", "补充这本书的简介"),
+                    placeholder: t("library.detailsDescriptionPlaceholder", "Add a description for this book"),
                     multiline: true,
                   })
                 }
@@ -749,28 +748,28 @@ export function BookDetailsScreen({ route }: Props) {
             </View>
           ) : (
             <ReviewsField
-              label={t("library.detailsReviews", "书评")}
-              addLabel={t("library.detailsAddReview", "添加书评")}
-              placeholder={t("library.detailsReviewPlaceholder", "写下你对这本书的想法")}
-              editLabel={t("common.edit", "编辑")}
-              removeLabel={t("library.detailsRemoveReview", "删除书评")}
+              label={t("library.detailsReviews", "Reviews")}
+              addLabel={t("library.detailsAddReview", "Add review")}
+              placeholder={t("library.detailsReviewPlaceholder", "Write down your thoughts about this book")}
+              editLabel={t("common.edit", "Edit")}
+              removeLabel={t("library.detailsRemoveReview", "Delete review")}
               reviews={values.reviews}
               locale={i18n.language}
               onAdd={() =>
                 setTextEditorTarget({
                   kind: "newReview",
-                  label: t("library.detailsAddReview", "添加书评"),
+                  label: t("library.detailsAddReview", "Add review"),
                   value: "",
-                  placeholder: t("library.detailsReviewPlaceholder", "写下你对这本书的想法"),
+                  placeholder: t("library.detailsReviewPlaceholder", "Write down your thoughts about this book"),
                 })
               }
               onEdit={(review) =>
                 setTextEditorTarget({
                   kind: "review",
                   reviewId: review.id,
-                  label: t("library.detailsReviews", "书评"),
+                  label: t("library.detailsReviews", "Reviews"),
                   value: review.content,
-                  placeholder: t("library.detailsReviewPlaceholder", "写下你对这本书的想法"),
+                  placeholder: t("library.detailsReviewPlaceholder", "Write down your thoughts about this book"),
                 })
               }
               onRemove={removeReview}
@@ -782,16 +781,16 @@ export function BookDetailsScreen({ route }: Props) {
       </View>
       <TextEditSheet
         target={textEditorTarget}
-        doneLabel={t("common.done", "完成")}
-        cancelLabel={t("common.cancel", "取消")}
+        doneLabel={t("common.done", "Done")}
+        cancelLabel={t("common.cancel", "Cancel")}
         styles={styles}
         onClose={() => setTextEditorTarget(null)}
         onDone={handleTextEditorDone}
       />
       <OptionPickerSheet
         target={optionPickerTarget}
-        doneLabel={t("common.done", "完成")}
-        cancelLabel={t("common.cancel", "取消")}
+        doneLabel={t("common.done", "Done")}
+        cancelLabel={t("common.cancel", "Cancel")}
         styles={styles}
         onClose={() => setOptionPickerTarget(null)}
         onDone={(target, value) => {
@@ -803,9 +802,9 @@ export function BookDetailsScreen({ route }: Props) {
         visible={datePickerOpen}
         value={values.publishDate}
         locale={i18n.language}
-        title={t("library.detailsPublishDate", "出版日期")}
-        doneLabel={t("common.done", "完成")}
-        cancelLabel={t("common.cancel", "取消")}
+        title={t("library.detailsPublishDate", "Publish Date")}
+        doneLabel={t("common.done", "Done")}
+        cancelLabel={t("common.cancel", "Cancel")}
         t={t}
         styles={styles}
         onClose={() => setDatePickerOpen(false)}

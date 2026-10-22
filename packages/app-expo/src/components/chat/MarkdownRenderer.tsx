@@ -58,7 +58,7 @@ function CodeBlockWithCopy({
         }}
       >
         <Text style={{ fontSize: 12, color: colors.mutedForeground }}>
-          {t("common.copy", "复制")}
+          {t("common.copy", "Copy")}
         </Text>
       </TouchableOpacity>
       <Text style={style}>{code}</Text>

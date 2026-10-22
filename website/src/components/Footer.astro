@@ -5,10 +5,9 @@ interface Props {
 
 const { t } = Astro.props;
 const currentYear = new Date().getFullYear();
-const locale = Astro.url.pathname.includes("/zh/") ? "zh" : "en";
-const licenseText = locale === "zh" ? "GPL-3.0 许可证。" : "GPL-3.0 License.";
-const privacyHref = locale === "zh" ? "/ReadAny/zh/privacy/" : "/ReadAny/privacy/";
-const privacyText = locale === "zh" ? "隐私政策" : "Privacy Policy";
+const licenseText = "GPL-3.0 License.";
+const privacyHref = "/ReadAny/privacy/";
+const privacyText = "Privacy Policy";
 ---
 
 <footer class="border-t border-border/50 py-8">

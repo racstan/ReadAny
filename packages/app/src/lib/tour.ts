@@ -9,10 +9,10 @@ export function startTour() {
     overlayColor: "rgba(0, 0, 0, 0.5)",
     stagePadding: 10,
     stageRadius: 8,
-    nextBtnText: i18n.t("tour.next", "下一步"),
-    prevBtnText: i18n.t("tour.prev", "上一步"),
-    doneBtnText: i18n.t("tour.done", "完成"),
-    progressText: i18n.t("tour.progress", "第 {{current}} 步，共 {{total}} 步"),
+    nextBtnText: i18n.t("tour.next", "Next"),
+    prevBtnText: i18n.t("tour.prev", "Previous"),
+    doneBtnText: i18n.t("tour.done", "Done"),
+    progressText: i18n.t("tour.progress", "{{current}} of {{total}}"),
     steps: [
       {
         element: "#tour-add-book",

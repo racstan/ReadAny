@@ -67,7 +67,7 @@ export function BookCardActionSheet({
       ? {
           key: "details",
           icon: <InfoIcon size={18} color={colors.foreground} />,
-          label: t("library.detailsAction", "书籍详情"),
+          label: t("library.detailsAction", "Book Details"),
           onPress: () => {
             onClose();
             onShowDetails(book);
@@ -78,15 +78,15 @@ export function BookCardActionSheet({
       key: "group",
       icon: <FolderInputIcon size={18} color={colors.foreground} />,
       label: book.groupId
-        ? t("library.changeGroup", "更换分组")
-        : t("library.moveToGroup", "移入分组"),
+        ? t("library.changeGroup", "Change Group")
+        : t("library.moveToGroup", "Move to Group"),
       onPress: handleMoveGroup,
     },
     onManageTags
       ? {
           key: "tags",
           icon: <HashIcon size={18} color={colors.foreground} />,
-          label: t("home.manageTags", "管理标签"),
+          label: t("home.manageTags", "Manage Tags"),
           onPress: () => {
             onClose();
             onManageTags(book);
@@ -98,16 +98,16 @@ export function BookCardActionSheet({
           key: "vectorize",
           icon: <DatabaseIcon size={18} color={colors.foreground} />,
           label: book.isVectorized
-            ? t("home.vec_reindex", "重新索引")
-            : t("home.vec_vectorize", "向量化"),
+            ? t("home.vec_reindex", "Re-index")
+            : t("home.vec_vectorize", "Vectorize"),
           onPress: () => {
             onClose();
             if (book.isVectorized) {
               Alert.alert(
-                t("home.vec_reindex", "重新索引"),
+                t("home.vec_reindex", "Re-index"),
                 t(
                   "home.vec_reindexConfirm",
-                  "该书已完成索引，重新索引将重置现有数据，确定继续吗？",
+                  "This book is already indexed. Re-indexing will reset existing data. Continue?",
                 ),
                 [
                   { text: t("common.cancel"), style: "cancel" },
@@ -123,7 +123,7 @@ export function BookCardActionSheet({
     {
       key: "delete",
       icon: <Trash2Icon size={18} color={colors.destructive} />,
-      label: t("common.remove", "删除"),
+      label: t("common.remove", "Delete"),
       destructive: true,
       onPress: () => {
         onClose();
@@ -195,11 +195,11 @@ export function BookCardActionSheet({
       >
         <Pressable style={styles.confirmOverlay} onPress={() => setShowDeleteConfirm(false)}>
           <Pressable style={styles.confirmCard} onPress={() => {}}>
-            <Text style={styles.confirmTitle}>{t("library.deleteBookTitle", "删除这本书？")}</Text>
+            <Text style={styles.confirmTitle}>{t("library.deleteBookTitle", "Delete this book?")}</Text>
             <Text style={styles.confirmDescription}>
               {t(
                 "library.deleteBookDescription",
-                "你可以选择保留笔记和阅读统计，之后重新导入同一本书时会继续接上。",
+                "You can choose to keep notes and reading stats so they will reconnect when re-importing the same book.",
               )}
             </Text>
 
@@ -215,12 +215,12 @@ export function BookCardActionSheet({
               </View>
               <View style={styles.checkboxContent}>
                 <Text style={styles.checkboxLabel}>
-                  {t("library.preserveDeleteDataLabel", "保留笔记和阅读统计")}
+                  {t("library.preserveDeleteDataLabel", "Keep notes and reading stats")}
                 </Text>
                 <Text style={styles.checkboxHint}>
                   {t(
                     "library.preserveDeleteDataHint",
-                    "勾选后会从书架移除书籍文件，但保留笔记、高亮和阅读历史，重新导入时可恢复。",
+                    "When checked, the book file is removed from library, but notes, highlights, and history are kept for future re-import.",
                   )}
                 </Text>
               </View>
@@ -231,7 +231,7 @@ export function BookCardActionSheet({
                 style={styles.confirmSecondary}
                 onPress={() => setShowDeleteConfirm(false)}
               >
-                <Text style={styles.confirmSecondaryText}>{t("common.cancel", "取消")}</Text>
+                <Text style={styles.confirmSecondaryText}>{t("common.cancel", "Cancel")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.confirmDanger}
@@ -240,7 +240,7 @@ export function BookCardActionSheet({
                   onDelete(book.id, { preserveData: preserveDataOnDelete });
                 }}
               >
-                <Text style={styles.confirmDangerText}>{t("common.remove", "删除")}</Text>
+                <Text style={styles.confirmDangerText}>{t("common.remove", "Delete")}</Text>
               </TouchableOpacity>
             </View>
           </Pressable>

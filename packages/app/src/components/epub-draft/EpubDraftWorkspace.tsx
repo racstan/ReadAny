@@ -404,7 +404,7 @@ export function EpubDraftWorkspace({ draftId }: EpubDraftWorkspaceProps) {
     async (targetDraftId: string) => {
       const normalizedDraftId = targetDraftId.trim();
       if (!normalizedDraftId) {
-        toast.error(t("epubDraft.missingDraftId", "请输入 draft id"));
+        toast.error(t("epubDraft.missingDraftId", "Please enter draft id"));
         return;
       }
 
@@ -737,7 +737,7 @@ export function EpubDraftWorkspace({ draftId }: EpubDraftWorkspaceProps) {
       <header className="flex h-14 shrink-0 items-center justify-between border-b px-5">
         <div className="min-w-0">
           <h1 className="truncate text-sm font-semibold text-foreground">
-            {t("epubDraft.title", "EPUB 精排工作区")}
+            {t("epubDraft.title", "EPUB Typesetting Workspace")}
           </h1>
           <p className="truncate text-xs text-muted-foreground">{activeDraftId}</p>
         </div>
@@ -756,7 +756,7 @@ export function EpubDraftWorkspace({ draftId }: EpubDraftWorkspaceProps) {
             onClick={() => void loadWorkspace(draftIdInput)}
           >
             <RefreshCw className={cn("size-3.5", loading && "animate-spin")} />
-            {t("common.refresh", "刷新")}
+            {t("common.refresh", "Refresh")}
           </Button>
         </div>
       </header>

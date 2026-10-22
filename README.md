@@ -17,19 +17,16 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/codedogQBY/ReadAny/releases/latest">
-    <img src="https://img.shields.io/github/v/release/codedogQBY/ReadAny?color=blue&label=Download" alt="Release">
+  <a href="https://github.com/racstan/ReadAny/releases/latest">
+    <img src="https://img.shields.io/github/v/release/racstan/ReadAny?color=blue&label=Download" alt="Release">
   </a>
-  <a href="https://github.com/codedogQBY/ReadAny/stargazers">
-    <img src="https://img.shields.io/github/stars/codedogQBY/ReadAny?color=yellow" alt="Stars">
+  <a href="https://github.com/racstan/ReadAny/stargazers">
+    <img src="https://img.shields.io/github/stars/racstan/ReadAny?color=yellow" alt="Stars">
   </a>
-  <a href="https://github.com/codedogQBY/ReadAny/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/codedogQBY/ReadAny?color=green" alt="License">
+  <a href="https://github.com/racstan/ReadAny/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/racstan/ReadAny?color=green" alt="License">
   </a>
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux%20%7C%20iOS%20%7C%20Android-blue" alt="Platform">
-  <a href="README_CN.md">
-    <img src="https://img.shields.io/badge/lang-中文-red" alt="Chinese">
-  </a>
 </p>
 
 ---
@@ -133,7 +130,7 @@
 
 ### 🔊 Text-to-Speech (TTS)
 
-- **Multiple Engines** - Edge TTS, Browser TTS, DashScope (通义千问)
+- **Multiple Engines** - Edge TTS, Browser TTS, DashScope
 - **Voice Selection** - 100+ voices in multiple languages
 - **Speed Control** - Adjustable playback speed
 - **Background Playback** - Listen while doing other things
@@ -159,11 +156,11 @@ TXT and UMD are imported by converting them to EPUB for reading, notes, search, 
 
 ### 🎨 Customizable Experience
 
-- 5 font themes (CJK optimized)
+- Multiple font themes
 - Light/Dark mode
 - Paginated/Continuous scroll
 - Keyboard shortcuts
-- English/Chinese interface
+- Multi-language interface
 
 ---
 
@@ -173,17 +170,17 @@ TXT and UMD are imported by converting them to EPUB for reading, notes, search, 
 
 | Platform | Download |
 |----------|----------|
-| macOS (Apple Silicon) | [Download .dmg](https://github.com/codedogQBY/ReadAny/releases/latest) |
-| macOS (Intel) | [Download .dmg](https://github.com/codedogQBY/ReadAny/releases/latest) |
-| Windows | [Download .msi](https://github.com/codedogQBY/ReadAny/releases/latest) |
-| Linux | [Download .AppImage](https://github.com/codedogQBY/ReadAny/releases/latest) |
+| macOS (Apple Silicon) | [Download .dmg](https://github.com/racstan/ReadAny/releases/latest) |
+| macOS (Intel) | [Download .dmg](https://github.com/racstan/ReadAny/releases/latest) |
+| Windows | [Download .msi](https://github.com/racstan/ReadAny/releases/latest) |
+| Linux | [Download .AppImage](https://github.com/racstan/ReadAny/releases/latest) |
 | iOS | [Join TestFlight](https://testflight.apple.com/join/qNdvNv2p) |
-| Android | [Download .apk](https://github.com/codedogQBY/ReadAny/releases/latest) |
+| Android | [Download .apk](https://github.com/racstan/ReadAny/releases/latest) |
 
 #### Homebrew (macOS)
 
 ```bash
-brew tap codedogQBY/readany
+brew tap racstan/readany
 brew install --cask readany
 ```
 
@@ -200,7 +197,7 @@ ReadAny is now available on mobile devices!
 **Expo (React Native) Version:**
 ```bash
 # Clone and setup
-git clone https://github.com/codedogQBY/ReadAny.git
+git clone https://github.com/racstan/ReadAny.git
 cd ReadAny
 pnpm install
 
@@ -262,7 +259,7 @@ Mobile app source lives in [`packages/app-expo`](packages/app-expo).
 
 ```bash
 # Clone
-git clone https://github.com/codedogQBY/ReadAny.git
+git clone https://github.com/racstan/ReadAny.git
 cd ReadAny
 
 # Install
@@ -320,7 +317,7 @@ Please run `pnpm lint` before submitting to ensure code style consistency.
 
 ## License
 
-[GPL-3.0](LICENSE) © 2024 ReadAny Team
+[GPL-3.0](LICENSE) © 2026 racstan / ReadAny Team
 
 This project is open source under the GNU General Public License v3.0. You are free to use, modify, and distribute the code, but any derivative works must also be open source under the same license.
 
@@ -341,43 +338,21 @@ This project is open source under the GNU General Public License v3.0. You are f
 
 ## Community
 
-Thanks to [linux.do](https://linux.do/) — a vibrant Chinese tech community where you can learn about AI, development, and more.
-
----
-
 <p align="center">
-  Made with ❤️ by the ReadAny Team
-</p>
-
-<p align="center">
-  <a href="https://github.com/codedogQBY/ReadAny/discussions">💬 Discussions</a> •
-  <a href="https://github.com/codedogQBY/ReadAny/issues">🐛 Issues</a>
-</p>
-
-<p align="center">
-  <img src="assets/小红书群.jpg" width="200" alt="小红书群">
-  <img src="assets/微信群.jpg" width="200" alt="微信群">
+  <a href="https://github.com/racstan/ReadAny/discussions">💬 Discussions</a> •
+  <a href="https://github.com/racstan/ReadAny/issues">🐛 Issues</a>
 </p>
 
 ## ☕ Support the Project
 
-If you find ReadAny helpful, consider buying me a coffee to support ongoing development!
-
-<p align="center">
-  <img src="assets/微信赞赏码.jpg" width="200" alt="微信赞赏码">
-  <img src="assets/支付宝收款码.jpg" width="200" alt="支付宝收款码">
-</p>
-
-<p align="center">
-  <a href="https://ifdian.net/a/codedogQBY">Dining Table on Afdian</a>
-</p>
+If you find ReadAny helpful, please consider starring the repository and sharing it!
 
 ---
 
 ## Star History
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=codedogQBY/ReadAny&type=Date&theme=dark" />
-  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=codedogQBY/ReadAny&type=Date" />
-  <img alt="Star History Chart" src="https://api.star-history.com/image?repos=codedogQBY/ReadAny&type=Date" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=racstan/ReadAny&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=racstan/ReadAny&type=Date" />
+  <img alt="Star History Chart" src="https://api.star-history.com/image?repos=racstan/ReadAny&type=Date" />
 </picture>

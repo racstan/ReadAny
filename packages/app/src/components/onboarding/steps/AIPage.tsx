@@ -29,6 +29,8 @@ const PROVIDER_OPTIONS: { id: AIProviderType; name: string }[] = [
   { id: "lmstudio", name: "LM Studio" },
   { id: "openrouter", name: "OpenRouter" },
   { id: "siliconflow", name: "SiliconFlow" },
+  { id: "opencode", name: "OpenCode (Local Proxy)" },
+  { id: "pi", name: "Pi Agent (Local RPC/Bridge)" },
   { id: "custom", name: "Custom" },
 ];
 

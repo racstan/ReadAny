@@ -46,7 +46,7 @@ export function FontSettings() {
     (preset: (typeof PRESET_FONTS)[number]) => {
       const font: CustomFont = {
         id: preset.id,
-        name: i18n.language === "zh" ? preset.name : preset.nameEn,
+        name: preset.nameEn,
         fileName: `preset-${preset.id}.woff2`,
         fontFamily: preset.fontFamily,
         format: preset.format,
@@ -58,7 +58,7 @@ export function FontSettings() {
       };
       addFont(font, { select: true });
     },
-    [addFont, i18n.language],
+    [addFont],
   );
 
   const handleImport = useCallback(async () => {
@@ -185,15 +185,15 @@ export function FontSettings() {
     <div className="space-y-6 p-4 pt-3">
       <section className="rounded-lg bg-muted/60 p-4">
         <h2 className="mb-3 text-sm font-medium text-foreground">
-          {t("fonts.title", "自定义字体")}
+          {t("fonts.title", "Custom Fonts")}
         </h2>
         <p className="mb-2 text-xs text-muted-foreground">
-          {t("fonts.desc", "导入自定义字体，在阅读器中使用。支持 TTF、OTF、WOFF、WOFF2 格式。")}
+          {t("fonts.desc", "Import custom fonts for use in the reader. Supports TTF, OTF, WOFF, and WOFF2 formats.")}
         </p>
         <p className="mb-4 text-xs text-muted-foreground/80">
           {t(
             "fonts.importHint",
-            "支持 TTF / OTF / WOFF / WOFF2，推荐 WOFF2（同款字体体积约为 TTF 的 1/3）",
+            "Supports TTF / OTF / WOFF / WOFF2. WOFF2 is recommended for smaller file size.",
           )}
         </p>
 
@@ -205,7 +205,7 @@ export function FontSettings() {
             className="flex items-center gap-1.5"
           >
             <FileText className="h-3.5 w-3.5" />
-            {t("fonts.fromFile", "本地文件")}
+            {t("fonts.fromFile", "Local File")}
           </Button>
           <Button
             size="sm"
@@ -215,7 +215,7 @@ export function FontSettings() {
             className="flex items-center gap-1.5"
           >
             <Globe className="h-3.5 w-3.5" />
-            {t("fonts.fromUrl", "在线链接")}
+            {t("fonts.fromUrl", "Online Link")}
           </Button>
         </div>
       </section>
@@ -224,7 +224,7 @@ export function FontSettings() {
       {availablePresetFonts.length > 0 && (
         <section className="space-y-2">
           <h3 className="text-xs font-medium text-muted-foreground">
-            {t("fonts.presets", "推荐字体（在线，点击即可添加）")}
+            {t("fonts.presets", "Recommended Fonts (Online, click to add)")}
           </h3>
           {availablePresetFonts.map((preset) => (
             <div
@@ -234,14 +234,14 @@ export function FontSettings() {
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium text-foreground">
-                    {i18n.language === "zh" ? preset.name : preset.nameEn}
+                    {preset.nameEn}
                   </span>
                   <Badge variant="secondary" className="text-xs px-1.5 py-0">
                     {preset.license}
                   </Badge>
                 </div>
                 <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
-                  {i18n.language === "zh" ? preset.description : preset.descriptionEn}
+                  {preset.descriptionEn}
                 </p>
               </div>
               <Button
@@ -251,7 +251,7 @@ export function FontSettings() {
               >
                 <>
                   <Download className="h-3.5 w-3.5" />
-                  {t("fonts.add", "添加")}
+                  {t("fonts.add", "Add")}
                 </>
               </Button>
             </div>
@@ -264,9 +264,9 @@ export function FontSettings() {
         {fonts.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center">
             <FileText className="mb-2 h-10 w-10 text-muted-foreground/40" />
-            <p className="text-sm text-muted-foreground">{t("fonts.empty", "暂无自定义字体")}</p>
+            <p className="text-sm text-muted-foreground">{t("fonts.empty", "No custom fonts")}</p>
             <p className="mt-1 text-xs text-muted-foreground/60">
-              {t("fonts.emptyHint", "点击上方按钮导入字体文件")}
+              {t("fonts.emptyHint", "Click the buttons above to import fonts")}
             </p>
           </div>
         ) : (
@@ -284,7 +284,7 @@ export function FontSettings() {
                       className="flex items-center gap-1 px-1.5 py-0 text-xs"
                     >
                       <Globe className="h-3 w-3" />
-                      {t("fonts.remote", "在线")}
+                      {t("fonts.remote", "Online")}
                     </Badge>
                   )}
                 </div>
@@ -296,7 +296,7 @@ export function FontSettings() {
                 {/* Preview */}
                 <div className="mt-2 rounded border border-border bg-muted/40 px-2.5 py-1.5">
                   <span className="text-xs text-foreground" style={{ fontFamily: font.fontFamily }}>
-                    {t("fonts.preview", "预览文字：阅读改变世界 The quick brown fox")}
+                    {t("fonts.preview", "The quick brown fox jumps over the lazy dog")}
                   </span>
                 </div>
               </div>
@@ -317,19 +317,19 @@ export function FontSettings() {
       <Dialog open={nameModalOpen} onOpenChange={setNameModalOpen}>
         <DialogContent className="sm:max-w-sm" aria-describedby={undefined}>
           <DialogHeader>
-            <DialogTitle>{t("fonts.nameFont", "字体名称")}</DialogTitle>
+            <DialogTitle>{t("fonts.nameFont", "Font Name")}</DialogTitle>
           </DialogHeader>
           <p className="text-sm text-muted-foreground">
-            {t("fonts.nameFontDesc", "请输入字体的显示名称")}
+            {t("fonts.nameFontDesc", "Enter display name for font")}
           </p>
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground">
-              {t("fonts.name", "字体名称")}
+              {t("fonts.name", "Font Name")}
             </label>
             <Input
               value={fontNameInput}
               onChange={(e) => setFontNameInput(e.target.value)}
-              placeholder={t("fonts.namePlaceholder", "输入显示名称")}
+              placeholder={t("fonts.namePlaceholder", "Enter display name")}
               onKeyDown={(e) => e.key === "Enter" && handleConfirmImport()}
               autoFocus
             />
@@ -343,10 +343,10 @@ export function FontSettings() {
                 setFontNameInput("");
               }}
             >
-              {t("common.cancel", "取消")}
+              {t("common.cancel", "Cancel")}
             </Button>
             <Button onClick={handleConfirmImport} disabled={!fontNameInput.trim()}>
-              {t("fonts.import", "导入")}
+              {t("fonts.import", "Import")}
             </Button>
           </div>
         </DialogContent>
@@ -356,23 +356,23 @@ export function FontSettings() {
       <Dialog open={urlModalOpen} onOpenChange={setUrlModalOpen}>
         <DialogContent className="sm:max-w-md" aria-describedby={undefined}>
           <DialogHeader>
-            <DialogTitle>{t("fonts.fromUrl", "在线链接")}</DialogTitle>
+            <DialogTitle>{t("fonts.fromUrl", "Online Link")}</DialogTitle>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">{t("fonts.urlHint", "输入字体 CDN 链接")}</p>
+          <p className="text-sm text-muted-foreground">{t("fonts.urlHint", "Enter font CDN URL")}</p>
           <div className="space-y-3">
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground">
-                {t("fonts.name", "字体名称")}
+                {t("fonts.name", "Font Name")}
               </label>
               <Input
                 value={remoteFontName}
                 onChange={(e) => setRemoteFontName(e.target.value)}
-                placeholder={t("fonts.namePlaceholder", "输入显示名称")}
+                placeholder={t("fonts.namePlaceholder", "Enter display name")}
               />
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground">
-                {t("fonts.urlWoff2", "WOFF2 链接")}
+                {t("fonts.urlWoff2", "WOFF2 URL")}
               </label>
               <Input
                 value={remoteUrlWoff2}
@@ -383,7 +383,7 @@ export function FontSettings() {
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground">
-                {t("fonts.urlWoff", "WOFF 链接 (备选)")}
+                {t("fonts.urlWoff", "WOFF URL (Fallback)")}
               </label>
               <Input
                 value={remoteUrl}
@@ -403,13 +403,13 @@ export function FontSettings() {
                 setRemoteFontName("");
               }}
             >
-              {t("common.cancel", "取消")}
+              {t("common.cancel", "Cancel")}
             </Button>
             <Button
               onClick={handleImportRemote}
               disabled={!remoteFontName.trim() || (!remoteUrl.trim() && !remoteUrlWoff2.trim())}
             >
-              {t("fonts.import", "导入")}
+              {t("fonts.import", "Import")}
             </Button>
           </div>
         </DialogContent>

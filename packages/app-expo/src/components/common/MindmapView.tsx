@@ -362,7 +362,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
             setLoading(false);
           }
         } else if (data.type === "svg") {
-          const filename = safeSvgFilename(title || t("mindmap.title", "思维导图"));
+          const filename = safeSvgFilename(title || t("mindmap.title", "Mind Map"));
           const filepath = `${FileSystem.documentDirectory}${filename}`;
           await FileSystem.writeAsStringAsync(filepath, data.content, {
             encoding: FileSystem.EncodingType.UTF8,
@@ -382,7 +382,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
     <View style={[styles.container, { backgroundColor: colors.card, borderColor: colors.border }]}>
       <View style={[styles.header, { borderBottomColor: colors.border }]}>
         <Text style={[styles.title, { color: colors.foreground }]} numberOfLines={1}>
-          {displayTitle || t("mindmap.title", "思维导图")}
+          {displayTitle || t("mindmap.title", "Mind Map")}
         </Text>
         <View style={styles.controls}>
           <TouchableOpacity onPress={handleReset} style={styles.button}>
@@ -423,7 +423,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
 
       <View style={[styles.footer, { borderTopColor: colors.border }]}>
         <Text style={[styles.hint, { color: colors.mutedForeground }]}>
-          {t("mindmap.zoomHintMindmap", "双指缩放 · 拖动移动 · 点击节点展开/收起")}
+          {t("mindmap.zoomHintMindmap", "Pinch to zoom · Drag to pan · Tap node to expand/collapse")}
         </Text>
       </View>
 
@@ -444,7 +444,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
                 style={[styles.fullscreenTitle, { color: colors.foreground }]}
                 numberOfLines={1}
               >
-                {displayTitle || t("mindmap.title", "思维导图")}
+                {displayTitle || t("mindmap.title", "Mind Map")}
               </Text>
               <View style={styles.controls}>
                 <TouchableOpacity onPress={handleReset} style={styles.button}>
@@ -482,7 +482,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
             </View>
             <View style={[styles.footer, { borderTopColor: colors.border }]}>
               <Text style={[styles.hint, { color: colors.mutedForeground }]}>
-                {t("mindmap.zoomHintMindmap", "双指缩放 · 拖动移动 · 点击节点展开/收起")}
+                {t("mindmap.zoomHintMindmap", "Pinch to zoom · Drag to pan · Tap node to expand/collapse")}
               </Text>
             </View>
           </View>

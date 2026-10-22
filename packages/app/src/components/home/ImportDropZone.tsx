@@ -83,7 +83,7 @@ export function ImportDropZone() {
             >
               <span className="flex items-center gap-1.5">
                 {isImporting ? <Loader2 className="size-4 animate-spin" /> : <Plus className="size-4" />}
-                {isImporting ? t("library.importing", "导入中...") : t("home.importBooks")}
+                {isImporting ? t("library.importing", "Importing...") : t("home.importBooks")}
               </span>
             </button>
           </DesktopImportActions>

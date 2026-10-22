@@ -79,7 +79,7 @@ export function GroupPickerPopover({
       >
         <div className="flex items-center justify-between border-b px-3 py-2">
           <span className="text-xs font-medium text-muted-foreground">
-            {t("library.moveToGroup", "移入分组")}
+            {t("library.moveToGroup", "Move to Group")}
           </span>
           <button type="button" className="rounded p-0.5 hover:bg-muted" onClick={onClose}>
             <X className="size-3 text-muted-foreground" />
@@ -108,7 +108,7 @@ export function GroupPickerPopover({
                 ref={inputRef}
                 type="text"
                 className="flex-1 rounded-md border bg-transparent px-2 py-1.5 text-sm outline-none focus:border-primary"
-                placeholder={t("library.groupNamePlaceholder", "分组名称")}
+                placeholder={t("library.groupNamePlaceholder", "Group Name")}
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 onKeyDown={(e) => {
@@ -126,7 +126,7 @@ export function GroupPickerPopover({
                 disabled={!newName.trim()}
                 onClick={handleCreate}
               >
-                {t("common.confirm", "确定")}
+                {t("common.confirm", "Confirm")}
               </button>
             </div>
           ) : (
@@ -136,7 +136,7 @@ export function GroupPickerPopover({
               onClick={() => setIsCreating(true)}
             >
               <FolderPlus className="size-4" />
-              {t("library.createGroup", "新建分组")}
+              {t("library.createGroup", "New Group")}
             </button>
           )}
 
@@ -151,7 +151,7 @@ export function GroupPickerPopover({
                   onClose();
                 }}
               >
-                {t("library.removeFromGroup", "移出分组")}
+                {t("library.removeFromGroup", "Remove from Group")}
               </button>
             </>
           )}

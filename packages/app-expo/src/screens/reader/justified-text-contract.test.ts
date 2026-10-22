@@ -46,8 +46,6 @@ describe("justified EPUB text setting", () => {
       fr: ["Justifier le texte", "Aligne le texte courant sur les deux bords de la page"],
       ja: ["本文を両端揃え", "通常の本文をページの両端に揃えます"],
       ko: ["본문 양쪽 맞춤", "일반 본문을 페이지 양쪽 가장자리에 맞춥니다"],
-      zh: ["正文两端对齐", "将普通正文与页面两侧对齐"],
-      "zh-TW": ["正文兩端對齊", "將一般正文與頁面兩側對齊"],
     } as const;
 
     for (const [locale, [label, description]] of Object.entries(expected)) {

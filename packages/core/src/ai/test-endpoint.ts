@@ -8,6 +8,7 @@ import {
   providerSupportsExactRequestUrl,
   resolveProviderBaseUrl,
 } from "../utils/api";
+import { providerModeRegistry } from "./modes";
 
 const OPENAI_COMPATIBLE_TEST_PROMPT = "Reply with exactly OK.";
 const ANTHROPIC_FALLBACK_MODELS = [
@@ -472,6 +473,42 @@ export async function testAIEndpoint(
     case "lmstudio":
       requestUrl = await testOpenAICompatible(endpoint, model);
       break;
+    case "opencode": {
+      try {
+        const pingUrl = `${(endpoint.baseUrl || "http://localhost:4010/v1").replace(/\/+$/, "")}/models`;
+        await fetchJson(pingUrl, undefined, { endpoint, action: "opencode-ping" });
+      } catch (pingErr) {
+        const diagnostic = providerModeRegistry.forProvider("opencode").failureDiagnostic(pingErr);
+        if (diagnostic) {
+          throw new Error(diagnostic);
+        }
+      }
+      try {
+        requestUrl = await testOpenAICompatible(endpoint, model);
+      } catch (testErr) {
+        const diagnostic = providerModeRegistry.forProvider("opencode").failureDiagnostic(testErr);
+        throw new Error(diagnostic || (testErr instanceof Error ? testErr.message : String(testErr)));
+      }
+      break;
+    }
+    case "pi": {
+      try {
+        const pingUrl = `${(endpoint.baseUrl || "http://localhost:31415/v1").replace(/\/+$/, "")}/models`;
+        await fetchJson(pingUrl, undefined, { endpoint, action: "pi-ping" });
+      } catch (pingErr) {
+        const diagnostic = providerModeRegistry.forProvider("pi").failureDiagnostic(pingErr);
+        if (diagnostic) {
+          throw new Error(diagnostic);
+        }
+      }
+      try {
+        requestUrl = await testOpenAICompatible(endpoint, model);
+      } catch (testErr) {
+        const diagnostic = providerModeRegistry.forProvider("pi").failureDiagnostic(testErr);
+        throw new Error(diagnostic || (testErr instanceof Error ? testErr.message : String(testErr)));
+      }
+      break;
+    }
     default:
       requestUrl = await testOpenAICompatible(endpoint, model);
       break;

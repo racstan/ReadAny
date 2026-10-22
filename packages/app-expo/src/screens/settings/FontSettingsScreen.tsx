@@ -51,7 +51,7 @@ export default function FontSettingsScreen() {
     (preset: (typeof PRESET_FONTS)[number]) => {
       const font: CustomFont = {
         id: preset.id,
-        name: i18n.language === "zh" ? preset.name : preset.nameEn,
+        name: preset.nameEn,
         fileName: `preset-${preset.id}.woff2`,
         fontFamily: preset.fontFamily,
         format: preset.format,
@@ -63,11 +63,11 @@ export default function FontSettingsScreen() {
       };
       addFont(font, { select: true });
       Alert.alert(
-        t("fonts.imported", "导入成功"),
-        t("fonts.importedDesc", '字体 "{{name}}" 已添加', { name: font.name }),
+        t("fonts.imported", "Imported successfully"),
+        t("fonts.importedDesc", 'Font "{{name}}" added', { name: font.name }),
       );
     },
-    [addFont, i18n.language, t],
+    [addFont, t],
   );
 
   const [importing, setImporting] = useState(false);
@@ -140,14 +140,14 @@ export default function FontSettingsScreen() {
       setImporting(false);
     } catch (err) {
       console.error("[FontSettings] Pick error:", err);
-      Alert.alert(t("fonts.error", "错误"), t("fonts.pickError", "选择字体文件失败"));
+      Alert.alert(t("fonts.error", "Error"), t("fonts.pickError", "Failed to select font file"));
       setImporting(false);
     }
   }, [t]);
 
   const handleConfirmImport = useCallback(async () => {
     if (!fontNameInput.trim()) {
-      Alert.alert(t("fonts.error", "错误"), t("fonts.nameRequired", "请输入字体名称"));
+      Alert.alert(t("fonts.error", "Error"), t("fonts.nameRequired", "Please enter font name"));
       return;
     }
     if (!pendingFontFile) return;
@@ -178,12 +178,12 @@ export default function FontSettingsScreen() {
 
       addFont(font, { select: true });
       Alert.alert(
-        t("fonts.imported", "导入成功"),
-        t("fonts.importedDesc", '字体 "{{name}}" 已导入', { name: fontNameInput.trim() }),
+        t("fonts.imported", "Imported successfully"),
+        t("fonts.importedDesc", 'Font "{{name}}" imported', { name: fontNameInput.trim() }),
       );
     } catch (err) {
       console.error("[FontSettings] Import error:", err);
-      Alert.alert(t("fonts.error", "错误"), t("fonts.importError", "导入字体失败"));
+      Alert.alert(t("fonts.error", "Error"), t("fonts.importError", "Failed to import font"));
     } finally {
       setImporting(false);
       setPendingFontFile(null);
@@ -193,11 +193,11 @@ export default function FontSettingsScreen() {
 
   const handleImportRemote = useCallback(async () => {
     if (!remoteFontName.trim()) {
-      Alert.alert(t("fonts.error", "错误"), t("fonts.nameRequired", "请输入字体名称"));
+      Alert.alert(t("fonts.error", "Error"), t("fonts.nameRequired", "Please enter font name"));
       return;
     }
     if (!remoteUrl.trim() && !remoteUrlWoff2.trim()) {
-      Alert.alert(t("fonts.error", "错误"), t("fonts.urlRequired", "请输入字体链接"));
+      Alert.alert(t("fonts.error", "Error"), t("fonts.urlRequired", "Please enter font link"));
       return;
     }
 
@@ -224,12 +224,12 @@ export default function FontSettingsScreen() {
 
       addFont(font, { select: true });
       Alert.alert(
-        t("fonts.imported", "导入成功"),
-        t("fonts.importedDesc", '字体 "{{name}}" 已导入', { name: remoteFontName.trim() }),
+        t("fonts.imported", "Imported successfully"),
+        t("fonts.importedDesc", 'Font "{{name}}" imported', { name: remoteFontName.trim() }),
       );
     } catch (err) {
       console.error("[FontSettings] Import remote error:", err);
-      Alert.alert(t("fonts.error", "错误"), t("fonts.importError", "导入字体失败"));
+      Alert.alert(t("fonts.error", "Error"), t("fonts.importError", "Failed to import font"));
     } finally {
       setImporting(false);
       setRemoteUrl("");
@@ -241,12 +241,12 @@ export default function FontSettingsScreen() {
   const handleDelete = useCallback(
     (font: CustomFont) => {
       Alert.alert(
-        t("fonts.deleteTitle", "删除字体"),
-        t("fonts.deleteConfirm", '确定删除字体 "{{name}}" 吗？', { name: font.name }),
+        t("fonts.deleteTitle", "Delete Font"),
+        t("fonts.deleteConfirm", 'Are you sure you want to delete font "{{name}}"?', { name: font.name }),
         [
-          { text: t("common.cancel", "取消"), style: "cancel" },
+          { text: t("common.cancel", "Cancel"), style: "cancel" },
           {
-            text: t("common.delete", "删除"),
+            text: t("common.delete", "Delete"),
             style: "destructive",
             onPress: () => removeFont(font.id),
           },
@@ -267,7 +267,7 @@ export default function FontSettingsScreen() {
 
   return (
     <SafeAreaView style={[s.container, { backgroundColor: colors.background }]} edges={["top"]}>
-      <SettingsHeader title={t("fonts.title", "字体")} />
+      <SettingsHeader title={t("fonts.title", "Fonts")} />
 
       <ScrollView
         style={s.scroll}
@@ -276,12 +276,12 @@ export default function FontSettingsScreen() {
         <View style={{ width: "100%", maxWidth: layout.centeredContentWidth }}>
           <View style={s.section}>
             <Text style={[s.hint, { color: colors.mutedForeground }]}>
-              {t("fonts.desc", "导入自定义字体，在阅读器中使用。支持 TTF、OTF、WOFF、WOFF2 格式。")}
+              {t("fonts.desc", "Import custom fonts for use in the reader. Supports TTF, OTF, WOFF, and WOFF2 formats.")}
             </Text>
             <Text style={[s.hint, { color: colors.mutedForeground, marginTop: 6, fontSize: 12 }]}>
               {t(
                 "fonts.importHint",
-                "支持 TTF / OTF / WOFF / WOFF2，推荐 WOFF2（同款字体体积约为 TTF 的 1/3）",
+                "Supports TTF / OTF / WOFF / WOFF2. WOFF2 is recommended for smaller file size.",
               )}
             </Text>
           </View>
@@ -290,7 +290,7 @@ export default function FontSettingsScreen() {
             <View style={s.loadingState}>
               <ActivityIndicator size="small" color={colors.primary} />
               <Text style={[s.loadingText, { color: colors.mutedForeground }]}>
-                {t("common.loading", "加载中...")}
+                {t("common.loading", "Loading...")}
               </Text>
             </View>
           ) : (
@@ -308,7 +308,7 @@ export default function FontSettingsScreen() {
                     <>
                       <PlusIcon size={18} color={colors.primaryForeground} />
                       <Text style={[s.importBtnText, { color: colors.primaryForeground }]}>
-                        {t("fonts.fromFile", "本地文件")}
+                        {t("fonts.fromFile", "Local File")}
                       </Text>
                     </>
                   )}
@@ -322,7 +322,7 @@ export default function FontSettingsScreen() {
                 >
                   <LinkIcon size={18} color={colors.primaryForeground} />
                   <Text style={[s.importBtnText, { color: colors.primaryForeground }]}>
-                    {t("fonts.fromUrl", "在线链接")}
+                    {t("fonts.fromUrl", "Online Link")}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -336,11 +336,11 @@ export default function FontSettingsScreen() {
                       { color: colors.mutedForeground, fontWeight: fontWeight.medium },
                     ]}
                   >
-                    {t("fonts.presets", "推荐字体（在线，点击即可添加）")}
+                    {t("fonts.presets", "Recommended Fonts (Online, click to add)")}
                   </Text>
                   {availablePresetFonts.map((preset) => {
-                    const name = i18n.language === "zh" ? preset.name : preset.nameEn;
-                    const desc = i18n.language === "zh" ? preset.description : preset.descriptionEn;
+                    const name = preset.nameEn;
+                    const desc = preset.descriptionEn;
                     return (
                       <View
                         key={preset.id}
@@ -387,7 +387,7 @@ export default function FontSettingsScreen() {
                                 color: colors.primaryForeground,
                               }}
                             >
-                              {t("fonts.add", "添加")}
+                              {t("fonts.add", "Add")}
                             </Text>
                           </TouchableOpacity>
                         </View>
@@ -401,10 +401,10 @@ export default function FontSettingsScreen() {
                 <View style={s.emptyState}>
                   <TypeIcon size={48} color={colors.mutedForeground} />
                   <Text style={[s.emptyText, { color: colors.mutedForeground }]}>
-                    {t("fonts.empty", "暂无自定义字体")}
+                    {t("fonts.empty", "No custom fonts")}
                   </Text>
                   <Text style={[s.emptyHint, { color: colors.mutedForeground }]}>
-                    {t("fonts.emptyHint", "点击上方按钮导入字体文件")}
+                    {t("fonts.emptyHint", "Click buttons above to import font file")}
                   </Text>
                 </View>
               ) : (
@@ -429,7 +429,7 @@ export default function FontSettingsScreen() {
                               >
                                 <GlobeIcon size={12} color={colors.primary} />
                                 <Text style={[s.remoteBadgeText, { color: colors.primary }]}>
-                                  {t("fonts.remote", "在线")}
+                                  {t("fonts.remote", "Online")}
                                 </Text>
                               </View>
                             )}
@@ -468,7 +468,7 @@ export default function FontSettingsScreen() {
                             loadedPreviewFontIds.has(font.id) && { fontFamily: font.fontFamily },
                           ]}
                         >
-                          {t("fonts.preview", "预览文字：阅读改变世界 The quick brown fox")}
+                          {t("fonts.preview", "The quick brown fox jumps over the lazy dog")}
                         </Text>
                       </View>
                     </View>
@@ -480,7 +480,7 @@ export default function FontSettingsScreen() {
         </View>
       </ScrollView>
 
-      {/* 命名 Modal（本地文件导入） */}
+      {/* Name Modal */}
       <Modal
         visible={nameModalVisible}
         transparent
@@ -493,10 +493,10 @@ export default function FontSettingsScreen() {
         >
           <View style={[s.modalContent, { backgroundColor: colors.card }]}>
             <Text style={[s.modalTitle, { color: colors.foreground }]}>
-              {t("fonts.nameFont", "字体名称")}
+              {t("fonts.nameFont", "Font Name")}
             </Text>
             <Text style={[s.modalDesc, { color: colors.mutedForeground }]}>
-              {t("fonts.nameFontDesc", "请输入字体的显示名称")}
+              {t("fonts.nameFontDesc", "Enter display name for font")}
             </Text>
             <TextInput
               style={[
@@ -509,7 +509,7 @@ export default function FontSettingsScreen() {
               ]}
               value={fontNameInput}
               onChangeText={setFontNameInput}
-              placeholder={t("fonts.namePlaceholder", "输入显示名称")}
+              placeholder={t("fonts.namePlaceholder", "Enter display name")}
               placeholderTextColor={colors.mutedForeground}
               autoFocus
             />
@@ -523,7 +523,7 @@ export default function FontSettingsScreen() {
                 }}
               >
                 <Text style={[s.modalBtnText, { color: colors.foreground }]}>
-                  {t("common.cancel", "取消")}
+                  {t("common.cancel", "Cancel")}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -531,7 +531,7 @@ export default function FontSettingsScreen() {
                 onPress={handleConfirmImport}
               >
                 <Text style={[s.modalBtnText, { color: colors.primaryForeground }]}>
-                  {t("fonts.import", "导入")}
+                  {t("fonts.import", "Import")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -539,7 +539,7 @@ export default function FontSettingsScreen() {
         </KeyboardAvoidingView>
       </Modal>
 
-      {/* 在线链接 Modal */}
+      {/* Online Link Modal */}
       <Modal
         visible={urlModalVisible}
         transparent
@@ -558,14 +558,14 @@ export default function FontSettingsScreen() {
             showsVerticalScrollIndicator={false}
           >
             <Text style={[s.modalTitle, { color: colors.foreground }]}>
-              {t("fonts.fromUrl", "在线链接")}
+              {t("fonts.fromUrl", "Online Link")}
             </Text>
             <Text style={[s.modalDesc, { color: colors.mutedForeground }]}>
-              {t("fonts.urlHint", "输入字体 CDN 链接")}
+              {t("fonts.urlHint", "Enter font CDN URL")}
             </Text>
 
             <Text style={[s.inputLabel, { color: colors.foreground }]}>
-              {t("fonts.name", "字体名称")}
+              {t("fonts.name", "Font Name")}
             </Text>
             <TextInput
               style={[
@@ -578,12 +578,12 @@ export default function FontSettingsScreen() {
               ]}
               value={remoteFontName}
               onChangeText={setRemoteFontName}
-              placeholder={t("fonts.namePlaceholder", "输入显示名称")}
+              placeholder={t("fonts.namePlaceholder", "Enter display name")}
               placeholderTextColor={colors.mutedForeground}
             />
 
             <Text style={[s.inputLabel, { color: colors.foreground }]}>
-              {t("fonts.urlWoff2", "WOFF2 链接")}
+              {t("fonts.urlWoff2", "WOFF2 URL")}
             </Text>
             <TextInput
               style={[
@@ -604,7 +604,7 @@ export default function FontSettingsScreen() {
             />
 
             <Text style={[s.inputLabel, { color: colors.foreground }]}>
-              {t("fonts.urlWoff", "WOFF 链接 (备选)")}
+              {t("fonts.urlWoff", "WOFF URL (Fallback)")}
             </Text>
             <TextInput
               style={[
@@ -635,7 +635,7 @@ export default function FontSettingsScreen() {
                 }}
               >
                 <Text style={[s.modalBtnText, { color: colors.foreground }]}>
-                  {t("common.cancel", "取消")}
+                  {t("common.cancel", "Cancel")}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -643,7 +643,7 @@ export default function FontSettingsScreen() {
                 onPress={handleImportRemote}
               >
                 <Text style={[s.modalBtnText, { color: colors.primaryForeground }]}>
-                  {t("fonts.import", "导入")}
+                  {t("fonts.import", "Import")}
                 </Text>
               </TouchableOpacity>
             </View>

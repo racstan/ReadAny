@@ -85,7 +85,7 @@ export function ReadSettingsPanel() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="system">{t("fonts.systemDefault", "系统默认")}</SelectItem>
+                <SelectItem value="system">{t("fonts.systemDefault", "System Default")}</SelectItem>
                 {customFonts.map((font) => (
                   <SelectItem key={font.id} value={font.id}>
                     {font.name}

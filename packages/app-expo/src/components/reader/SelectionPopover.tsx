@@ -228,7 +228,7 @@ export function SelectionPopover({
                   style={s.colorRemoveBtn}
                   onPress={handleRemove}
                   accessibilityRole="button"
-                  accessibilityLabel={t("notebook.deleteHighlight", "删除高亮")}
+                  accessibilityLabel={t("notebook.deleteHighlight", "Delete Highlight")}
                 >
                   <Trash2Icon size={16} color={colors.destructive} />
                 </TouchableOpacity>
@@ -290,7 +290,7 @@ export function SelectionPopover({
           />
           <View style={s.noteModal}>
             <View style={s.noteModalHeader}>
-              <Text style={s.noteModalTitle}>{t("reader.addNote", "添加笔记")}</Text>
+              <Text style={s.noteModalTitle}>{t("reader.addNote", "Add Note")}</Text>
               <TouchableOpacity style={s.noteCloseBtn} onPress={() => setShowNoteModal(false)}>
                 <XIcon size={20} color={colors.mutedForeground} />
               </TouchableOpacity>
@@ -302,16 +302,16 @@ export function SelectionPopover({
               <RichTextEditor
                 initialContent={noteContent}
                 onChange={setNoteContent}
-                placeholder={t("reader.notePlaceholder", "写下你的想法...")}
+                placeholder={t("reader.notePlaceholder", "Write your thoughts...")}
                 autoFocus
               />
             </View>
             <View style={s.noteModalActions}>
               <TouchableOpacity style={s.noteCancelBtn} onPress={() => setShowNoteModal(false)}>
-                <Text style={s.noteCancelText}>{t("common.cancel", "取消")}</Text>
+                <Text style={s.noteCancelText}>{t("common.cancel", "Cancel")}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={s.noteSaveBtn} onPress={handleSaveNote}>
-                <Text style={s.noteSaveText}>{t("common.save", "保存")}</Text>
+                <Text style={s.noteSaveText}>{t("common.save", "Save")}</Text>
               </TouchableOpacity>
             </View>
           </View>

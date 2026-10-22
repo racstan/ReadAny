@@ -108,19 +108,19 @@ const generateHtml = (colors: ThemeColors) => {
           
           var svg = container.querySelector('svg');
           if (svg) {
-            // 保存原始 viewBox 或计算新的
+            // Save original viewBox or calculate new one
             var viewBox = svg.getAttribute('viewBox');
             var width = svg.getAttribute('width');
             var height = svg.getAttribute('height');
             
-            // 设置 SVG 填满容器
+            // Set SVG to fill container
             svg.style.width = '100%';
             svg.style.height = '100%';
             svg.style.cursor = 'grab';
             svg.removeAttribute('width');
             svg.removeAttribute('height');
             
-            // 如果没有 viewBox，根据 width/height 创建
+            // If no viewBox, create one from width/height
             if (!viewBox && width && height) {
               svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
             }
@@ -222,14 +222,14 @@ export function MermaidView({ chart, title }: MermaidViewProps) {
   const [expanded, setExpanded] = useState(false);
   const chartRef = useRef(chart);
 
-  // 同步 chart 到 ref
+  // Sync chart to ref
   useEffect(() => {
     chartRef.current = chart;
   }, [chart]);
 
   const html = useMemo(() => generateHtml(colors), [colors]);
 
-  // 渲染图表的函数
+  // Chart render function
   const renderChart = useCallback((targetRef: RefObject<WebView | null>, chartToRender: string) => {
     if (!targetRef.current || !chartToRender) return;
 
@@ -248,7 +248,7 @@ export function MermaidView({ chart, title }: MermaidViewProps) {
     `);
   }, []);
 
-  // 当 isReady 变为 true 时，渲染当前 chart
+  // When isReady becomes true, render current chart
   useEffect(() => {
     if (isReady && chartRef.current) {
       renderChart(webviewRef, chartRef.current);
@@ -261,7 +261,7 @@ export function MermaidView({ chart, title }: MermaidViewProps) {
     }
   }, [expanded, isFullscreenReady, renderChart]);
 
-  // 当 chart 变化时渲染
+  // Render when chart changes
   useEffect(() => {
     if (isReady && chart) {
       renderChart(webviewRef, chart);
@@ -313,7 +313,7 @@ export function MermaidView({ chart, title }: MermaidViewProps) {
             setIsReady(true);
           }
         } else if (data.type === "svg") {
-          const filename = safeSvgFilename(title || t("mindmap.mermaidChart", "Mermaid 图表"));
+          const filename = safeSvgFilename(title || t("mindmap.mermaidChart", "Mermaid Diagram"));
           const filepath = `${FileSystem.documentDirectory}${filename}`;
           await FileSystem.writeAsStringAsync(filepath, data.content, {
             encoding: FileSystem.EncodingType.UTF8,
@@ -335,7 +335,7 @@ export function MermaidView({ chart, title }: MermaidViewProps) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.mutedForeground }]} numberOfLines={1}>
-          {displayTitle || t("mindmap.mermaidChart", "Mermaid 图表")}
+          {displayTitle || t("mindmap.mermaidChart", "Mermaid Diagram")}
         </Text>
         <View style={styles.controls}>
           <TouchableOpacity onPress={handleReset} style={styles.button}>
@@ -374,7 +374,7 @@ export function MermaidView({ chart, title }: MermaidViewProps) {
 
       <View style={[styles.footer, { borderColor: colors.border }]}>
         <Text style={[styles.hint, { color: colors.mutedForeground }]}>
-          {t("mindmap.zoomHint", "双击放大 · 双指缩放 · 拖动移动")}
+          {t("mindmap.zoomHint", "Double tap to zoom · Pinch to zoom · Drag to pan")}
         </Text>
       </View>
 
@@ -395,7 +395,7 @@ export function MermaidView({ chart, title }: MermaidViewProps) {
                 style={[styles.fullscreenTitle, { color: colors.foreground }]}
                 numberOfLines={1}
               >
-                {displayTitle || t("mindmap.mermaidChart", "Mermaid 图表")}
+                {displayTitle || t("mindmap.mermaidChart", "Mermaid Diagram")}
               </Text>
               <View style={styles.controls}>
                 <TouchableOpacity onPress={handleReset} style={styles.button}>
@@ -432,7 +432,7 @@ export function MermaidView({ chart, title }: MermaidViewProps) {
             </View>
             <View style={[styles.footer, { borderColor: colors.border }]}>
               <Text style={[styles.hint, { color: colors.mutedForeground }]}>
-                {t("mindmap.zoomHint", "双击放大 · 双指缩放 · 拖动移动")}
+                {t("mindmap.zoomHint", "Double tap to zoom · Pinch to zoom · Drag to pan")}
               </Text>
             </View>
           </View>

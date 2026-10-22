@@ -564,12 +564,12 @@ export function VectorModelSettings() {
             <div className="flex items-center justify-between gap-4">
               <div className="min-w-0">
                 <h2 className="text-sm font-medium text-foreground">
-                  {t("settings.vm_autoVectorizeOnImport", "导入后自动向量化")}
+                  {t("settings.vm_autoVectorizeOnImport", "Auto-vectorize on import")}
                 </h2>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                   {t(
                     "settings.vm_autoVectorizeOnImportDesc",
-                    "开启后，导入或从同步端下载的新书会自动排队建立索引。默认关闭，避免意外消耗模型额度。",
+                    "When enabled, newly imported or synced books are automatically queued for indexing. Off by default to avoid unexpected quota usage.",
                   )}
                 </p>
               </div>
@@ -622,10 +622,10 @@ export function VectorModelSettings() {
       {/* Transfer */}
       <section className="space-y-3">
         <h3 className="text-sm font-medium text-foreground">
-          {t("settings.transferConfig", "配置迁移")}
+          {t("settings.transferConfig", "Config Transfer")}
         </h3>
         <ConfigTransfer
-          label={t("settings.vectorConfig", "向量化配置")}
+          label={t("settings.vectorConfig", "Vector Configuration")}
           getData={() => {
             const state = useVectorModelStore.getState();
             return {

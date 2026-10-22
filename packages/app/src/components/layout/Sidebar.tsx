@@ -445,7 +445,7 @@ export function HomeSidebar() {
           <span className="text-sm">{t("stats.title")}</span>
         </button>
         <a
-          href={`https://codedogqby.github.io/ReadAny/${i18n.language === "zh" ? "zh/" : ""}support/`}
+          href="https://racstan.github.io/ReadAny/support/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex w-full items-center gap-2 rounded-md p-1 py-1 text-left text-muted-foreground text-sm hover:bg-muted hover:text-foreground"
@@ -464,7 +464,7 @@ export function HomeSidebar() {
             {unreadFeedback > 0 ? (
               <span
                 className="-right-1 -top-1 absolute h-2 w-2 rounded-full bg-destructive"
-                aria-label={t("feedback.hasNewReply", "有新回复")}
+                aria-label={t("feedback.hasNewReply", "New reply available")}
               />
             ) : null}
           </span>

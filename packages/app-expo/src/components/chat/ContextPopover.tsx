@@ -48,11 +48,11 @@ export function ContextPopover() {
         <Pressable style={s.overlay} onPress={() => setVisible(false)} />
         <View style={s.sheet}>
           <View style={s.handle} />
-          <Text style={s.title}>{t("chat.selectBooks", "选择书籍上下文")}</Text>
+          <Text style={s.title}>{t("chat.selectBooks", "Select Book Context")}</Text>
 
           {books.length === 0 ? (
             <View style={s.emptyWrap}>
-              <Text style={s.emptyText}>{t("library.empty", "暂无书籍")}</Text>
+              <Text style={s.emptyText}>{t("library.empty", "No books available")}</Text>
             </View>
           ) : (
             <ScrollView style={s.list} showsVerticalScrollIndicator={false}>

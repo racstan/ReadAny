@@ -62,7 +62,7 @@ export function TTSSleepTimerPanel() {
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <Clock3 className="h-4 w-4 text-primary" />
-            <span className="text-xs font-semibold text-foreground">{t("tts.sleepTimer", "定时停止")}</span>
+            <span className="text-xs font-semibold text-foreground">{t("tts.sleepTimer", "Sleep Timer")}</span>
           </div>
           <p className="mt-1 text-[11px] leading-5 text-muted-foreground">
             {remainingLabel
@@ -70,12 +70,12 @@ export function TTSSleepTimerPanel() {
                   time: remainingLabel,
                   defaultValue: `Remaining ${remainingLabel}`,
                 })
-              : t("tts.sleepTimerSubtitle", "让朗读在你设定的时间后自动停止")}
+              : t("tts.sleepTimerSubtitle", "Stop reading automatically after set time")}
           </p>
         </div>
 
         <div className="flex min-h-8 min-w-[82px] items-center justify-center rounded-full border border-border/70 bg-background/85 px-3 text-xs font-semibold text-foreground">
-          {remainingLabel || t("common.settings", "设置")}
+          {remainingLabel || t("common.settings", "Settings")}
         </div>
       </div>
 

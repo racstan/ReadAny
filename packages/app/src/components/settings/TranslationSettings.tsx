@@ -107,7 +107,7 @@ export function TranslationSettings() {
         <p className="mb-4 text-xs text-muted-foreground">{t("settings.translation_desc")}</p>
 
         <div className="space-y-4">
-          {/* 翻译引擎选择 */}
+          {/* Translation engine select */}
           <div className="space-y-2">
             <span className="text-sm text-foreground">{t("settings.translationProvider")}</span>
             <div className="relative" ref={providerPopoverRef}>
@@ -145,7 +145,7 @@ export function TranslationSettings() {
             </div>
           </div>
 
-          {/* AI 模型选择 (only show for AI provider) */}
+          {/* AI model select (only show for AI provider) */}
           {isAIProvider && (
             <div className="space-y-2">
               <span className="text-sm text-foreground">{t("settings.translationModel")}</span>

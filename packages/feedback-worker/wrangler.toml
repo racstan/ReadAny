@@ -3,7 +3,7 @@ main = "src/index.ts"
 compatibility_date = "2026-05-08"
 
 [vars]
-GITHUB_OWNER = "codedogQBY"
+GITHUB_OWNER = "racstan"
 GITHUB_REPO = "ReadAny"
 # Comma-separated origins. Use "*" for public clients without credentials.
 ALLOWED_ORIGINS = "*"

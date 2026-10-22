@@ -3,6 +3,7 @@ import type { AIConfig, AIEndpoint } from "../types";
 import { providerRequiresApiKey } from "../utils";
 import { formatApiHost } from "../utils/api";
 import { logAIEndpointDebug, summarizeDebugText } from "./request-debug";
+import { providerModeRegistry } from "./modes";
 
 /**
  * Optional custom fetch for streaming support (e.g. expo/fetch in React Native).
@@ -596,12 +597,13 @@ export async function createChatModelFromEndpoint(
     throw new Error("No model specified. Go to Settings → AI to choose a model.");
   }
 
-  const apiKey = endpoint.apiKey || "local-model";
+  const normalizedModel = providerModeRegistry.forProvider(endpoint.provider).normalizeModel(model);
+  const apiKey = endpoint.apiKey || (endpoint.provider === "opencode" ? "opencode-local" : endpoint.provider === "pi" ? "pi-local" : "local-model");
 
   const temperature = options.temperature ?? 0.7;
   const maxTokens = options.maxTokens ?? 8192;
   const streaming = options.streaming ?? true;
-  const endpointFetch = getEndpointFetch(endpoint, model);
+  const endpointFetch = getEndpointFetch(endpoint, normalizedModel);
 
   switch (endpoint.provider) {
     case "anthropic": {
@@ -823,14 +825,16 @@ export async function createChatModelFromEndpoint(
         } as ConstructorParameters<typeof ChatDeepSeek>[0]);
       }
 
-      const { ChatOpenAI } = await import("@langchain/openai");
-
-      // For Ollama / LM Studio, pass `think: true` so reasoning models
-      // (e.g. Qwen3, DeepSeek-R1) return their thinking process.
-      const isLocalProvider = endpoint.provider === "ollama" || endpoint.provider === "lmstudio";
+      // For Ollama / LM Studio / OpenCode / Pi, pass `think: true` so reasoning models
+      // return their thinking process.
+      const isLocalProvider =
+        endpoint.provider === "ollama" ||
+        endpoint.provider === "lmstudio" ||
+        endpoint.provider === "opencode" ||
+        endpoint.provider === "pi";
 
       return new ChatOpenAI({
-        model,
+        model: normalizedModel,
         apiKey,
         configuration: {
           baseURL: getEndpointBaseUrl(endpoint),

@@ -342,7 +342,7 @@ export function HomePage() {
   const handleBatchDelete = useCallback(async () => {
     if (selectedBookIds.size === 0) return;
     if (
-      !confirm(t("library.batchDeleteConfirm", `确定要删除选中的 ${selectedBookIds.size} 本书吗？`))
+      !confirm(t("library.batchDeleteConfirm", `Are you sure you want to delete ${selectedBookIds.size} books?`))
     )
       return;
     for (const id of selectedBookIds) {
@@ -409,7 +409,7 @@ export function HomePage() {
               <h1 className="text-lg font-semibold text-foreground">
                 {t("library.selectedCount", {
                   count: selectedBookIds.size,
-                  defaultValue: `已选 ${selectedBookIds.size} 本`,
+                  defaultValue: `${selectedBookIds.size} selected`,
                 })}
               </h1>
             </div>
@@ -417,7 +417,7 @@ export function HomePage() {
               <button
                 type="button"
                 className="rounded-lg p-2 text-muted-foreground hover:bg-muted"
-                title={t("library.selectAll", "全选")}
+                title={t("library.selectAll", "Select All")}
                 onClick={toggleSelectAll}
               >
                 <CheckCheck className={`size-4 ${isAllSelected ? "text-primary" : ""}`} />
@@ -426,7 +426,7 @@ export function HomePage() {
                 <button
                   type="button"
                   className="rounded-lg p-2 text-muted-foreground hover:bg-muted"
-                  title={t("home.manageTags", "标签")}
+                  title={t("home.manageTags", "Tags")}
                   onClick={() => setShowBatchTagMenu(!showBatchTagMenu)}
                 >
                   <Hash className="size-4" />
@@ -480,7 +480,7 @@ export function HomePage() {
                 ref={groupBtnRef}
                 type="button"
                 className="rounded-lg p-2 text-muted-foreground hover:bg-muted"
-                title={t("library.moveToGroup", "移入分组")}
+                title={t("library.moveToGroup", "Move to Group")}
                 onClick={handleBatchMoveGroup}
               >
                 <FolderInput className="size-4" />
@@ -489,7 +489,7 @@ export function HomePage() {
                 <button
                   type="button"
                   className="rounded-lg p-2 text-muted-foreground hover:bg-muted"
-                  title={t("library.removeFromGroup", "移出分组")}
+                  title={t("library.removeFromGroup", "Remove from Group")}
                   onClick={handleBatchRemoveFromGroup}
                 >
                   <FolderMinus className="size-4" />
@@ -498,7 +498,7 @@ export function HomePage() {
               <button
                 type="button"
                 className="rounded-lg p-2 text-muted-foreground hover:bg-muted"
-                title={t("home.vec_vectorize", "向量化")}
+                title={t("home.vec_vectorize", "Vectorize")}
                 onClick={handleBatchVectorize}
               >
                 <Database className="size-4" />
@@ -506,7 +506,7 @@ export function HomePage() {
               <button
                 type="button"
                 className="rounded-lg p-2 text-destructive hover:bg-destructive/10"
-                title={t("common.delete", "删除")}
+                title={t("common.delete", "Delete")}
                 onClick={handleBatchDelete}
               >
                 <Trash2 className="size-4" />
@@ -521,7 +521,7 @@ export function HomePage() {
                   type="button"
                   className="rounded-full p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
                   onClick={() => setActiveGroupId("")}
-                  title={t("common.back", "返回")}
+                  title={t("common.back", "Back")}
                 >
                   <ArrowLeft className="size-5" />
                 </button>
@@ -561,7 +561,7 @@ export function HomePage() {
                           }}
                         >
                           <Trash2 className="h-3.5 w-3.5" />
-                          {t("common.delete", "删除")}
+                          {t("common.delete", "Delete")}
                         </button>
                       </div>
                     </>
@@ -578,7 +578,7 @@ export function HomePage() {
                       ref={sortBtnRef}
                       type="button"
                       className="rounded-lg p-2 text-muted-foreground hover:bg-muted"
-                      title={t("library.sort", "排序")}
+                      title={t("library.sort", "Sort")}
                       onClick={() => setShowSortMenu(!showSortMenu)}
                     >
                       <SortAsc className="size-4" />
@@ -627,7 +627,7 @@ export function HomePage() {
                         ? "bg-muted text-foreground"
                         : "text-muted-foreground hover:bg-muted"
                     }`}
-                    title={t("library.groupView", "分组")}
+                    title={t("library.groupView", "Groups")}
                     onClick={() => {
                       setActiveGroupId("");
                       setGroupView(!isGroupView);
@@ -640,7 +640,7 @@ export function HomePage() {
                     className="rounded-lg px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted"
                     onClick={() => setSelectionMode(true)}
                   >
-                    {t("library.select", "选择")}
+                    {t("library.select", "Select")}
                   </button>
                 </>
               )}
@@ -656,7 +656,7 @@ export function HomePage() {
                   ) : (
                     <Plus className="size-4" />
                   )}
-                  {isImporting ? t("library.importing", "导入中...") : t("home.addBook")}
+                  {isImporting ? t("library.importing", "Importing...") : t("home.addBook")}
                 </button>
               </DesktopImportActions>
             </div>

@@ -48,11 +48,11 @@ function BookListItem({ book, onOpen }: BookListItemProps) {
         {isDownloading ? (
           <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
             <Loader2 className="h-3 w-3 animate-spin" />
-            {t("home.downloading", "下载中")}
+            {t("home.downloading", "Downloading...")}
           </span>
         ) : isRemote ? (
           <span className="rounded-full bg-sky-500/12 px-2 py-0.5 text-[10px] font-medium text-sky-700">
-            {t("home.remote", "需下载")}
+            {t("home.remote", "Download Needed")}
           </span>
         ) : pct === 0 ? (
           <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">

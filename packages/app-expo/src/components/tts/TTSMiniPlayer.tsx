@@ -244,7 +244,7 @@ export function TTSMiniPlayer({ visible, onClose, anchorLayout }: TTSMiniPlayerP
             style={[styles.iconBtn, { backgroundColor: colors.muted }]}
             onPress={handleStop}
             accessibilityRole="button"
-            accessibilityLabel={t("tts.stop", "停止")}
+            accessibilityLabel={t("tts.stop", "Stop")}
           >
             <SquareIcon size={16} color={colors.foreground} />
           </TouchableOpacity>
@@ -256,7 +256,7 @@ export function TTSMiniPlayer({ visible, onClose, anchorLayout }: TTSMiniPlayerP
             ]}
             onPress={() => setTimerSheetVisible(true)}
             accessibilityRole="button"
-            accessibilityLabel={t("tts.sleepTimer", "定时停止")}
+            accessibilityLabel={t("tts.sleepTimer", "Sleep timer")}
           >
             <ClockIcon size={16} color={sleepTimerEndsAt ? colors.primary : colors.foreground} />
           </TouchableOpacity>
@@ -279,7 +279,7 @@ export function TTSMiniPlayer({ visible, onClose, anchorLayout }: TTSMiniPlayerP
               style={[styles.iconBtn, { backgroundColor: colors.muted }]}
               onPress={handleOpenLyricsPage}
               accessibilityRole="button"
-              accessibilityLabel={t("tts.openLyricsPage", "跳到歌词页")}
+              accessibilityLabel={t("tts.openLyricsPage", "Open lyrics page")}
             >
               <ScrollTextIcon size={16} color={colors.foreground} />
             </TouchableOpacity>

@@ -102,11 +102,11 @@ export function TTSSleepTimerControl({ compact = false }: TTSSleepTimerControlPr
                   : "bg-muted/80 text-foreground hover:bg-muted"
               }`
         }
-        aria-label={t("tts.sleepTimer", "定时停止")}
+        aria-label={t("tts.sleepTimer", "Sleep Timer")}
         title={
           remainingLabel
-            ? `${t("tts.sleepTimer", "定时停止")} · ${remainingLabel}`
-            : t("tts.sleepTimer", "定时停止")
+            ? `${t("tts.sleepTimer", "Sleep Timer")} · ${remainingLabel}`
+            : t("tts.sleepTimer", "Sleep Timer")
         }
         onClick={() => setOpen((value) => !value)}
       >
@@ -120,7 +120,7 @@ export function TTSSleepTimerControl({ compact = false }: TTSSleepTimerControlPr
               <div className="flex items-center gap-2">
                 <Clock3 className="h-4 w-4 text-primary" />
                 <span className="text-xs font-semibold text-foreground">
-                  {t("tts.sleepTimer", "定时停止")}
+                  {t("tts.sleepTimer", "Sleep Timer")}
                 </span>
               </div>
               <p className="mt-1 text-[11px] leading-5 text-muted-foreground">
@@ -129,12 +129,12 @@ export function TTSSleepTimerControl({ compact = false }: TTSSleepTimerControlPr
                       time: remainingLabel,
                       defaultValue: `Remaining ${remainingLabel}`,
                     })
-                  : t("tts.sleepTimerSubtitle", "让朗读在你设定的时间后自动停止")}
+                  : t("tts.sleepTimerSubtitle", "Stop reading automatically after set time")}
               </p>
             </div>
 
             <div className="flex min-h-8 min-w-[74px] items-center justify-center rounded-full border border-border/70 bg-background/90 px-3 text-[11px] font-semibold text-foreground">
-              {remainingLabel || t("common.settings", "设置")}
+              {remainingLabel || t("common.settings", "Settings")}
             </div>
           </div>
 
@@ -153,7 +153,7 @@ export function TTSSleepTimerControl({ compact = false }: TTSSleepTimerControlPr
                     setOpen(false);
                   }}
                 >
-                  {t("tts.sleepTimerPresetShort", { minutes, defaultValue: `${minutes} 分钟` })}
+                  {t("tts.sleepTimerPresetShort", { minutes, defaultValue: `${minutes}m` })}
                 </Button>
               );
             })}
@@ -172,7 +172,7 @@ export function TTSSleepTimerControl({ compact = false }: TTSSleepTimerControlPr
                 }
               }}
               className="h-8 text-xs"
-              placeholder={t("tts.sleepTimerCustomPlaceholder", "自定义分钟数")}
+              placeholder={t("tts.sleepTimerCustomPlaceholder", "Custom minutes")}
             />
             <Button
               type="button"
@@ -180,7 +180,7 @@ export function TTSSleepTimerControl({ compact = false }: TTSSleepTimerControlPr
               className="h-8 rounded-full px-3 text-xs"
               onClick={applyCustomMinutes}
             >
-              {t("tts.sleepTimerApply", "开始计时")}
+              {t("tts.sleepTimerApply", "Start")}
             </Button>
           </div>
 
@@ -195,7 +195,7 @@ export function TTSSleepTimerControl({ compact = false }: TTSSleepTimerControlPr
                 setOpen(false);
               }}
             >
-              {t("tts.sleepTimerCancel", "关闭定时")}
+              {t("tts.sleepTimerCancel", "Cancel Timer")}
             </Button>
           ) : null}
         </div>

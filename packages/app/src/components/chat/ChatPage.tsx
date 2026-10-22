@@ -298,7 +298,7 @@ export function ChatPage() {
         }));
 
       if (!book) {
-        toast.error(t("chat.citationBookNotFound", "找不到这条引用对应的书籍"));
+        toast.error(t("chat.citationBookNotFound", "Book referenced in citation not found"));
         return;
       }
 
@@ -312,7 +312,7 @@ export function ChatPage() {
       });
 
       if (!opened) {
-        toast.error(t("chat.citationOpenFailed", "无法打开这条引用"));
+        toast.error(t("chat.citationOpenFailed", "Unable to open citation"));
       }
     },
     [books, t],

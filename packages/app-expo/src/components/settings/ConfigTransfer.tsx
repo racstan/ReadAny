@@ -33,40 +33,40 @@ export const ConfigTransfer = memo(function ConfigTransfer({
       setMode("export");
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
-      Alert.alert(t("common.error", "错误"), `${t("settings.exportFailed", "导出失败")}: ${msg}`);
+      Alert.alert(t("common.error", "Error"), `${t("settings.exportFailed", "Export failed")}: ${msg}`);
     }
   }, [getData, t]);
 
   const handleCopy = useCallback(async () => {
     await Clipboard.setStringAsync(token);
-    Alert.alert(t("common.copied", "已复制"), t("settings.copiedToClipboard", "口令已复制到剪贴板"));
+    Alert.alert(t("common.copied", "Copied"), t("settings.copiedToClipboard", "Token copied to clipboard"));
   }, [token, t]);
 
   const applyImportedData = useCallback(
     async (raw: string) => {
       const trimmed = raw.trim();
       if (!trimmed) {
-        Alert.alert(t("common.error", "错误"), t("settings.invalidConfig", "配置格式无效"));
+        Alert.alert(t("common.error", "Error"), t("settings.invalidConfig", "Invalid configuration"));
         return;
       }
       const data = decodeConfig(trimmed);
       if (!data) {
-        Alert.alert(t("common.error", "错误"), t("settings.invalidConfig", "配置格式无效，口令可能不完整"));
+        Alert.alert(t("common.error", "Error"), t("settings.invalidConfig", "Invalid configuration format, token may be incomplete"));
         return;
       }
       if (!validate(data)) {
-        Alert.alert(t("common.error", "错误"), t("settings.invalidConfig", "配置格式无效"));
+        Alert.alert(t("common.error", "Error"), t("settings.invalidConfig", "Invalid configuration"));
         return;
       }
       try {
         setIsImporting(true);
         await applyData(data);
-        Alert.alert(t("common.success", "成功"), t("settings.configImported", "配置已导入"));
+        Alert.alert(t("common.success", "Success"), t("settings.configImported", "Configuration imported"));
         setMode("idle");
         setImportText("");
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        Alert.alert(t("common.error", "错误"), `${t("settings.importFailed", "导入失败")}: ${msg}`);
+        Alert.alert(t("common.error", "Error"), `${t("settings.importFailed", "Import failed")}: ${msg}`);
       } finally {
         setIsImporting(false);
       }
@@ -114,7 +114,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
           }}
         />
         <Text style={{ fontSize: fontSize.xs, color: colors.mutedForeground, textAlign: "center" }}>
-          {t("settings.copyToken", "复制下方口令，在另一台设备导入")}
+          {t("settings.copyToken", "Copy the token below and import it on another device")}
         </Text>
         <View style={{ flexDirection: "row", gap: 8 }}>
           <TouchableOpacity
@@ -128,7 +128,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
             }}
           >
             <Text style={{ fontSize: fontSize.sm, color: colors.primaryForeground, fontWeight: fontWeight.medium }}>
-              {t("common.copy", "复制口令")}
+              {t("common.copy", "Copy Token")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -142,7 +142,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
             }}
           >
             <Text style={{ fontSize: fontSize.sm, color: colors.mutedForeground }}>
-              {t("common.cancel", "取消")}
+              {t("common.cancel", "Cancel")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -163,7 +163,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
         }}
       >
         <TextInput
-          placeholder={t("settings.pasteConfig", "粘贴配置口令...")}
+          placeholder={t("settings.pasteConfig", "Paste configuration token...")}
           placeholderTextColor={colors.mutedForeground}
           value={importText}
           onChangeText={setImportText}
@@ -195,7 +195,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
             }}
           >
             <Text style={{ fontSize: fontSize.sm, color: colors.foreground }}>
-              {t("common.paste", "粘贴")}
+              {t("common.paste", "Paste")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -211,7 +211,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
             }}
           >
             <Text style={{ fontSize: fontSize.sm, color: colors.primaryForeground, fontWeight: fontWeight.medium }}>
-              {t("settings.importConfig", "导入")}
+              {t("settings.importConfig", "Import")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -225,7 +225,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
             }}
           >
             <Text style={{ fontSize: fontSize.sm, color: colors.mutedForeground }}>
-              {t("common.cancel", "取消")}
+              {t("common.cancel", "Cancel")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -248,7 +248,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
         }}
       >
         <Text style={{ fontSize: fontSize.sm, color: colors.foreground }}>
-          {t("settings.exportConfig", "导出")} {label}
+          {t("settings.exportConfig", "Export")} {label}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -264,7 +264,7 @@ export const ConfigTransfer = memo(function ConfigTransfer({
         }}
       >
         <Text style={{ fontSize: fontSize.sm, color: colors.foreground }}>
-          {t("settings.importConfig", "导入")} {label}
+          {t("settings.importConfig", "Import")} {label}
         </Text>
       </TouchableOpacity>
     </View>

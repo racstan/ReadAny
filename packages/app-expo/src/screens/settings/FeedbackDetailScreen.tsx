@@ -52,7 +52,7 @@ export default function FeedbackDetailScreen({ navigation, route }: Props) {
         </Text>
         <TouchableOpacity
           onPress={() =>
-            Linking.openURL(`https://github.com/codedogQBY/ReadAny/issues/${issueNumber}`)
+            Linking.openURL(`https://github.com/racstan/ReadAny/issues/${issueNumber}`)
           }
           style={styles.externalBtn}
         >
@@ -67,7 +67,7 @@ export default function FeedbackDetailScreen({ navigation, route }: Props) {
       ) : !detail ? (
         <View style={styles.loadingContainer}>
           <Text style={[styles.errorText, { color: colors.mutedForeground }]}>
-            {t("feedback.detailLoadFailed", "加载失败，请稍后重试")}
+            {t("feedback.detailLoadFailed", "Failed to load, please try again later")}
           </Text>
         </View>
       ) : (
@@ -90,8 +90,8 @@ export default function FeedbackDetailScreen({ navigation, route }: Props) {
                 ]}
               >
                 {detail.state === "open"
-                  ? t("feedback.statusOpen", "处理中")
-                  : t("feedback.statusClosed", "已关闭")}
+                  ? t("feedback.statusOpen", "Open")
+                  : t("feedback.statusClosed", "Closed")}
               </Text>
             </View>
             <Text style={[styles.dateText, { color: colors.mutedForeground }]}>
@@ -112,7 +112,7 @@ export default function FeedbackDetailScreen({ navigation, route }: Props) {
               <View style={styles.commentHeader}>
                 <MessageCircle size={14} color={colors.mutedForeground} />
                 <Text style={[styles.commentHeaderText, { color: colors.mutedForeground }]}>
-                  {t("feedback.replies", "回复")} ({detail.comments.length})
+                  {t("feedback.replies", "Replies")} ({detail.comments.length})
                 </Text>
               </View>
               {detail.comments.map((comment) => (
@@ -124,7 +124,7 @@ export default function FeedbackDetailScreen({ navigation, route }: Props) {
           {detail.comments.length === 0 && (
             <View style={styles.noComments}>
               <Text style={[styles.noCommentsText, { color: colors.mutedForeground }]}>
-                {t("feedback.noReplies", "暂无回复，我们会尽快处理。")}
+                {t("feedback.noReplies", "No replies yet. We will address it soon.")}
               </Text>
             </View>
           )}

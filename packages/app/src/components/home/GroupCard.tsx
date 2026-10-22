@@ -185,7 +185,7 @@ export const GroupCard = memo(function GroupCard({
               onClick={handleStartRename}
             >
               <Pencil className="h-3.5 w-3.5" />
-              {t("common.rename", "重命名")}
+              {t("common.rename", "Rename")}
             </button>
             <button
               type="button"
@@ -197,7 +197,7 @@ export const GroupCard = memo(function GroupCard({
               }}
             >
               <Trash2 className="h-3.5 w-3.5" />
-              {t("common.delete", "删除")}
+              {t("common.delete", "Delete")}
             </button>
           </div>
         </>
@@ -224,11 +224,11 @@ export const GroupCard = memo(function GroupCard({
           </h4>
         )}
         <p className="truncate text-[10px] leading-tight text-muted-foreground">
-          {t("library.groupBookCount", { count: books.length, defaultValue: `${books.length} 本` })}
+          {t("library.groupBookCount", { count: books.length, defaultValue: `${books.length} books` })}
         </p>
         <div className="mt-0.5 flex flex-wrap gap-0.5">
           <span className="inline-flex items-center rounded-full bg-primary/8 px-1.5 py-px text-[9px] font-medium text-primary">
-            {t("library.group", "分组")}
+            {t("library.group", "Group")}
           </span>
         </div>
         <div className="mt-0.5" style={{ minHeight: "14px" }} />

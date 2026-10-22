@@ -49,7 +49,7 @@ const TECH_STACK = [
 const LINKS = [
   {
     label: "GitHub",
-    url: "https://github.com/codedogQBY/ReadAny",
+    url: "https://github.com/racstan/ReadAny",
   },
 ];
 
@@ -114,7 +114,7 @@ export default function AboutScreen() {
       style={[styles.container, { backgroundColor: colors.background }]}
       edges={["top"]}
     >
-      <SettingsHeader title={t("about.title", "关于")} />
+      <SettingsHeader title={t("about.title", "About")} />
 
       <ScrollView
         style={styles.scroll}
@@ -151,7 +151,7 @@ export default function AboutScreen() {
               ) : null}
             </TouchableOpacity>
             <Text style={styles.desc}>
-              {t("about.desc", "一个跨平台的智能电子书阅读器，支持 AI 对话、TTS 朗读、多语言翻译")}
+              {t("about.desc", "A cross-platform intelligent e-book reader with AI chat, TTS, and multi-language translation")}
             </Text>
           </View>
 
@@ -184,7 +184,7 @@ export default function AboutScreen() {
 
           {/* Tech Stack */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t("about.techStack", "技术栈")}</Text>
+            <Text style={styles.sectionTitle}>{t("about.techStack", "Tech Stack")}</Text>
             <View style={styles.techGrid}>
               {TECH_STACK.map((item) => (
                 <View key={item.label} style={styles.techCard}>
@@ -197,7 +197,7 @@ export default function AboutScreen() {
 
           {/* Links */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{t("about.links", "链接")}</Text>
+            <Text style={styles.sectionTitle}>{t("about.links", "Links")}</Text>
             <View style={styles.linksCard}>
               {LINKS.map((link, idx) => (
                 <TouchableOpacity
@@ -212,16 +212,16 @@ export default function AboutScreen() {
               ))}
               <TouchableOpacity
                 style={styles.linkItem}
-                onPress={() => Linking.openURL("https://github.com/codedogQBY/ReadAny/issues")}
+                onPress={() => Linking.openURL("https://github.com/racstan/ReadAny/issues")}
                 activeOpacity={0.7}
               >
-                <Text style={styles.linkText}>{t("about.feedback", "问题反馈")}</Text>
+                <Text style={styles.linkText}>{t("about.feedback", "Feedback")}</Text>
                 <Text style={styles.linkArrow}>→</Text>
               </TouchableOpacity>
             </View>
           </View>
 
-          <Text style={styles.madeBy}>{t("about.madeBy", "Made with love by codedogQBY")}</Text>
+          <Text style={styles.madeBy}>{t("about.madeBy", "Made with love by racstan")}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

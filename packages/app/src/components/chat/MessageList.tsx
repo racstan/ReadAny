@@ -193,7 +193,7 @@ function CopyMessageButton({ message }: { message: MessageV2 }) {
           setTimeout(() => setCopied(false), 2000);
         }
       }}
-      title={t("common.copy", "复制")}
+      title={t("common.copy", "Copy")}
     >
       {copied ? <Check className="size-3" /> : <Copy className="size-3" />}
     </button>

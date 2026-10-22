@@ -48,8 +48,8 @@ export const TRANSLATOR_PROVIDERS: Array<{ id: TranslatorName; labelKey: string 
 ];
 
 export const TRANSLATOR_LANGS: Record<TranslationTargetLang, string> = {
-  "zh-CN": "简体中文",
-  "zh-TW": "繁體中文",
+  "zh-CN": "Chinese (Simplified)",
+  "zh-TW": "Chinese (Traditional)",
   ja: "日本語",
   ko: "한국어",
   en: "English",

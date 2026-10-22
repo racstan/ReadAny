@@ -166,7 +166,7 @@
     "deleteTitle": "Eliminar fuente",
     "deleteConfirm": "¿Eliminar la fuente \"{{name}}\"?",
     "addedAt": "Agregada",
-    "preview": "Vista previa: Reading changes the world. 阅读改变世界",
+    "preview": "Vista previa: Reading changes the world.",
     "error": "Error",
     "fromFile": "Archivo local",
     "fromUrl": "URL en línea",

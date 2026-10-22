@@ -21,7 +21,21 @@ import {
   providerSupportsExactRequestUrl,
   providerRequiresApiKey,
 } from "@readany/core/utils";
-import { AlertCircle, CheckCircle2, Copy, Loader2, Plus, RefreshCw, Trash2, X } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Copy,
+  Cpu,
+  Globe,
+  Loader2,
+  Plus,
+  Radio,
+  RefreshCw,
+  Sparkles,
+  Terminal,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -45,6 +59,8 @@ function useProviderOptions(): { value: AIProviderType; label: string }[] {
     { value: "moonshot", label: "Moonshot (Kimi)" },
     { value: "zhipu", label: t("settings.ai_provider_zhipu") },
     { value: "aliyun", label: t("settings.ai_provider_aliyun") },
+    { value: "opencode", label: t("settings.ai_provider_opencode", "OpenCode (Local Proxy)") },
+    { value: "pi", label: t("settings.ai_provider_pi", "Pi Agent (Local RPC/Bridge)") },
     { value: "custom", label: t("settings.ai_provider_custom") },
   ], [t]);
 }
@@ -171,7 +187,7 @@ function EndpointCard({
       toast.success(t("notes.copiedToClipboard"));
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : t("common.failed", "失败");
+        error instanceof Error ? error.message : t("common.failed", "Failed");
       toast.error(message);
     }
   }, [requestPreview, t]);
@@ -246,14 +262,14 @@ function EndpointCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium truncate">
-              {endpoint.name || t("common.unnamed", "未命名")}
+              {endpoint.name || t("common.unnamed", "Unnamed")}
             </span>
             {isActive && (
               <span className="text-xs text-primary font-medium shrink-0">✓ Active</span>
             )}
           </div>
           <span className="text-xs text-muted-foreground truncate block">
-            {endpoint.provider} • {endpoint.models.length} {t("settings.ai_models", "模型")}
+            {endpoint.provider} • {endpoint.models.length} {t("settings.ai_models", "models")}
           </span>
         </div>
         <div className="flex items-center gap-1 shrink-0">
@@ -294,13 +310,13 @@ function EndpointCard({
               htmlFor={`name-${endpoint.id}`}
               className="mb-1 block text-xs text-muted-foreground"
             >
-              {t("settings.ai_name", "名称")}
+              {t("settings.ai_name", "Name")}
             </label>
             <Input
               id={`name-${endpoint.id}`}
               value={endpoint.name}
               onChange={(e) => onUpdate(endpoint.id, { name: e.target.value })}
-              placeholder={t("settings.ai_namePlaceholder", "例如：我的 OpenAI")}
+              placeholder={t("settings.ai_namePlaceholder", "e.g., My OpenAI")}
               className="h-8 text-sm"
             />
           </div>
@@ -366,7 +382,7 @@ function EndpointCard({
               className="mb-1 block text-xs text-muted-foreground"
             >
               {exactRequestUrlEnabled
-                ? t("settings.ai_exactRequestUrlLabel", "完整请求地址")
+                ? t("settings.ai_exactRequestUrlLabel", "Full Request URL")
                 : endpoint.provider === "openai"
                   ? t("settings.ai_baseUrl")
                   : t("settings.ai_baseUrlOptional")}
@@ -382,12 +398,12 @@ function EndpointCard({
               <div className="mt-2 flex items-center justify-between gap-3 rounded-md border border-border/60 bg-background/50 px-3 py-2">
                 <div className="space-y-0.5">
                   <div className="text-xs font-medium text-foreground">
-                    {t("settings.ai_exactRequestUrl", "完全自定义请求地址")}
+                    {t("settings.ai_exactRequestUrl", "Exact Request URL")}
                   </div>
                   <div className="text-[11px] text-muted-foreground">
                     {t(
                       "settings.ai_exactRequestUrlDesc",
-                      "启用后将按你填写的地址原样请求，不再自动追加 /v1、/chat/completions 或 /models。",
+                      "When enabled, requests are sent exactly to the URL provided without appending /v1, /chat/completions, or /models.",
                     )}
                   </div>
                 </div>
@@ -420,7 +436,7 @@ function EndpointCard({
               <div>
                 <div className="mb-1 flex items-center justify-between gap-2">
                   <div className="text-[11px] text-muted-foreground">
-                    {t("settings.ai_requestUrlPreview", "最终请求地址")}
+                    {t("settings.ai_requestUrlPreview", "Final Request URL")}
                   </div>
                   <Button
                     type="button"
@@ -431,7 +447,7 @@ function EndpointCard({
                     disabled={!requestPreview}
                   >
                     <Copy className="h-3 w-3" />
-                    {t("common.copy", "复制")}
+                    {t("common.copy", "Copy")}
                   </Button>
                 </div>
                 <div className="break-all font-mono text-[11px] text-foreground/80">
@@ -440,7 +456,7 @@ function EndpointCard({
               </div>
               <div>
                 <div className="mb-1 text-[11px] text-muted-foreground">
-                  {t("settings.ai_testModel", "测试模型")}
+                  {t("settings.ai_testModel", "Test Model")}
                 </div>
                 <Select value={testModel} onValueChange={setTestModel}>
                   <SelectTrigger className="h-8 text-sm">
@@ -448,7 +464,7 @@ function EndpointCard({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="__auto__">
-                      {t("settings.ai_testModelAuto", "自动选择首个可用模型")}
+                      {t("settings.ai_testModelAuto", "Auto-select first available model")}
                     </SelectItem>
                     {endpoint.models.map((model) => (
                       <SelectItem key={model} value={model}>
@@ -505,7 +521,7 @@ function EndpointCard({
               <div className="pl-1 text-[11px] text-muted-foreground/85">
                 {t(
                   "settings.ai_exactRequestUrlFetchHint",
-                  "完全自定义请求地址模式下无法自动推断模型列表地址，请手动添加模型后再测试。",
+                  "Cannot automatically discover models in exact URL mode. Please manually add models before testing.",
                 )}
               </div>
             )}
@@ -593,6 +609,7 @@ export function AISettings() {
     setActiveEndpoint,
     setActiveModel,
     updateAIConfig,
+    setAIMode,
     fetchModels,
   } = useSettingsStore();
 
@@ -600,6 +617,13 @@ export function AISettings() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const activeEndpoint = aiConfig.endpoints.find((ep) => ep.id === aiConfig.activeEndpointId);
+  const currentMode =
+    aiConfig.mode ||
+    (activeEndpoint?.provider === "opencode"
+      ? "opencode"
+      : activeEndpoint?.provider === "pi"
+        ? "pi"
+        : "normal");
 
   const handleAddEndpoint = useCallback(() => {
     const defaultProvider: AIProviderType = "openai";
@@ -627,7 +651,7 @@ export function AISettings() {
             "No models returned. Check your API key, model access, and whether the base URL points to the API root.",
           );
         } else if (!aiConfig.activeModel) {
-          // 自动选中第一个模型（如果当前没有选中任何模型）
+          // Auto-select first model if none is currently selected
           setActiveEndpoint(endpointId);
           setActiveModel(models[0]);
         }
@@ -640,6 +664,111 @@ export function AISettings() {
 
   return (
     <div className="space-y-6 p-4 pt-3">
+      {/* Mode Selection — similar to ForgeEdge (Direct API, OpenCode, Pi) */}
+      <section className="rounded-lg bg-muted/60 p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-sm font-medium text-foreground flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-primary" />
+              {t("settings.ai_mode", "Operation Mode")}
+            </h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {currentMode === "opencode"
+                ? t(
+                    "settings.ai_mode_opencode_desc",
+                    "Access free OpenCode Zen models via local proxy (http://localhost:4010/v1)",
+                  )
+                : currentMode === "pi"
+                  ? t(
+                      "settings.ai_mode_pi_desc",
+                      "Route through local Pi agent service (http://localhost:31415/v1)",
+                    )
+                  : t("settings.ai_mode_normal_desc", "Connect directly using provider API keys")}
+            </p>
+          </div>
+          <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+            {currentMode === "opencode"
+              ? "Free Zen Tier"
+              : currentMode === "pi"
+                ? "Agent RPC"
+                : "Direct API"}
+          </span>
+        </div>
+
+        {/* Mode Switcher Tabs */}
+        <div className="grid grid-cols-3 gap-2 p-1 rounded-lg bg-background/60 border border-border/50">
+          <button
+            type="button"
+            onClick={() => setAIMode("normal")}
+            className={`flex items-center justify-center gap-2 py-2 px-3 rounded-md text-xs font-medium transition-all ${
+              currentMode === "normal"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            }`}
+          >
+            <Globe className="h-3.5 w-3.5" />
+            <span>{t("settings.ai_mode_normal", "Direct API")}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setAIMode("opencode")}
+            className={`flex items-center justify-center gap-2 py-2 px-3 rounded-md text-xs font-medium transition-all ${
+              currentMode === "opencode"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            }`}
+          >
+            <Terminal className="h-3.5 w-3.5" />
+            <span>{t("settings.ai_mode_opencode", "OpenCode Mode")}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setAIMode("pi")}
+            className={`flex items-center justify-center gap-2 py-2 px-3 rounded-md text-xs font-medium transition-all ${
+              currentMode === "pi"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            }`}
+          >
+            <Cpu className="h-3.5 w-3.5" />
+            <span>{t("settings.ai_mode_pi", "Pi Mode")}</span>
+          </button>
+        </div>
+
+        {/* Mode Guidance & Status Notice */}
+        {currentMode === "opencode" && (
+          <div className="rounded-md border border-amber-500/30 bg-amber-500/10 p-2.5 text-xs text-amber-600 dark:text-amber-400 flex items-start gap-2">
+            <Radio className="h-4 w-4 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <p className="font-medium">OpenCode Local Bridge & Proxy Active</p>
+              <p className="text-[11px] leading-relaxed text-muted-foreground">
+                {t(
+                  "settings.ai_opencode_proxy_hint",
+                  "Start the OpenCode TUI in your terminal (`opencode`) to expose the OpenAI-compatible proxy at http://localhost:4010/v1, or run `opencode serve` for session bridge at port 4096.",
+                )}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {currentMode === "pi" && (
+          <div className="rounded-md border border-purple-500/30 bg-purple-500/10 p-2.5 text-xs text-purple-600 dark:text-purple-400 flex items-start gap-2">
+            <Cpu className="h-4 w-4 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <p className="font-medium">Pi Agent Mode Active</p>
+              <p className="text-[11px] leading-relaxed text-muted-foreground">
+                {t(
+                  "settings.ai_pi_hint",
+                  "Ensure the Pi CLI agent / RPC server is running at http://localhost:31415/v1 for multi-model agentic routing.",
+                )}
+              </p>
+            </div>
+          </div>
+        )}
+      </section>
+
       {/* Endpoint Management */}
       <section className="rounded-lg bg-muted/60 p-4">
         <div className="flex items-center justify-between mb-3">
@@ -804,10 +933,10 @@ export function AISettings() {
       {/* Transfer */}
       <section className="space-y-3">
         <h3 className="text-sm font-medium text-foreground">
-          {t("settings.transferConfig", "配置迁移")}
+          {t("settings.transferConfig", "Transfer Config")}
         </h3>
         <ConfigTransfer
-          label={t("settings.aiConfig", "AI 配置")}
+          label={t("settings.aiConfig", "AI Config")}
           getData={() => aiConfig}
           applyData={(data) => {
             const d = data as Record<string, unknown>;

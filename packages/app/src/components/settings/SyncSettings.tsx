@@ -1018,10 +1018,10 @@ export function SyncSettings() {
       {/* Transfer sync config */}
       <section className="space-y-3 border-t pt-4">
         <h3 className="text-sm font-medium text-foreground">
-          {t("settings.transferConfig", "配置迁移")}
+          {t("settings.transferConfig", "Config Transfer")}
         </h3>
         <ConfigTransfer
-          label={t("settings.syncConfig", "同步配置")}
+          label={t("settings.syncConfig", "Sync Configuration")}
           getData={() => {
             const base = { backendType, config };
             if (backendType === "webdav") {

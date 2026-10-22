@@ -192,7 +192,7 @@ export function TranslationPage() {
 
               <View style={styles.inputGroup}>
                 <Text style={[styles.inputLabel, { color: colors.mutedForeground }]}>
-                  {t("translation.deeplBaseUrl", "DeepL 请求地址")}
+                  {t("translation.deeplBaseUrl", "DeepL API URL")}
                 </Text>
                 <TextInput
                   style={[
@@ -216,7 +216,7 @@ export function TranslationPage() {
                 <Text style={[styles.inputHint, { color: colors.mutedForeground }]}>
                   {t(
                     "translation.deeplBaseUrlHint",
-                    "填写基础地址，也支持直接粘贴完整的 /translate 地址。",
+                    "Enter base URL, or paste complete /translate endpoint URL.",
                   )}
                 </Text>
               </View>

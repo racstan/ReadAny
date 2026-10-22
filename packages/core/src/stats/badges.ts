@@ -1,7 +1,7 @@
 /**
  * badges.ts — Achievement badge definitions and evaluator.
  *
- * 6-tier system: 青铜 → 白银 → 黄金 → 铂金 → 钻石 → 传奇
+ * 6-tier system: Bronze → Silver → Gold → Platinum → Diamond → Legendary
  * 8 categories, 39 badges total.
  *
  * Stateless: badges are recalculated from DailyReadingFact[] every time,
@@ -68,7 +68,7 @@ function hasLateNightReading(facts: DailyReadingFact[]): boolean {
 }
 
 const BADGE_DEFS: BadgeDef[] = [
-  // ━━━━━ 📅 阅读天数 (6 tiers) ━━━━━
+  // ━━━━━ 📅 Reading Days (6 tiers) ━━━━━
   { id: "days-10", icon: "calendar", tier: "bronze", colorScheme: "amber", category: "days",
     check: (f) => countActiveDays(f) >= 10 },
   { id: "days-30", icon: "calendar", tier: "silver", colorScheme: "amber", category: "days",
@@ -82,7 +82,7 @@ const BADGE_DEFS: BadgeDef[] = [
   { id: "days-1000", icon: "calendar", tier: "legendary", colorScheme: "amber", category: "days",
     check: (f) => countActiveDays(f) >= 1000 },
 
-  // ━━━━━ 🔥 连续阅读 (5 tiers) ━━━━━
+  // ━━━━━ 🔥 Reading Streak (5 tiers) ━━━━━
   { id: "streak-7", icon: "flame", tier: "bronze", colorScheme: "amber", category: "streak",
     check: (_, s) => s.longestStreak >= 7 },
   { id: "streak-14", icon: "flame", tier: "silver", colorScheme: "amber", category: "streak",
@@ -94,7 +94,7 @@ const BADGE_DEFS: BadgeDef[] = [
   { id: "streak-365", icon: "flame", tier: "diamond", colorScheme: "amber", category: "streak",
     check: (_, s) => s.longestStreak >= 365 },
 
-  // ━━━━━ ⏱ 阅读时长 (5 tiers) ━━━━━
+  // ━━━━━ ⏱ Reading Time (5 tiers) ━━━━━
   { id: "time-10h", icon: "clock", tier: "bronze", colorScheme: "emerald", category: "time",
     check: (_, s) => s.totalReadingTime >= 600 },
   { id: "time-50h", icon: "clock", tier: "silver", colorScheme: "emerald", category: "time",
@@ -106,7 +106,7 @@ const BADGE_DEFS: BadgeDef[] = [
   { id: "time-1000h", icon: "clock", tier: "diamond", colorScheme: "emerald", category: "time",
     check: (_, s) => s.totalReadingTime >= 60000 },
 
-  // ━━━━━ 📚 阅读书籍 (5 tiers) ━━━━━
+  // ━━━━━ 📚 Books Read (5 tiers) ━━━━━
   { id: "books-5", icon: "library", tier: "bronze", colorScheme: "blue", category: "books",
     check: (_, s) => s.booksTouched >= 5 },
   { id: "books-10", icon: "library", tier: "silver", colorScheme: "blue", category: "books",
@@ -118,7 +118,7 @@ const BADGE_DEFS: BadgeDef[] = [
   { id: "books-100", icon: "library", tier: "diamond", colorScheme: "blue", category: "books",
     check: (_, s) => s.booksTouched >= 100 },
 
-  // ━━━━━ ✅ 读完书籍 (5 tiers) ━━━━━
+  // ━━━━━ ✅ Books Completed (5 tiers) ━━━━━
   { id: "completed-1", icon: "book-open", tier: "bronze", colorScheme: "emerald", category: "completed",
     check: (_, s) => s.completedBooks >= 1 },
   { id: "completed-5", icon: "book-open", tier: "silver", colorScheme: "emerald", category: "completed",
@@ -130,7 +130,7 @@ const BADGE_DEFS: BadgeDef[] = [
   { id: "completed-100", icon: "book-open", tier: "diamond", colorScheme: "emerald", category: "completed",
     check: (_, s) => s.completedBooks >= 100 },
 
-  // ━━━━━ 📝 笔记高亮 (4 tiers) ━━━━━
+  // ━━━━━ 📝 Notes & Highlights (4 tiers) ━━━━━
   // Note: uses totalPagesRead as proxy for annotations count until real data is wired
   { id: "notes-1", icon: "pencil", tier: "bronze", colorScheme: "purple", category: "notes",
     check: (_, s) => s.totalPagesRead >= 1 },
@@ -141,7 +141,7 @@ const BADGE_DEFS: BadgeDef[] = [
   { id: "notes-200", icon: "pencil", tier: "platinum", colorScheme: "purple", category: "notes",
     check: (_, s) => s.totalPagesRead >= 200 },
 
-  // ━━━━━ 🧠 深度阅读 (4 tiers) ━━━━━
+  // ━━━━━ 🧠 Deep Reading (4 tiers) ━━━━━
   { id: "focus-30m", icon: "brain", tier: "bronze", colorScheme: "purple", category: "focus",
     check: (_, s) => s.longestSessionTime >= 30 },
   { id: "focus-1h", icon: "brain", tier: "silver", colorScheme: "purple", category: "focus",
@@ -151,7 +151,7 @@ const BADGE_DEFS: BadgeDef[] = [
   { id: "focus-3h", icon: "brain", tier: "platinum", colorScheme: "purple", category: "focus",
     check: (_, s) => s.longestSessionTime >= 180 },
 
-  // ━━━━━ 🌟 特殊习惯 (5 independent) ━━━━━
+  // ━━━━━ 🌟 Special Habits (5 independent) ━━━━━
   { id: "early-bird", icon: "sunrise", tier: "silver", colorScheme: "amber", category: "special",
     check: (facts) => {
       let morningTime = 0, totalTime = 0;

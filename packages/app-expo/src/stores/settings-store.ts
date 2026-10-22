@@ -60,8 +60,8 @@ const defaultReadSettings: ReadSettings = {
 };
 
 const defaultTranslationConfig: TranslationConfig = {
-  provider: { id: "ai", name: "AI 翻译" },
-  targetLang: "zh-CN",
+  provider: { id: "ai", name: "AI Translation" },
+  targetLang: "en",
 };
 
 const defaultEndpoint: AIEndpoint = {
@@ -422,7 +422,7 @@ export const useSettingsStore = create<SettingsState>()(
     const loadApiKeys = async () => {
       const state = get();
 
-      // 如果已经加载过，不再重复加载
+      // If already loaded, do not reload
       if (state._apiKeysLoaded) {
         return;
       }
@@ -646,7 +646,7 @@ export const useSettingsStore = create<SettingsState>()(
   }, undefined, migrateSettingsState),
 );
 
-// 在应用启动时加载 API keys
+// Load API keys on app startup
 setTimeout(() => {
   if (useSettingsStore.getState()._hasHydrated) {
     void useSettingsStore.getState().loadApiKeys();

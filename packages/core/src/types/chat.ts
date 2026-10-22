@@ -122,6 +122,8 @@ export interface SemanticContext {
   operationType: "reading" | "highlighting" | "searching" | "navigating";
 }
 
+export type AIMode = "normal" | "opencode" | "pi";
+
 export type AIProviderType =
   | "openai"
   | "atlascloud"
@@ -145,6 +147,8 @@ export type AIProviderType =
   | "mistral"
   | "perplexity"
   | "aihubmix"
+  | "opencode"
+  | "pi"
   | "custom";
 
 export interface AIEndpoint {
@@ -160,6 +164,7 @@ export interface AIEndpoint {
 }
 
 export interface AIConfig {
+  mode?: AIMode;
   endpoints: AIEndpoint[];
   activeEndpointId: string;
   activeModel: string;

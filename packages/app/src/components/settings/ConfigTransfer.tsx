@@ -27,14 +27,14 @@ export function ConfigTransfer<T>({ getData, applyData, validate, label }: Confi
       setToken(encoded);
       setMode("export");
     } catch {
-      toast.error(t("settings.exportFailed", "导出失败，数据可能过大"));
+      toast.error(t("settings.exportFailed", "Export failed, data may be too large"));
     }
   }, [getData, t]);
 
   const handleCopy = useCallback(async () => {
     await navigator.clipboard.writeText(token);
     setCopied(true);
-    toast.success(t("common.copied", "已复制"));
+    toast.success(t("common.copied", "Copied"));
     setTimeout(() => setCopied(false), 2000);
   }, [token, t]);
 
@@ -42,25 +42,25 @@ export function ConfigTransfer<T>({ getData, applyData, validate, label }: Confi
     (raw: string) => {
       const trimmed = raw.trim();
       if (!trimmed) {
-        toast.error(t("settings.invalidConfig", "配置格式无效"));
+        toast.error(t("settings.invalidConfig", "Invalid configuration"));
         return;
       }
       const data = decodeConfig(trimmed);
       if (!data) {
-        toast.error(t("settings.invalidConfig", "配置格式无效，口令可能不完整"));
+        toast.error(t("settings.invalidConfig", "Invalid configuration"));
         return;
       }
       if (!validate(data)) {
-        toast.error(t("settings.invalidConfig", "配置格式无效"));
+        toast.error(t("settings.invalidConfig", "Invalid configuration"));
         return;
       }
       try {
         applyData(data);
-        toast.success(t("settings.configImported", "配置已导入"));
+        toast.success(t("settings.configImported", "Configuration imported"));
         setMode("idle");
         setImportText("");
       } catch {
-        toast.error(t("settings.importFailed", "导入失败"));
+        toast.error(t("settings.importFailed", "Import failed"));
       }
     },
     [validate, applyData, t],
@@ -78,12 +78,12 @@ export function ConfigTransfer<T>({ getData, applyData, validate, label }: Confi
           onClick={(e) => (e.target as HTMLTextAreaElement).select()}
         />
         <p className="text-xs text-muted-foreground">
-          {t("settings.copyToken", "复制下方口令，在另一台设备导入")}
+          {t("settings.copyToken", "Copy code below to import on another device")}
         </p>
         <div className="flex w-full gap-2">
           <Button variant="outline" size="sm" className="flex-1" onClick={handleCopy}>
             {copied ? <Check className="mr-1.5 size-3.5" /> : <Copy className="mr-1.5 size-3.5" />}
-            {t("common.copy", "复制口令")}
+            {t("common.copy", "Copy")}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setMode("idle")}>
             <X className="size-3.5" />
@@ -97,7 +97,7 @@ export function ConfigTransfer<T>({ getData, applyData, validate, label }: Confi
     return (
       <div className="flex flex-col gap-3 rounded-lg border bg-muted/30 p-4">
         <Textarea
-          placeholder={t("settings.pasteConfig", "粘贴配置口令...")}
+          placeholder={t("settings.pasteConfig", "Paste configuration code...")}
           value={importText}
           onChange={(e) => setImportText(e.target.value)}
           className="min-h-[80px] font-mono text-xs"
@@ -105,7 +105,7 @@ export function ConfigTransfer<T>({ getData, applyData, validate, label }: Confi
         <div className="flex gap-2">
           <Button size="sm" className="flex-1" onClick={handleImport} disabled={!importText.trim()}>
             <Download className="mr-1.5 size-3.5" />
-            {t("settings.importConfig", "导入")}
+            {t("settings.importConfig", "Import")}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => { setMode("idle"); setImportText(""); }}>
             <X className="size-3.5" />
@@ -119,11 +119,11 @@ export function ConfigTransfer<T>({ getData, applyData, validate, label }: Confi
     <div className="flex gap-2">
       <Button variant="outline" size="sm" onClick={handleExport}>
         <Copy className="mr-1.5 size-3.5" />
-        {t("settings.exportConfig", "导出")} {label}
+        {t("settings.exportConfig", "Export")} {label}
       </Button>
       <Button variant="outline" size="sm" onClick={() => setMode("import")}>
         <Download className="mr-1.5 size-3.5" />
-        {t("settings.importConfig", "导入")} {label}
+        {t("settings.importConfig", "Import")} {label}
       </Button>
     </div>
   );

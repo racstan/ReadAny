@@ -105,7 +105,7 @@ export function SettingsDialog({ open, onClose }: SettingsDialogProps) {
                   {id === "feedback" && unreadFeedback > 0 ? (
                     <span
                       className="h-2 w-2 flex-shrink-0 rounded-full bg-destructive"
-                      aria-label={t("feedback.hasNewReply", "有新回复")}
+                      aria-label={t("feedback.hasNewReply", "New reply available")}
                     />
                   ) : null}
                 </button>

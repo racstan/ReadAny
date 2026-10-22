@@ -310,14 +310,14 @@ export const BookCard = memo(function BookCard({
           {isQueued && !isVectorizing && (
             <View style={s.queuedOverlay}>
               <ClockIcon size={20} color="#fff" />
-              <Text style={s.queuedOverlayText}>{t("home.vec_queued", "排队中")}</Text>
+              <Text style={s.queuedOverlayText}>{t("home.vec_queued", "Queued")}</Text>
             </View>
           )}
 
           {/* Remote status overlay (on-demand download) */}
           {book.syncStatus === "remote" && (
             <View style={s.remoteOverlay}>
-              <Text style={s.remoteOverlayText}>{t("home.remote", "需下载")}</Text>
+              <Text style={s.remoteOverlayText}>{t("home.remote", "Download Needed")}</Text>
             </View>
           )}
 
@@ -325,7 +325,7 @@ export const BookCard = memo(function BookCard({
           {book.syncStatus === "downloading" && (
             <View style={s.downloadingOverlay}>
               <AnimatedLoader />
-              <Text style={s.downloadingOverlayText}>{t("home.downloading", "下载中")}</Text>
+              <Text style={s.downloadingOverlayText}>{t("home.downloading", "Downloading...")}</Text>
               {downloadProgress && downloadProgress.total > 0 && (
                 <Text style={s.downloadingOverlayPct}>
                   {Math.round((downloadProgress.downloaded / downloadProgress.total) * 100)}%
@@ -337,7 +337,7 @@ export const BookCard = memo(function BookCard({
           {/* Vectorized badge */}
           {book.isVectorized && !isVectorizing && (
             <View style={s.vecBadge}>
-              <Text style={s.vecBadgeText}>{t("home.vec_indexed", "已索引")}</Text>
+              <Text style={s.vecBadgeText}>{t("home.vec_indexed", "Indexed")}</Text>
             </View>
           )}
 
@@ -380,7 +380,7 @@ export const BookCard = memo(function BookCard({
           ) : (
             <View style={s.tagsRow}>
               <View style={s.tagBadgeUncategorized}>
-                <Text style={s.tagTextUncategorized}>{t("sidebar.uncategorized", "未分类")}</Text>
+                <Text style={s.tagTextUncategorized}>{t("sidebar.uncategorized", "Uncategorized")}</Text>
               </View>
             </View>
           )}
@@ -390,10 +390,10 @@ export const BookCard = memo(function BookCard({
             {progressPct > 0 && progressPct < 100 ? (
               <Text style={s.progressText}>{progressPct}%</Text>
             ) : progressPct >= 100 ? (
-              <Text style={s.completeText}>{t("home.complete", "已完成")}</Text>
+              <Text style={s.completeText}>{t("home.complete", "Completed")}</Text>
             ) : (
               <View style={s.newBadge}>
-                <Text style={s.newText}>{t("home.new", "新")}</Text>
+                <Text style={s.newText}>{t("home.new", "New")}</Text>
               </View>
             )}
             <Text style={s.formatText}>{book.format || "epub"}</Text>

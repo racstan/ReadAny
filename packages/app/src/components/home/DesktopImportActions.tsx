@@ -130,8 +130,8 @@ function sanitizeFilename(name: string): string {
 
 function getSourceLabel(kind: WebDavImportSourceKind, t: ReturnType<typeof useTranslation>["t"]): string {
   return kind === "saved"
-    ? t("library.importSourceSavedWebDav", "我的 WebDAV")
-    : t("library.importSourceTemporaryWebDav", "连接其他 WebDAV");
+    ? t("library.importSourceSavedWebDav", "My WebDAV")
+    : t("library.importSourceTemporaryWebDav", "Connect Other WebDAV");
 }
 
 function formatImportResultMessage(
@@ -237,45 +237,45 @@ function DesktopWebDavConnectDialog({
     <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
       <DialogContent className="max-w-[560px]">
         <DialogHeader>
-          <DialogTitle>{t("library.importSourceTemporaryWebDav", "连接其他 WebDAV")}</DialogTitle>
+          <DialogTitle>{t("library.importSourceTemporaryWebDav", "Connect Other WebDAV")}</DialogTitle>
           <DialogDescription>
             {t(
               "library.importSourceTemporaryWebDavDesc",
-              "临时输入另一个地址、账号和文件夹，这次导完就走，不会改动当前同步配置。",
+              "Temporarily connect to another address, account and folder. Imports books without changing your current sync configuration.",
             )}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">{t("settings.webdavUrl", "服务器地址")}</label>
+            <label className="text-sm font-medium text-foreground">{t("settings.webdavUrl", "Server URL")}</label>
             <Input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://dav.example.com" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">{t("settings.username", "用户名")}</label>
+              <label className="text-sm font-medium text-foreground">{t("settings.username", "Username")}</label>
               <Input value={username} onChange={(e) => setUsername(e.target.value)} />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">{t("settings.password", "密码")}</label>
+              <label className="text-sm font-medium text-foreground">{t("settings.password", "Password")}</label>
               <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground">
-              {t("library.importRootLabel", "浏览起点")}
+              {t("library.importRootLabel", "Root Directory")}
             </label>
             <Input
               value={remoteRoot}
               onChange={(e) => setRemoteRoot(e.target.value)}
-              placeholder={t("library.webdavImportRemoteRootPlaceholder", "留空则从服务器基准目录开始")}
+              placeholder={t("library.webdavImportRemoteRootPlaceholder", "Leave blank to start from server root")}
             />
             <p className="text-xs leading-5 text-muted-foreground">
               {t(
                 "library.importRemoteRootHint",
-                "可以填写任意多级路径；留空时会从当前 WebDAV 服务的基准目录开始浏览。",
+                "You can enter a multi-level path; leave blank to browse from the base WebDAV directory.",
               )}
             </p>
           </div>
@@ -289,12 +289,12 @@ function DesktopWebDavConnectDialog({
             />
             <span className="space-y-1">
               <span className="block text-sm font-medium text-foreground">
-                {t("settings.webdavAllowInsecure", "允许不安全连接")}
+                {t("settings.webdavAllowInsecure", "Allow Insecure Connection")}
               </span>
               <span className="block text-xs leading-5 text-muted-foreground">
                 {t(
                   "library.importAllowInsecureHint",
-                  "对自签名证书或纯 HTTP 服务有帮助，生产环境仍建议使用 HTTPS。",
+                  "Helpful for self-signed certificates or plain HTTP. HTTPS is recommended for production.",
                 )}
               </span>
             </span>
@@ -309,16 +309,16 @@ function DesktopWebDavConnectDialog({
 
         <DialogFooter className="gap-2">
           <Button variant="outline" onClick={onClose} disabled={submitting}>
-            {t("common.cancel", "取消")}
+            {t("common.cancel", "Cancel")}
           </Button>
           <Button onClick={() => void handleSubmit()} disabled={!canSubmit}>
             {submitting ? (
               <>
                 <Loader2 className="size-4 animate-spin" />
-                {t("library.webdavImportConnecting", "连接中...")}
+                {t("library.webdavImportConnecting", "Connecting...")}
               </>
             ) : (
-              t("library.webdavImportConnectAndBrowse", "连接并浏览")
+              t("library.webdavImportConnectAndBrowse", "Connect & Browse")
             )}
           </Button>
         </DialogFooter>
@@ -490,7 +490,7 @@ function DesktopWebDavImportBrowserDialog({
       const items = await service.collectImportableFiles(currentPath);
       if (items.length === 0) {
         setImportState({ phase: "idle" });
-        toast.message(t("library.webdavImportNoImportableTitle", "这个文件夹里还没有可导入的书"));
+        toast.message(t("library.webdavImportNoImportableTitle", "No importable books found in this folder"));
         return;
       }
       await importEntries(items);
@@ -518,14 +518,14 @@ function DesktopWebDavImportBrowserDialog({
             <div className="min-w-0 flex-1 space-y-1">
               <DialogTitle>{getSourceLabel(source?.kind ?? "saved", t)}</DialogTitle>
               <DialogDescription>
-                {t("library.webdavImportBrowserSubtitle", "浏览远端目录，挑书导入当前书架。")}
+                {t("library.webdavImportBrowserSubtitle", "Browse remote directory to select books for your library.")}
               </DialogDescription>
             </div>
 
             <div className="inline-flex max-w-[320px] shrink-0 items-center rounded-full border bg-muted/40 px-3 py-1 text-xs text-muted-foreground">
               <span className="truncate">
                 {currentPath === "/"
-                  ? t("library.webdavImportRootLabel", "浏览起点")
+                  ? t("library.webdavImportRootLabel", "Root")
                   : currentPath}
               </span>
             </div>
@@ -540,7 +540,7 @@ function DesktopWebDavImportBrowserDialog({
               disabled={!parentPath || loading || importState.phase !== "idle"}
             >
               <ArrowLeft className="size-4" />
-              {t("common.back", "返回")}
+              {t("common.back", "Back")}
             </Button>
             <div className="relative flex-1">
               <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -548,7 +548,7 @@ function DesktopWebDavImportBrowserDialog({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="pl-9"
-                placeholder={t("library.webdavImportSearchPlaceholder", "搜索文件名...")}
+                placeholder={t("library.webdavImportSearchPlaceholder", "Search filenames...")}
               />
             </div>
             <Button
@@ -558,7 +558,7 @@ function DesktopWebDavImportBrowserDialog({
               disabled={loading || importState.phase !== "idle"}
             >
               <FolderOpen className="size-4" />
-              {t("library.webdavImportImportFolder", "导入本层书籍")}
+              {t("library.webdavImportImportFolder", "Import Folder Books")}
             </Button>
           </div>
 
@@ -580,18 +580,18 @@ function DesktopWebDavImportBrowserDialog({
           {loading ? (
             <div className="flex h-full min-h-72 flex-col items-center justify-center gap-3 text-muted-foreground">
               <Loader2 className="size-6 animate-spin" />
-              <p className="text-sm">{t("library.webdavImportLoading", "正在读取远端书库...")}</p>
+              <p className="text-sm">{t("library.webdavImportLoading", "Reading remote library...")}</p>
             </div>
           ) : error ? (
             <div className="flex h-full min-h-72 flex-col items-center justify-center gap-4 text-center">
               <div>
                 <p className="text-lg font-semibold text-foreground">
-                  {t("library.webdavImportLoadFailed", "读取书库失败")}
+                  {t("library.webdavImportLoadFailed", "Failed to load library")}
                 </p>
                 <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">{error}</p>
               </div>
               <Button onClick={() => void loadListing(currentPath)}>
-                {t("common.retry", "重试")}
+                {t("common.retry", "Retry")}
               </Button>
             </div>
           ) : visibleEntries.length === 0 ? (
@@ -599,18 +599,18 @@ function DesktopWebDavImportBrowserDialog({
               <Cloud className="size-8 text-muted-foreground/50" />
               <p className="text-lg font-semibold text-foreground">
                 {search
-                  ? t("library.webdavImportNoSearchResults", "没找到匹配的文件")
-                  : t("library.webdavImportEmptyFolder", "这个文件夹目前是空的")}
+                  ? t("library.webdavImportNoSearchResults", "No matching files found")
+                  : t("library.webdavImportEmptyFolder", "This folder is currently empty")}
               </p>
               <p className="max-w-md text-sm leading-6 text-muted-foreground">
                 {search
                   ? t(
                       "library.webdavImportNoSearchResultsDesc",
-                      "试试换个关键词，或者回到上一级目录看看别的书。",
+                      "Try another keyword or go to the parent directory.",
                     )
                   : t(
                       "library.webdavImportEmptyFolderDesc",
-                      "继续浏览其他目录，或者换一个来源再看看有没有书可以导。",
+                      "Browse other folders or check another source for books.",
                     )}
               </p>
             </div>
@@ -657,7 +657,7 @@ function DesktopWebDavImportBrowserDialog({
                         <div className="truncate text-sm font-medium text-foreground">{entry.name}</div>
                         {!entry.isDirectory && likelyDuplicate && (
                           <span className="shrink-0 rounded-full bg-amber-500/12 px-2 py-0.5 text-[11px] font-medium text-amber-700 dark:text-amber-300">
-                            {t("library.webdavImportLikelyDuplicate", "可能重复")}
+                            {t("library.webdavImportLikelyDuplicate", "Likely Duplicate")}
                           </span>
                         )}
                       </div>
@@ -666,7 +666,7 @@ function DesktopWebDavImportBrowserDialog({
                         {!entry.isDirectory && !entry.importable && (
                           <>
                             {" · "}
-                            {t("library.webdavImportUnsupported", "暂不支持这个文件格式")}
+                            {t("library.webdavImportUnsupported", "Unsupported file format")}
                           </>
                         )}
                       </div>
@@ -695,8 +695,8 @@ function DesktopWebDavImportBrowserDialog({
             <div className="min-h-5 text-sm text-muted-foreground">
               {footerLabel ??
                 (selectedEntries.length > 0
-                  ? t("library.webdavImportSelectionHint", "可以继续多选，或直接导入所选")
-                  : t("library.webdavImportReady", "挑几本书带进当前书架"))}
+                  ? t("library.webdavImportSelectionHint", "Select more, or import selected books")
+                  : t("library.webdavImportReady", "Select books to add to your library"))}
             </div>
             <div className="flex items-center gap-2">
               <Button
@@ -705,7 +705,7 @@ function DesktopWebDavImportBrowserDialog({
                 onClick={() => setSelectedPaths([])}
                 disabled={selectedPaths.length === 0 || importState.phase !== "idle"}
               >
-                {t("library.webdavImportClearSelection", "清空")}
+                {t("library.webdavImportClearSelection", "Clear")}
               </Button>
               <Button
                 type="button"
@@ -719,12 +719,12 @@ function DesktopWebDavImportBrowserDialog({
                       ? t("library.webdavImportImportSelectedCount", {
                           count: selectedEntries.length,
                         })
-                      : t("library.webdavImportImportSelected", "导入所选")}
+                      : t("library.webdavImportImportSelected", "Import Selected")}
                   </>
                 ) : (
                   <>
                     <Loader2 className="size-4 animate-spin" />
-                    {footerLabel ?? t("library.importing", "导入中...")}
+                    {footerLabel ?? t("library.importing", "Importing...")}
                   </>
                 )}
               </Button>
@@ -778,11 +778,11 @@ export function DesktopImportActions({ children, align = "end" }: DesktopImportA
       toast.error(
         t(
           "library.importSourceSavedWebDavMissing",
-          "还没有可用的 WebDAV 配置，先去同步设置里连上你的书库。",
+          "No WebDAV configuration found. Please set up sync settings first.",
         ),
         {
           action: {
-            label: t("settings.syncTitle", "WebDAV 同步"),
+            label: t("settings.syncTitle", "WebDAV Sync"),
             onClick: () => setShowSettings(true, "sync"),
           },
         },
@@ -795,11 +795,11 @@ export function DesktopImportActions({ children, align = "end" }: DesktopImportA
       toast.error(
         t(
           "library.importSourceSavedWebDavMissingSecret",
-          "已经找到 WebDAV 地址，但缺少密码。去同步设置里重新保存一次就能继续。",
+          "WebDAV URL found, but password is missing. Save it again in sync settings to continue.",
         ),
         {
           action: {
-            label: t("settings.syncTitle", "WebDAV 同步"),
+            label: t("settings.syncTitle", "WebDAV Sync"),
             onClick: () => setShowSettings(true, "sync"),
           },
         },
@@ -844,7 +844,7 @@ export function DesktopImportActions({ children, align = "end" }: DesktopImportA
               <BookOpen className="size-4.5" />
             </div>
             <div className="min-w-0 flex-1 whitespace-nowrap text-sm font-medium text-foreground">
-              {t("library.importSourceLocal", "本地文件")}
+              {t("library.importSourceLocal", "Local Files")}
             </div>
             <ChevronRight className="size-4 text-muted-foreground" />
           </DropdownMenuItem>
@@ -861,7 +861,7 @@ export function DesktopImportActions({ children, align = "end" }: DesktopImportA
               <Cloud className="size-4.5" />
             </div>
             <div className="min-w-0 flex-1 whitespace-nowrap text-sm font-medium text-foreground">
-              {t("library.importSourceSavedWebDav", "我的 WebDAV")}
+              {t("library.importSourceSavedWebDav", "My WebDAV")}
             </div>
             <ChevronRight className="size-4 text-muted-foreground" />
           </DropdownMenuItem>
@@ -878,7 +878,7 @@ export function DesktopImportActions({ children, align = "end" }: DesktopImportA
               <Globe className="size-4.5" />
             </div>
             <div className="min-w-0 flex-1 whitespace-nowrap text-sm font-medium text-foreground">
-              {t("library.importSourceTemporaryWebDav", "连接其他 WebDAV")}
+              {t("library.importSourceTemporaryWebDav", "Connect Other WebDAV")}
             </div>
             <ChevronRight className="size-4 text-muted-foreground" />
           </DropdownMenuItem>

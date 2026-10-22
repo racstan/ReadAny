@@ -123,8 +123,11 @@ export function AppearancePage() {
               </Text>
               <View style={styles.langGrid}>
                 {[
-                  { code: "en", label: t("settings.english", "English") },
-                  { code: "zh", label: t("settings.simplifiedChinese", "中文") },
+                  { code: "en", label: "English" },
+                  { code: "ja", label: "日本語" },
+                  { code: "ko", label: "한국어" },
+                  { code: "fr", label: "Français" },
+                  { code: "es", label: "Español" },
                 ].map((lang) => {
                   const isActive = i18n.language === lang.code;
                   return (

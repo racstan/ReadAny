@@ -25,8 +25,9 @@ export interface SettingsState {
   updateReadSettings: (updates: Partial<ReadSettings>) => void;
   updateTranslationConfig: (updates: Partial<TranslationConfig>) => void;
   updateAIConfig: (
-    updates: Partial<Pick<AIConfig, "temperature" | "maxTokens" | "slidingWindowSize">>,
+    updates: Partial<Pick<AIConfig, "mode" | "temperature" | "maxTokens" | "slidingWindowSize">>,
   ) => void;
+  setAIMode: (mode: AIMode) => void;
 
   // Endpoint management
   addEndpoint: (endpoint: AIEndpoint) => void;
@@ -79,6 +80,7 @@ const defaultEndpoint: AIEndpoint = {
 };
 
 const defaultAIConfig: AIConfig = {
+  mode: "normal",
   endpoints: [defaultEndpoint],
   activeEndpointId: "default",
   activeModel: "",
@@ -142,6 +144,10 @@ async function fetchModelsFromEndpoint(endpoint: AIEndpoint): Promise<string[]> 
       return fetchOllamaModels(endpoint);
     case "lmstudio":
       return fetchLMStudioModels(endpoint);
+    case "opencode":
+      return fetchOpenCodeModels(endpoint);
+    case "pi":
+      return fetchPiModels(endpoint);
     default:
       return fetchOpenAIModels(endpoint);
   }
@@ -368,6 +374,102 @@ async function fetchLMStudioModels(endpoint: AIEndpoint): Promise<string[]> {
     .sort((a: string, b: string) => a.localeCompare(b));
 }
 
+async function fetchOpenCodeModels(endpoint: AIEndpoint): Promise<string[]> {
+  const fallbackModels = [
+    "opencode/mimo-v2.6-flash-free",
+    "opencode/deepseek-v4.1-flash-free",
+    "opencode/glm-5.3-flash-free",
+    "opencode/deepseek-v4-flash-free",
+    "opencode/kimi-k2.5-flash-free",
+    "opencode/qwen-2.5-coder-32b-free",
+  ];
+
+  const endpointFetch = getEndpointFetch(endpoint);
+  const baseUrl = (endpoint.baseUrl || "http://localhost:4010/v1").replace(/\/+$/, "");
+
+  // 1. Try standard OpenAI-compatible /models on the proxy URL
+  try {
+    const modelsUrl = `${baseUrl}/models`;
+    const response = await endpointFetch(modelsUrl, {
+      headers: endpoint.apiKey ? { Authorization: `Bearer ${endpoint.apiKey}` } : {},
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data?.data) && data.data.length > 0) {
+        return data.data
+          .map((m: { id: string }) => (m.id.includes("/") ? m.id : `opencode/${m.id}`))
+          .sort((a: string, b: string) => a.localeCompare(b));
+      }
+    }
+  } catch (err) {
+    console.warn("[Settings] OpenCode proxy /models failed, checking bridge...", err);
+  }
+
+  // 2. Try OpenCode Bridge at port 4096 (/provider)
+  try {
+    const bridgeUrl = baseUrl.includes(":4010")
+      ? baseUrl.replace(":4010", ":4096").replace(/\/v1$/, "")
+      : "http://localhost:4096";
+    const bridgeResponse = await endpointFetch(`${bridgeUrl}/provider`);
+    if (bridgeResponse.ok) {
+      const bridgeData = await bridgeResponse.json();
+      const collected: string[] = [];
+      for (const provider of bridgeData?.all || []) {
+        const pId = provider.id || provider.name || "opencode";
+        const models = provider.models;
+        if (models && typeof models === "object") {
+          for (const [key, val] of Object.entries(models)) {
+            const mId =
+              typeof val === "object" && val !== null && "id" in val ? (val as any).id : key;
+            const fullId = mId.includes("/") ? mId : `${pId}/${mId}`;
+            collected.push(fullId);
+          }
+        }
+      }
+      if (collected.length > 0) {
+        return Array.from(new Set(collected)).sort((a, b) => a.localeCompare(b));
+      }
+    }
+  } catch (err) {
+    console.warn("[Settings] OpenCode bridge /provider failed:", err);
+  }
+
+  return fallbackModels;
+}
+
+async function fetchPiModels(endpoint: AIEndpoint): Promise<string[]> {
+  const fallbackModels = [
+    "anthropic/claude-sonnet-4-20250514",
+    "anthropic/claude-3-7-sonnet-20250219",
+    "anthropic/claude-3-5-sonnet-20241022",
+    "openai/gpt-4o",
+    "openai/gpt-4o-mini",
+    "google/gemini-2.0-flash",
+    "deepseek/deepseek-chat",
+  ];
+
+  const endpointFetch = getEndpointFetch(endpoint);
+  const baseUrl = (endpoint.baseUrl || "http://localhost:31415/v1").replace(/\/+$/, "");
+
+  try {
+    const response = await endpointFetch(`${baseUrl}/models`, {
+      headers: endpoint.apiKey ? { Authorization: `Bearer ${endpoint.apiKey}` } : {},
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data?.data) && data.data.length > 0) {
+        return data.data
+          .map((m: { id: string }) => m.id)
+          .sort((a: string, b: string) => a.localeCompare(b));
+      }
+    }
+  } catch (err) {
+    console.warn("[Settings] Pi /models failed, using fallback models:", err);
+  }
+
+  return fallbackModels;
+}
+
 export const useSettingsStore = create<SettingsState>()(
   withPersist("settings", (set, get, _api) => ({
     readSettings: defaultReadSettings,
@@ -448,6 +550,82 @@ export const useSettingsStore = create<SettingsState>()(
       set((state) => ({
         aiConfig: { ...state.aiConfig, activeModel: model },
       })),
+
+    setAIMode: (mode: AIMode) =>
+      set((state) => {
+        const endpoints = [...state.aiConfig.endpoints];
+        let targetActiveId = state.aiConfig.activeEndpointId;
+        let targetActiveModel = state.aiConfig.activeModel;
+
+        if (mode === "opencode") {
+          let opencodeEp = endpoints.find((ep) => ep.provider === "opencode");
+          if (!opencodeEp) {
+            opencodeEp = {
+              id: `opencode-${Date.now().toString(36)}`,
+              name: "OpenCode (Local Proxy)",
+              provider: "opencode",
+              apiKey: "",
+              baseUrl: "http://localhost:4010/v1",
+              useExactRequestUrl: false,
+              models: [
+                "opencode/mimo-v2.6-flash-free",
+                "opencode/deepseek-v4.1-flash-free",
+                "opencode/glm-5.3-flash-free",
+                "opencode/deepseek-v4-flash-free",
+                "opencode/kimi-k2.5-flash-free",
+                "opencode/qwen-2.5-coder-32b-free",
+              ],
+              modelsFetched: true,
+            };
+            endpoints.push(opencodeEp);
+          }
+          targetActiveId = opencodeEp.id;
+          targetActiveModel = opencodeEp.models[0] || "opencode/mimo-v2.6-flash-free";
+        } else if (mode === "pi") {
+          let piEp = endpoints.find((ep) => ep.provider === "pi");
+          if (!piEp) {
+            piEp = {
+              id: `pi-${Date.now().toString(36)}`,
+              name: "Pi Agent (Local RPC/Bridge)",
+              provider: "pi",
+              apiKey: "",
+              baseUrl: "http://localhost:31415/v1",
+              useExactRequestUrl: false,
+              models: [
+                "anthropic/claude-sonnet-4-20250514",
+                "anthropic/claude-3-7-sonnet-20250219",
+                "anthropic/claude-3-5-sonnet-20241022",
+                "openai/gpt-4o",
+                "openai/gpt-4o-mini",
+                "google/gemini-2.0-flash",
+                "deepseek/deepseek-chat",
+              ],
+              modelsFetched: true,
+            };
+            endpoints.push(piEp);
+          }
+          targetActiveId = piEp.id;
+          targetActiveModel = piEp.models[0] || "anthropic/claude-sonnet-4-20250514";
+        } else {
+          const normalEp = endpoints.find(
+            (ep) => ep.provider !== "opencode" && ep.provider !== "pi",
+          );
+          if (normalEp) {
+            targetActiveId = normalEp.id;
+            targetActiveModel = normalEp.models[0] || "";
+          }
+        }
+
+        return {
+          aiConfig: {
+            ...state.aiConfig,
+            mode,
+            endpoints,
+            activeEndpointId: targetActiveId,
+            activeModel: targetActiveModel,
+          },
+        };
+      }),
 
     getActiveEndpoint: () => {
       const state = get();

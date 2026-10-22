@@ -10,15 +10,15 @@ ReadAny supports syncing your reading progress and annotations across multiple d
 
 ## Compatible Services
 
-- **Nutstore (坚果云)** — Popular in China, built-in WebDAV support
 - **Nextcloud** — Self-hosted cloud storage
-- **Box** — Enterprise cloud storage with WebDAV
-- **Any WebDAV server** — Including self-hosted solutions
+- **ownCloud** — Open-source file sync and share
+- **Box** — Cloud storage with WebDAV support
+- **Any standard WebDAV server** — Including self-hosted solutions
 
 ## Setup
 
 1. Go to **Settings → Sync**
-2. Enter your WebDAV server URL (e.g., `https://dav.jianguoyun.com/dav/`)
+2. Enter your WebDAV server URL (e.g., `https://your-server.com/dav/`)
 3. Enter your username and password (or app-specific password)
 4. Click **Test Connection** to verify
 5. Enable sync

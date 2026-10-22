@@ -1185,17 +1185,17 @@ export function ReaderView({ bookId, tabId }: ReaderViewProps) {
             (titleMismatch || (formatMismatch && !authorsMatch))
           ) {
             const shouldContinue = await useMissingBookPromptStore.getState().showPrompt({
-              title: t("reader.reimportMismatchTitle", "这份文件看起来和原书不太一致"),
+              title: t("reader.reimportMismatchTitle", "File does not match original book"),
               description: t(
                 "reader.reimportMismatchDescription",
-                "原书《{{originalTitle}}》与当前文件《{{candidateTitle}}》信息差异较大。仍要把它接回原来的笔记和阅读统计吗？",
+                "Original book \"{{originalTitle}}\" differs significantly from \"{{candidateTitle}}\". Link it to previous notes and reading statistics anyway?",
                 {
                   originalTitle: book.meta.title,
-                  candidateTitle: candidate.title || t("reader.unknownBook", "未命名书籍"),
+                  candidateTitle: candidate.title || t("reader.unknownBook", "Unknown Book"),
                 },
               ),
-              confirmLabel: t("reader.reimportContinue", "继续接回"),
-              cancelLabel: t("reader.reimportPickAnotherFile", "重新选择"),
+              confirmLabel: t("reader.reimportContinue", "Continue linking"),
+              cancelLabel: t("reader.reimportPickAnotherFile", "Choose another file"),
             });
             if (!shouldContinue) return;
           }
@@ -1204,7 +1204,7 @@ export function ReaderView({ bookId, tabId }: ReaderViewProps) {
 
       const restoredBook = await reimportDeletedBook(bookId, selectedPath);
       if (!restoredBook) {
-        setError(t("reader.reimportFailed", "重新导入失败，请稍后再试。"));
+        setError(t("reader.reimportFailed", "Re-import failed, please try again later."));
         return;
       }
 
@@ -1217,7 +1217,7 @@ export function ReaderView({ bookId, tabId }: ReaderViewProps) {
       setError(
         err instanceof Error
           ? err.message
-          : t("reader.reimportFailed", "重新导入失败，请稍后再试。"),
+          : t("reader.reimportFailed", "Re-import failed, please try again later."),
       );
     } finally {
       setIsReimporting(false);
@@ -2989,7 +2989,7 @@ export function ReaderView({ bookId, tabId }: ReaderViewProps) {
                       className="mt-2 rounded-lg bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90"
                       onClick={handleCloseMissingBookTab}
                     >
-                      {t("common.back", "返回")}
+                      {t("common.back", "Back")}
                     </button>
                   )}
                   <button
@@ -2999,8 +2999,8 @@ export function ReaderView({ bookId, tabId }: ReaderViewProps) {
                     disabled={isReimporting}
                   >
                     {isReimporting
-                      ? t("reader.reimporting", "正在重新导入...")
-                      : t("reader.reimport", "重新导入")}
+                      ? t("reader.reimporting", "Re-importing...")
+                      : t("reader.reimport", "Re-import")}
                   </button>
                 </div>
               </div>

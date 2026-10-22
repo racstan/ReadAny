@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.description    = 'Synthesizes native system TTS to local audio files for TrackPlayer playback.'
   s.license        = 'GPL-3.0-or-later'
   s.author         = 'ReadAny'
-  s.homepage       = 'https://github.com/tuntuntutu/ReadAny'
+  s.homepage       = 'https://github.com/racstan/ReadAny'
   s.platforms      = { :ios => '15.1' }
   s.swift_version  = '5.9'
   s.source         = { :path => '.' }

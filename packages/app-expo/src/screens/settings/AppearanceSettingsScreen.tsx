@@ -26,8 +26,6 @@ const THEMES: { id: ThemeMode; labelKey: string; fallback: string; Icon: typeof 
 ];
 
 const LANGUAGES = [
-  { code: "zh", label: "简体中文" },
-  { code: "zh-TW", label: "繁體中文" },
   { code: "en", label: "English" },
   { code: "ja", label: "日本語" },
   { code: "ko", label: "한국어" },
@@ -62,7 +60,7 @@ export default function AppearanceSettingsScreen() {
 
   return (
     <SafeAreaView style={[s.container, { backgroundColor: colors.background }]} edges={["top"]}>
-      <SettingsHeader title={t("settings.general", "通用")} subtitle={t("settings.realtimeHint")} />
+      <SettingsHeader title={t("settings.general", "General")} subtitle={t("settings.realtimeHint")} />
 
       <ScrollView
         style={s.scroll}
@@ -72,7 +70,7 @@ export default function AppearanceSettingsScreen() {
           {/* Theme */}
           <View style={s.section}>
             <Text style={[s.sectionTitle, { color: colors.mutedForeground }]}>
-              {t("settings.theme", "主题")}
+              {t("settings.theme", "Theme")}
             </Text>
             <View style={s.themeGrid}>
               {THEMES.map((item) => {
@@ -115,7 +113,7 @@ export default function AppearanceSettingsScreen() {
           {/* Language — single row, tap to open bottom sheet */}
           <View style={s.section}>
             <Text style={[s.sectionTitle, { color: colors.mutedForeground }]}>
-              {t("settings.language", "语言")}
+              {t("settings.language", "Language")}
             </Text>
             <TouchableOpacity
               style={[s.langRow, { backgroundColor: colors.card, borderColor: colors.border }]}

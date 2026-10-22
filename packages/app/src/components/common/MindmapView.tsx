@@ -220,7 +220,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
     const filename = `${title || t("mindmap.title")}.svg`;
     const platform = getPlatformService();
     await platform.shareOrDownloadFile(svgData, filename, "image/svg+xml");
-    toast.success(t("common.downloadSuccess", "图表已下载"));
+    toast.success(t("common.downloadSuccess", "Diagram downloaded"));
   }, [expanded, title, t]);
 
   const displayTitle = title && title.length > 20 ? `${title.slice(0, 20)}...` : title;
@@ -246,7 +246,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
                   type="button"
                   onClick={handleReset}
                   className="rounded p-1.5 hover:bg-muted transition-colors"
-                  title={t("common.reset", "复原")}
+                  title={t("common.reset", "Reset")}
                 >
                   <RotateCcw className="h-5 w-5 text-muted-foreground" />
                 </button>
@@ -274,7 +274,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
             </div>
             <div className="border-t border-border px-4 py-2">
               <span className="text-xs text-muted-foreground">
-                {t("mindmap.hint", "双击放大 · 拖动移动 · 点击节点展开/收起")}
+                {t("mindmap.hint", "Double click to zoom in · Drag to pan · Click node to expand/collapse")}
               </span>
             </div>
           </div>
@@ -298,7 +298,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
               type="button"
               onClick={handleReset}
               className="rounded p-1 hover:bg-muted transition-colors"
-              title={t("common.reset", "复原")}
+              title={t("common.reset", "Reset")}
             >
               <RotateCcw className="h-4 w-4 text-muted-foreground" />
             </button>
@@ -326,7 +326,7 @@ export function MindmapView({ markdown, title }: MindmapViewProps) {
         </div>
         <div className="border-t border-border px-3 py-1.5">
           <span className="text-xs text-muted-foreground">
-            {t("mindmap.hint", "双击放大 · 拖动移动 · 点击节点展开/收起")}
+            {t("mindmap.hint", "Double click to zoom in · Drag to pan · Click node to expand/collapse")}
           </span>
         </div>
       </div>

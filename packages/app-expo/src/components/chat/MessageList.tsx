@@ -194,7 +194,7 @@ export function MessageList({
             activeOpacity={0.8}
           >
             <ChevronDownIcon size={14} color={colors.mutedForeground} />
-            <Text style={s.scrollDownText}>{t("streaming.scrollToBottom", "滚动到底部")}</Text>
+            <Text style={s.scrollDownText}>{t("streaming.scrollToBottom", "Scroll to bottom")}</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -447,7 +447,7 @@ function SelectableTextModal({
             }}
           >
             <Text style={{ color: colors.mutedForeground, fontSize: fs.xs }}>
-              {t("chat.selectAndCopy", "长按选中文字复制")}
+              {t("chat.selectAndCopy", "Long press to select text to copy")}
             </Text>
             <View style={{ flexDirection: "row", gap: 8 }}>
               <TouchableOpacity
@@ -468,7 +468,7 @@ function SelectableTextModal({
                   <CopyIcon size={13} color={colors.foreground} />
                 )}
                 <Text style={{ color: colors.foreground, fontSize: fs.xs }}>
-                  {t("common.copyAll", "全部复制")}
+                  {t("common.copyAll", "Copy All")}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -476,7 +476,7 @@ function SelectableTextModal({
                 style={{ paddingHorizontal: 8, paddingVertical: 4 }}
               >
                 <Text style={{ color: colors.mutedForeground, fontSize: fs.sm }}>
-                  {t("common.close", "关闭")}
+                  {t("common.close", "Close")}
                 </Text>
               </TouchableOpacity>
             </View>

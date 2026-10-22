@@ -382,8 +382,8 @@ export function FloatingTTSBubble() {
                 type="button"
                 onClick={handleOpenLyricsPage}
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/60 bg-muted/80 text-foreground transition-colors hover:bg-muted"
-                aria-label={t("tts.openLyricsPage", "跳到歌词页")}
-                title={t("tts.openLyricsPage", "跳到歌词页")}
+                aria-label={t("tts.openLyricsPage", "Jump to read-along page")}
+                title={t("tts.openLyricsPage", "Jump to read-along page")}
               >
                 <ScrollText className="h-3.5 w-3.5" />
               </button>

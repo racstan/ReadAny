@@ -138,11 +138,7 @@ export const TTS_PROVIDER_DEFINITIONS: TTSProviderDefinition[] = [
 ] as const;
 
 export const XIAOMI_TTS_VOICES = [
-  { id: "mimo_default", label: "MiMo 默认" },
-  { id: "冰糖", label: "冰糖 · 中文女声" },
-  { id: "茉莉", label: "茉莉 · 中文女声" },
-  { id: "苏打", label: "苏打 · 中文男声" },
-  { id: "白桦", label: "白桦 · 中文男声" },
+  { id: "mimo_default", label: "MiMo Default" },
   { id: "Mia", label: "Mia · English female" },
   { id: "Chloe", label: "Chloe" },
   { id: "Milo", label: "Milo · English male" },
@@ -151,7 +147,7 @@ export const XIAOMI_TTS_VOICES = [
 
 export const DEFAULT_XIAOMI_TTS_VOICE = "mimo_default";
 export const DEFAULT_XIAOMI_TTS_BASE_URL = "https://api.xiaomimimo.com/v1";
-export const DEFAULT_XIAOMI_STYLE_PROMPT = "自然、平稳、适合长时间听书。";
+export const DEFAULT_XIAOMI_STYLE_PROMPT = "Natural, calm, suitable for long listening sessions.";
 
 export function normalizeXiaomiTTSVoice(voice: string | null | undefined): string {
   if (voice && XIAOMI_TTS_VOICES.some((item) => item.id === voice)) return voice;
@@ -379,16 +375,16 @@ export function normalizeTTSConfig(config: PersistedTTSConfig | null | undefined
 }
 
 export const DASHSCOPE_VOICES = [
-  { id: "Cherry", label: "芊悦 (Cherry)" },
-  { id: "Ethan", label: "晨煦 (Ethan)" },
-  { id: "Nofish", label: "不吃鱼 (Nofish)" },
-  { id: "Ryan", label: "甜茶 (Ryan)" },
-  { id: "Katerina", label: "卡捷琳娜 (Katerina)" },
-  { id: "Dylan", label: "北京-晓东 (Dylan)" },
-  { id: "Sunny", label: "四川-晴儿 (Sunny)" },
-  { id: "Peter", label: "天津-李彼得 (Peter)" },
-  { id: "Rocky", label: "粤语-阿强 (Rocky)" },
-  { id: "Kiki", label: "粤语-阿清 (Kiki)" },
+  { id: "Cherry", label: "Cherry" },
+  { id: "Ethan", label: "Ethan" },
+  { id: "Nofish", label: "Nofish" },
+  { id: "Ryan", label: "Ryan" },
+  { id: "Katerina", label: "Katerina" },
+  { id: "Dylan", label: "Dylan" },
+  { id: "Sunny", label: "Sunny" },
+  { id: "Peter", label: "Peter" },
+  { id: "Rocky", label: "Rocky" },
+  { id: "Kiki", label: "Kiki" },
 ] as const;
 
 /**

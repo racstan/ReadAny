@@ -169,19 +169,19 @@ export function TTSControls({ onClose, onReplay }: TTSControlsProps) {
 
   const stateLabel =
     playState === "loading"
-      ? t("tts.loading", "加载中")
+      ? t("tts.loading", "Loading...")
       : playState === "playing"
-        ? t("tts.playing", "正在朗读")
+        ? t("tts.playing", "Playing")
         : playState === "paused"
-          ? t("tts.paused", "已暂停")
-          : t("tts.stopped", "已停止");
+          ? t("tts.paused", "Paused")
+          : t("tts.stopped", "Stopped");
 
   return (
     <View style={[s.container, { paddingBottom: insets.bottom || 16 }]} pointerEvents="box-none">
       {expanded && (
         <View style={s.expandedPanel}>
           <View style={s.settingRow}>
-            <Text style={s.settingLabel}>{t("tts.rate", "语速")}</Text>
+            <Text style={s.settingLabel}>{t("tts.rate", "Speed")}</Text>
             <View style={s.settingControl}>
               <TouchableOpacity style={s.stepBtn} onPress={() => adjustRate(-0.1)}>
                 <MinusIcon size={14} color={colors.foreground} />
@@ -194,7 +194,7 @@ export function TTSControls({ onClose, onReplay }: TTSControlsProps) {
           </View>
 
           <View style={s.settingRow}>
-            <Text style={s.settingLabel}>{t("tts.pitch", "音调")}</Text>
+            <Text style={s.settingLabel}>{t("tts.pitch", "Pitch")}</Text>
             <View style={s.settingControl}>
               <TouchableOpacity style={s.stepBtn} onPress={() => adjustPitch(-0.1)}>
                 <MinusIcon size={14} color={colors.foreground} />

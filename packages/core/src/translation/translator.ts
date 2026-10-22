@@ -25,8 +25,8 @@ export { isChapterFullyCached, markChapterFullyCached } from "./chapter-cache";
 
 // Language support
 export const SUPPORTED_LANGUAGES = [
-  { code: "zh-CN", name: "Chinese (Simplified)", nativeName: "简体中文" },
-  { code: "zh-TW", name: "Chinese (Traditional)", nativeName: "繁體中文" },
+  { code: "zh-CN", name: "Chinese (Simplified)", nativeName: "Chinese (Simplified)" },
+  { code: "zh-TW", name: "Chinese (Traditional)", nativeName: "Chinese (Traditional)" },
   { code: "ja", name: "Japanese", nativeName: "日本語" },
   { code: "ko", name: "Korean", nativeName: "한국어" },
   { code: "en", name: "English", nativeName: "English" },

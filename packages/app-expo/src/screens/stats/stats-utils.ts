@@ -19,35 +19,24 @@ export function formatTime(minutes: number): string {
   return m > 0 ? `${h}h${m}m` : `${h}h`;
 }
 
-export function formatTimeLocalized(minutes: number, isZh: boolean): string {
-  if (minutes <= 0) return isZh ? "0分" : "0m";
-  if (minutes < 60) return isZh ? `${Math.round(minutes)}分` : `${Math.round(minutes)}m`;
+export function formatTimeLocalized(minutes: number, _isZh?: boolean): string {
+  if (minutes <= 0) return "0m";
+  if (minutes < 60) return `${Math.round(minutes)}m`;
   const h = Math.floor(minutes / 60);
   const m = Math.round(minutes % 60);
-  if (isZh) return m > 0 ? `${h}时${m}分` : `${h}时`;
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
 }
 
-export function formatCompactMinutes(minutes: number, isZh: boolean): string {
-  if (minutes <= 0) return isZh ? "0分" : "0m";
-  if (minutes < 60) return isZh ? `${Math.round(minutes)}分` : `${Math.round(minutes)}m`;
+export function formatCompactMinutes(minutes: number, _isZh?: boolean): string {
+  if (minutes <= 0) return "0m";
+  if (minutes < 60) return `${Math.round(minutes)}m`;
   const h = Math.floor(minutes / 60);
   const m = Math.round(minutes % 60);
-  if (isZh) return m > 0 ? `${h}时${m}分` : `${h}时`;
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
 }
 
-export function formatCharacterCount(value: number, isZh: boolean): string {
+export function formatCharacterCount(value: number, _isZh?: boolean): string {
   const rounded = Math.max(0, Math.round(value));
-
-  if (isZh) {
-    if (rounded >= 10000) {
-      const wan = rounded / 10000;
-      const digits = wan >= 100 ? 0 : 1;
-      return `${wan.toFixed(digits).replace(/\.0$/, "")} 万字`;
-    }
-    return `${rounded.toLocaleString()} 字`;
-  }
 
   if (rounded >= 1000) {
     const thousands = rounded / 1000;
@@ -58,17 +47,17 @@ export function formatCharacterCount(value: number, isZh: boolean): string {
   return `${rounded.toLocaleString()} chars`;
 }
 
-export function formatCharactersPerMinute(value: number, isZh: boolean): string {
+export function formatCharactersPerMinute(value: number, _isZh?: boolean): string {
   const rounded = Math.max(0, Math.round(value));
-  return isZh ? `${rounded.toLocaleString()} 字/分` : `${rounded.toLocaleString()} chars/min`;
+  return `${rounded.toLocaleString()} chars/min`;
 }
 
-export function formatClock(timestamp: number | undefined, isZh: boolean): string {
+export function formatClock(timestamp: number | undefined, _isZh?: boolean): string {
   if (!timestamp) return "—";
-  return new Intl.DateTimeFormat(isZh ? "zh-CN" : "en-US", {
+  return new Intl.DateTimeFormat("en-US", {
     hour: "2-digit",
     minute: "2-digit",
-    hour12: !isZh,
+    hour12: true,
   }).format(new Date(timestamp));
 }
 
@@ -77,12 +66,12 @@ export function formatDate(dateStr: string): string {
   return `${Number.parseInt(m)}/${Number.parseInt(d)}`;
 }
 
-export function formatDateLabel(dateKey: string | undefined, isZh: boolean): string {
+export function formatDateLabel(dateKey: string | undefined, _isZh?: boolean): string {
   if (!dateKey) return "—";
   const date = fromLocalDateKey(dateKey);
-  return new Intl.DateTimeFormat(isZh ? "zh-CN" : "en-US", {
+  return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
-    month: isZh ? "long" : "short",
+    month: "short",
     day: "numeric",
   }).format(date);
 }

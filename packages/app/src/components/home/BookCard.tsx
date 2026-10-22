@@ -305,7 +305,7 @@ export const BookCard = memo(function BookCard({
             style={{ backgroundColor: "rgba(59, 130, 246, 0.6)" }}
           >
             <div className="rounded bg-black/40 px-2 py-1 text-xs font-medium text-white">
-              {t("home.remote", "需下载")}
+              {t("home.remote", "Download Needed")}
             </div>
           </div>
         )}
@@ -315,7 +315,7 @@ export const BookCard = memo(function BookCard({
           <div className="absolute inset-0 z-15 flex flex-col items-center justify-center rounded bg-black/50">
             <Loader2 className="h-6 w-6 animate-spin text-white" />
             <span className="mt-1.5 text-sm font-medium text-white">
-              {t("home.downloading", "下载中")}
+              {t("home.downloading", "Downloading...")}
             </span>
             {downloadProgress && downloadProgress.total > 0 && (
               <span className="mt-0.5 text-xs text-white/80 tabular-nums">
@@ -387,7 +387,7 @@ export const BookCard = memo(function BookCard({
                 onClick={handleShowDetails}
               >
                 <Info className="h-3.5 w-3.5" />
-                {t("library.detailsAction", "书籍详情")}
+                {t("library.detailsAction", "Book Details")}
               </button>
             )}
             {/* Vectorize button */}
@@ -412,7 +412,7 @@ export const BookCard = memo(function BookCard({
                   <Database className="h-3.5 w-3.5" />
                   {book.syncStatus === "local"
                     ? t("home.vec_vectorize")
-                    : t("home.remote", "需下载")}
+                    : t("home.remote", "Download Needed")}
                 </>
               )}
             </button>
@@ -423,8 +423,8 @@ export const BookCard = memo(function BookCard({
             >
               <FolderInput className="h-3.5 w-3.5" />
               {book.groupId
-                ? t("library.changeGroup", "更换分组")
-                : t("library.moveToGroup", "移入分组")}
+                ? t("library.changeGroup", "Change Group")
+                : t("library.moveToGroup", "Move to Group")}
             </button>
             {book.groupId && (
               <button
@@ -439,7 +439,7 @@ export const BookCard = memo(function BookCard({
                 }}
               >
                 <FolderMinus className="h-3.5 w-3.5" />
-                {t("library.removeFromGroup", "移出分组")}
+                {t("library.removeFromGroup", "Remove from Group")}
               </button>
             )}
             {/* Tags submenu */}
@@ -582,11 +582,11 @@ export const BookCard = memo(function BookCard({
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>{t("library.deleteBookTitle", "删除这本书？")}</DialogTitle>
+            <DialogTitle>{t("library.deleteBookTitle", "Delete this book?")}</DialogTitle>
             <DialogDescription>
               {t(
                 "library.deleteBookDescription",
-                "你可以选择保留笔记和阅读统计，之后重新导入同一本书时会继续接上。",
+                "You can choose to keep notes and reading stats so they will reconnect when re-importing the same book.",
               )}
             </DialogDescription>
           </DialogHeader>
@@ -600,12 +600,12 @@ export const BookCard = memo(function BookCard({
             />
             <div className="min-w-0">
               <div className="text-sm font-medium text-foreground">
-                {t("library.preserveDeleteDataLabel", "保留笔记和阅读统计")}
+                {t("library.preserveDeleteDataLabel", "Keep notes and reading stats")}
               </div>
               <div className="mt-1 text-xs leading-5 text-muted-foreground">
                 {t(
                   "library.preserveDeleteDataHint",
-                  "勾选后会从书架移除书籍文件，但保留笔记、高亮和阅读历史，重新导入时可恢复。",
+                  "When checked, the book file is removed from library, but notes, highlights, and history are kept for future re-import.",
                 )}
               </div>
             </div>
@@ -617,7 +617,7 @@ export const BookCard = memo(function BookCard({
               className="inline-flex h-9 items-center justify-center rounded-md border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted"
               onClick={() => setShowDeleteDialog(false)}
             >
-              {t("common.cancel", "取消")}
+              {t("common.cancel", "Cancel")}
             </button>
             <button
               type="button"
@@ -638,7 +638,7 @@ export const BookCard = memo(function BookCard({
                 await removeBook(book.id, { preserveData: preserveDataOnDelete });
               }}
             >
-              {t("common.remove", "删除")}
+              {t("common.remove", "Delete")}
             </button>
           </DialogFooter>
         </DialogContent>

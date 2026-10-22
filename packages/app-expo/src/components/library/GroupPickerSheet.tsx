@@ -60,7 +60,7 @@ export function GroupPickerSheet({
         <Pressable style={styles.overlay} onPress={onClose}>
           <Pressable style={styles.sheet} onPress={(event) => event.stopPropagation()}>
             <View style={styles.handle} />
-            <Text style={styles.title}>{t("library.moveToGroup", "移入分组")}</Text>
+            <Text style={styles.title}>{t("library.moveToGroup", "Move to Group")}</Text>
 
             {groups.length > 0 && (
               <ScrollView
@@ -85,7 +85,7 @@ export function GroupPickerSheet({
               <View style={styles.createRow}>
                 <TextInput
                   style={styles.createInput}
-                  placeholder={t("library.groupNamePlaceholder", "分组名称")}
+                  placeholder={t("library.groupNamePlaceholder", "Group Name")}
                   placeholderTextColor={colors.mutedForeground}
                   value={newGroupName}
                   onChangeText={setNewGroupName}
@@ -98,7 +98,7 @@ export function GroupPickerSheet({
                   disabled={!newGroupName.trim()}
                   onPress={handleCreate}
                 >
-                  <Text style={styles.createBtnText}>{t("common.confirm", "确定")}</Text>
+                  <Text style={styles.createBtnText}>{t("common.confirm", "Confirm")}</Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -108,7 +108,7 @@ export function GroupPickerSheet({
                 onPress={() => setIsCreating(true)}
               >
                 <FolderPlusIcon size={20} color={colors.primary} />
-                <Text style={styles.newGroupText}>{t("library.createGroup", "新建分组")}</Text>
+                <Text style={styles.newGroupText}>{t("library.createGroup", "New Group")}</Text>
               </TouchableOpacity>
             )}
 
@@ -118,7 +118,7 @@ export function GroupPickerSheet({
                 activeOpacity={0.7}
                 onPress={() => handleSelect(undefined)}
               >
-                <Text style={styles.ungroupedText}>{t("library.removeFromGroup", "移出分组")}</Text>
+                <Text style={styles.ungroupedText}>{t("library.removeFromGroup", "Remove from Group")}</Text>
               </TouchableOpacity>
             )}
           </Pressable>

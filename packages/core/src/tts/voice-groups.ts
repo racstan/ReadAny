@@ -2,16 +2,16 @@ import { EDGE_TTS_VOICES, type EdgeTTSVoice } from "./edge-tts";
 
 export type VoiceGroup<T> = [string, T[]];
 
-const LOCALE_LABEL_OVERRIDES: Record<string, { en: string; zh: string }> = {
-  und: { en: "Unknown language", zh: "未指定语言" },
-  "zh-CN": { en: "Chinese (Simplified, China)", zh: "中文（简体，中国）" },
-  "zh-HK": { en: "Chinese (Traditional, Hong Kong)", zh: "中文（繁体，香港）" },
-  "zh-TW": { en: "Chinese (Traditional, Taiwan)", zh: "中文（繁体，台湾）" },
-  "en-AU": { en: "English (Australia)", zh: "英语（澳大利亚）" },
-  "en-CA": { en: "English (Canada)", zh: "英语（加拿大）" },
-  "en-GB": { en: "English (United Kingdom)", zh: "英语（英国）" },
-  "en-IN": { en: "English (India)", zh: "英语（印度）" },
-  "en-US": { en: "English (United States)", zh: "英语（美国）" },
+const LOCALE_LABEL_OVERRIDES: Record<string, string> = {
+  und: "Unknown language",
+  "zh-CN": "Chinese (Simplified, China)",
+  "zh-HK": "Chinese (Traditional, Hong Kong)",
+  "zh-TW": "Chinese (Traditional, Taiwan)",
+  "en-AU": "English (Australia)",
+  "en-CA": "English (Canada)",
+  "en-GB": "English (United Kingdom)",
+  "en-IN": "English (India)",
+  "en-US": "English (United States)",
 };
 
 function normalizeLocaleCode(locale: string): string {
@@ -32,11 +32,9 @@ function normalizeLocaleCode(locale: string): string {
 function compareVoiceLanguage(a: string, b: string) {
   const aLower = a.toLowerCase();
   const bLower = b.toLowerCase();
-  const aZh = aLower.startsWith("zh") ? -2 : 0;
-  const bZh = bLower.startsWith("zh") ? -2 : 0;
   const aEn = aLower.startsWith("en") ? -1 : 0;
   const bEn = bLower.startsWith("en") ? -1 : 0;
-  return aZh - bZh || aEn - bEn || a.localeCompare(b);
+  return aEn - bEn || a.localeCompare(b);
 }
 
 function resolveDisplayLocale(displayLocale?: string): string {
@@ -52,13 +50,13 @@ function resolveDisplayLocale(displayLocale?: string): string {
 
 export function getLocaleDisplayLabel(locale: string, displayLocale?: string): string {
   const normalizedLocale = normalizeLocaleCode(locale || "und");
-  const resolvedDisplayLocale = resolveDisplayLocale(displayLocale);
-  const displayLang = resolvedDisplayLocale.toLowerCase().startsWith("zh") ? "zh" : "en";
   const override = LOCALE_LABEL_OVERRIDES[normalizedLocale];
 
   if (override) {
-    return override[displayLang];
+    return override;
   }
+
+  const resolvedDisplayLocale = resolveDisplayLocale(displayLocale);
 
   try {
     const [language, maybeScriptOrRegion, maybeRegion] = normalizedLocale.split("-");

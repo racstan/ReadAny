@@ -2,7 +2,7 @@
 name = "app"
 version = "1.3.7"
 description = "ReadAny - AI-powered EPUB Reader"
-authors = ["you"]
+authors = ["racstan"]
 edition = "2021"
 
 [lib]

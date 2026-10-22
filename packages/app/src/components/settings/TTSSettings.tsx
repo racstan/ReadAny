@@ -136,7 +136,7 @@ export function TTSSettings() {
       () => endPreviewFeedback(run),
       PREVIEW_FALLBACK_TIMEOUT_MS,
     );
-    await previewTTSConfig(t("tts.testText", "这是一段测试文本"), config, {
+    await previewTTSConfig(t("tts.testText", "This is a preview of the text to speech voice."), config, {
       onStateChange: (state) => {
         if (state === "stopped") endPreviewFeedback(run);
       },
@@ -202,15 +202,15 @@ export function TTSSettings() {
               <Play className="mr-1.5 h-3.5 w-3.5" />
             )}
             {isPreviewing
-              ? t("common.previewing", "试听中")
-              : t("common.preview", "试听")}
+              ? t("common.previewing", "Playing...")
+              : t("common.preview", "Preview")}
           </Button>
         </div>
 
         <div className="space-y-5">
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-3">
-              <span className="text-sm text-foreground">{t("tts.voiceProfile", "朗读方案")}</span>
+              <span className="text-sm text-foreground">{t("tts.voiceProfile", "Voice Profile")}</span>
               <Select value={activeProfile.id} onValueChange={selectProfile}>
                 <SelectTrigger className="w-[240px]">
                   <SelectValue />
@@ -455,7 +455,7 @@ export function TTSSettings() {
                 />
               </div>
               <div className="space-y-2">
-                <span className="text-sm text-foreground">{t("tts.stylePrompt", "朗读风格")}</span>
+                <span className="text-sm text-foreground">{t("tts.stylePrompt", "Reading Style")}</span>
                 <textarea
                   className="min-h-[74px] w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm"
                   value={xiaomiStylePromptValue}
@@ -561,7 +561,7 @@ export function TTSSettings() {
               </div>
               {config.openaiTtsEndpoint === "chat-completions" && (
                 <div className="space-y-2">
-                  <span className="text-sm text-foreground">{t("tts.stylePrompt", "朗读风格")}</span>
+                  <span className="text-sm text-foreground">{t("tts.stylePrompt", "Reading Style")}</span>
                   <textarea
                     className="min-h-[74px] w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm"
                     value={openAIStylePromptValue}

@@ -394,7 +394,7 @@ export async function submitFeedback(
   submission: FeedbackSubmission,
 ): Promise<FeedbackSubmitResult> {
   if (getRemainingSubmissions() <= 0) {
-    throw new Error("今日反馈次数已用完，请明天再试");
+    throw new Error("Daily feedback limit reached. Please try again tomorrow.");
   }
 
   let result: FeedbackSubmitResult;
@@ -426,7 +426,7 @@ export async function submitFeedback(
 
       if (!response.ok) {
         const text = await response.text().catch(() => "");
-        throw new Error(`提交失败: ${response.status} ${text}`);
+        throw new Error(`Submission failed: ${response.status} ${text}`);
       }
 
       result = (await response.json()) as FeedbackSubmitResult;
@@ -441,7 +441,7 @@ export async function submitFeedback(
     const mockNumber = Math.floor(Math.random() * 9000) + 1000;
     result = {
       issueNumber: mockNumber,
-      issueUrl: `https://github.com/codedogQBY/ReadAny/issues/${mockNumber}`,
+      issueUrl: `https://github.com/racstan/ReadAny/issues/${mockNumber}`,
     };
   }
 

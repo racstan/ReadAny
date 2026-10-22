@@ -820,7 +820,7 @@ export function TTSPage({
 
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-medium text-muted-foreground">
-              {t("tts.sleepTimer", "定时停止")}
+              {t("tts.sleepTimer", "Sleep Timer")}
             </span>
             <TTSSleepTimerControl compact />
             {sleepTimerLabel ? (

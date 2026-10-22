@@ -36,8 +36,6 @@ describe("OLED Black mobile theme", () => {
       fr: "Noir OLED",
       ja: "OLEDブラック",
       ko: "OLED 블랙",
-      zh: "OLED 纯黑",
-      "zh-TW": "OLED 純黑",
     } as const;
 
     for (const [locale, label] of Object.entries(labels)) {

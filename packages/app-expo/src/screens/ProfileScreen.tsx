@@ -102,8 +102,6 @@ type ProfileMenuItem =
       disabled?: boolean;
     };
 
-const ICP_NUMBER = "粤ICP备2025444251号-2A";
-const ICP_URL = "https://beian.miit.gov.cn/";
 
 function StatCard({
   icon,
@@ -207,8 +205,8 @@ function MiniHeatmap({ dailyStats }: { dailyStats: DailyStats[] }) {
   };
 
   const formatTime = (minutes: number) => {
-    if (minutes < 60) return `${Math.round(minutes)}${t("common.minutes", "分钟")}`;
-    return `${(minutes / 60).toFixed(1)}${t("common.hours", "小时")}`;
+    if (minutes < 60) return `${Math.round(minutes)}${t("common.minutes", "m")}`;
+    return `${(minutes / 60).toFixed(1)}${t("common.hours", "h")}`;
   };
 
   const handleCellPress = (cell: { date: string; time: number }, col: number, row: number) => {
@@ -297,17 +295,17 @@ function MiniHeatmap({ dailyStats }: { dailyStats: DailyStats[] }) {
             }}
           >
             {formatDisplayDate(selectedCell.date)}{" "}
-            {selectedCell.time > 0 ? formatTime(selectedCell.time) : t("stats.noReading", "无阅读")}
+            {selectedCell.time > 0 ? formatTime(selectedCell.time) : t("stats.noReading", "No reading")}
           </Text>
         </View>
       )}
 
       <View style={s.heatmapLegend}>
-        <Text style={s.heatmapLegendText}>{t("common.less", "少")}</Text>
+        <Text style={s.heatmapLegendText}>{t("common.less", "Less")}</Text>
         {[0, 0.25, 0.5, 0.75, 1].map((v) => (
           <View key={v} style={[s.heatmapLegendCell, { backgroundColor: getColor(v) }]} />
         ))}
-        <Text style={s.heatmapLegendText}>{t("common.more", "多")}</Text>
+        <Text style={s.heatmapLegendText}>{t("common.more", "More")}</Text>
       </View>
     </View>
   );
@@ -378,15 +376,15 @@ export function ProfileScreen() {
   const isZh = i18n.language.startsWith("zh");
   const handleClearCache = useCallback(() => {
     Alert.alert(
-      t("profile.clearCacheTitle", "清除缓存"),
+      t("profile.clearCacheTitle", "Clear Cache"),
       t(
         "profile.clearCacheConfirm",
-        "将清除临时导入文件、TTS 音频缓存和其他运行缓存。书籍、笔记、设置和同步数据不会被删除。",
+        "This will clear temporary files, TTS audio cache, and runtime cache. Books, notes, settings, and sync data will not be deleted.",
       ),
       [
-        { text: t("common.cancel", "取消"), style: "cancel" },
+        { text: t("common.cancel", "Cancel"), style: "cancel" },
         {
-          text: t("profile.clearCacheAction", "清除缓存"),
+          text: t("profile.clearCacheAction", "Clear Cache"),
           style: "destructive",
           onPress: async () => {
             setClearingCache(true);
@@ -395,7 +393,7 @@ export function ProfileScreen() {
               stopTTSPreview();
               const result = await clearMobileRuntimeCache();
               Alert.alert(
-                t("profile.clearCacheDoneTitle", "缓存已清除"),
+                t("profile.clearCacheDoneTitle", "Cache Cleared"),
                 t("profile.clearCacheDoneDesc", {
                   count: result.deletedFiles,
                   size: formatCacheSize(result.deletedBytes),
@@ -404,10 +402,10 @@ export function ProfileScreen() {
             } catch (error) {
               console.error("[ProfileScreen] Failed to clear cache:", error);
               Alert.alert(
-                t("profile.clearCacheFailedTitle", "清除失败"),
+                t("profile.clearCacheFailedTitle", "Failed to clear"),
                 error instanceof Error
                   ? error.message
-                  : t("profile.clearCacheFailedDesc", "请稍后重试。"),
+                  : t("profile.clearCacheFailedDesc", "Please try again later."),
               );
             } finally {
               setClearingCache(false);
@@ -422,71 +420,71 @@ export function ProfileScreen() {
   const menuSections = useMemo<{ title: string; items: ProfileMenuItem[] }[]>(
     () => [
       {
-        title: t("settings.general", "通用"),
+        title: t("settings.general", "General"),
         items: [
           {
             icon: PaletteIcon,
-            label: t("settings.general", "通用"),
+            label: t("settings.general", "General"),
             route: "AppearanceSettings" as const,
           },
           {
             icon: TypeIcon,
-            label: t("fonts.title", "字体"),
+            label: t("fonts.title", "Fonts"),
             route: "FontSettings" as const,
           },
-          { icon: CloudIcon, label: t("settings.sync", "同步"), route: "SyncSettings" as const },
+          { icon: CloudIcon, label: t("settings.sync", "Sync"), route: "SyncSettings" as const },
         ],
       },
       {
-        title: t("profile.storage", "存储"),
+        title: t("profile.storage", "Storage"),
         items: [
           {
             icon: Trash2Icon,
             label: clearingCache
-              ? t("profile.clearingCache", "清除中...")
-              : t("profile.clearCache", "清除缓存"),
+              ? t("profile.clearingCache", "Clearing...")
+              : t("profile.clearCache", "Clear Cache"),
             action: handleClearCache,
             disabled: clearingCache,
           },
         ],
       },
       {
-        title: t("settings.skills", "能力"),
+        title: t("settings.skills", "Capabilities"),
         items: [
           {
             icon: DatabaseIcon,
-            label: t("settings.ai_title", "AI 模型"),
+            label: t("settings.ai_title", "AI Models"),
             route: "AISettings" as const,
           },
-          { icon: Volume2Icon, label: t("tts.title", "语音朗读"), route: "TTSSettings" as const },
+          { icon: Volume2Icon, label: t("tts.title", "Text-to-Speech"), route: "TTSSettings" as const },
           {
             icon: LanguagesIcon,
-            label: t("settings.translationTab", "翻译"),
+            label: t("settings.translationTab", "Translation"),
             route: "TranslationSettings" as const,
           },
-          { icon: PuzzleIcon, label: t("skills.title", "技能"), route: "Skills" as const },
+          { icon: PuzzleIcon, label: t("skills.title", "Skills"), route: "Skills" as const },
           {
             icon: CpuIcon,
-            label: t("settings.vm_title", "向量模型"),
+            label: t("settings.vm_title", "Vector Models"),
             route: "VectorModelSettings" as const,
           },
         ],
       },
       {
-        title: t("settings.other", "更多"),
+        title: t("settings.other", "More"),
         items: [
           {
             icon: MessageSquareIcon,
-            label: t("feedback.title", "反馈建议"),
+            label: t("feedback.title", "Feedback"),
             route: "Feedback" as const,
             showDot: unreadFeedback > 0,
           },
           {
             icon: HelpCircleIcon,
-            label: t("about.supportCenter", "帮助中心"),
-            url: `https://codedogqby.github.io/ReadAny/${i18n.language === "zh" ? "zh/" : ""}support/`,
+            label: t("about.supportCenter", "Support Center"),
+            url: "https://racstan.github.io/ReadAny/support/",
           },
-          { icon: InfoIcon, label: t("settings.about", "关于"), route: "About" as const },
+          { icon: InfoIcon, label: t("settings.about", "About"), route: "About" as const },
         ],
       },
     ],
@@ -505,28 +503,28 @@ export function ProfileScreen() {
     {
       key: "time",
       icon: <ClockIcon size={16} color={colors.primary} />,
-      title: t("profile.totalTime", "总时长"),
+      title: t("profile.totalTime", "Total Time"),
       value: totalTime,
     },
     {
       key: "volume",
       icon: <TypeIcon size={16} color={colors.primary} />,
-      title: t("profile.readingVolume", "阅读字数"),
+      title: t("profile.readingVolume", "Characters"),
       value: totalCharacters,
     },
     {
       key: "books",
       icon: <BookOpenIcon size={16} color={colors.primary} />,
-      title: t("profile.booksRead", "已读"),
+      title: t("profile.booksRead", "Read"),
       value: String(booksRead),
-      unit: t("profile.booksUnit", "本"),
+      unit: t("profile.booksUnit", "books"),
     },
     {
       key: "streak",
       icon: <FlameIcon size={16} color={colors.primary} />,
-      title: t("profile.streak", "连续阅读"),
+      title: t("profile.streak", "Streak"),
       value: String(streak),
-      unit: t("profile.daysUnit", "天"),
+      unit: t("profile.daysUnit", "days"),
     },
   ];
 
@@ -535,7 +533,7 @@ export function ProfileScreen() {
       <View style={s.header}>
         <View style={s.headerTitleWrap}>
           <Text style={s.headerTitle} numberOfLines={1} maxFontSizeMultiplier={1.6}>
-            {t("profile.title", "我的")}
+            {t("profile.title", "Profile")}
           </Text>
         </View>
         <SyncButton size={20} color={colors.mutedForeground} />
@@ -581,12 +579,12 @@ export function ProfileScreen() {
         <View style={s.heatmapSection}>
           <View style={s.heatmapHeader}>
             <Text style={s.heatmapTitle} numberOfLines={1} maxFontSizeMultiplier={1.5}>
-              {t("profile.readingActivity", "阅读活动")}
+              {t("profile.readingActivity", "Reading Activity")}
             </Text>
             <TouchableOpacity style={s.heatmapDetailBtn} onPress={() => nav.navigate("Stats")}>
               <BarChart3Icon size={14} color={colors.primary} />
               <Text style={s.heatmapDetailText} numberOfLines={1} maxFontSizeMultiplier={1.4}>
-                {t("profile.viewDetails", "查看详情")}
+                {t("profile.viewDetails", "View Details")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -641,15 +639,6 @@ export function ProfileScreen() {
         <Text style={s.version} maxFontSizeMultiplier={1.4}>
           {t("profile.version", { version: Constants.expoConfig?.version ?? "1.0.0" })}
         </Text>
-        <TouchableOpacity
-          style={s.icpLink}
-          onPress={() => Linking.openURL(ICP_URL)}
-          activeOpacity={0.7}
-        >
-          <Text style={s.icpText} maxFontSizeMultiplier={1.4}>
-            {ICP_NUMBER}
-          </Text>
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

@@ -8,40 +8,13 @@ const { t } = Astro.props;
 const links = [
   {
     name: t("community.discussions"),
-    href: "https://github.com/codedogQBY/ReadAny/discussions",
+    href: "https://github.com/racstan/ReadAny/discussions",
     available: true,
   },
   {
     name: t("community.issues"),
-    href: "https://github.com/codedogQBY/ReadAny/issues",
+    href: "https://github.com/racstan/ReadAny/issues",
     available: true,
-  },
-];
-
-const qrCodes = [
-  {
-    name: t("community.xiaohongshu"),
-    image: "/ReadAny/images/小红书群.jpg",
-  },
-  {
-    name: t("community.wechat"),
-    image: "/ReadAny/images/微信群.jpg",
-  },
-];
-
-const sponsorQrCodes = [
-  {
-    name: t("community.sponsor.wechat"),
-    image: "/ReadAny/images/微信赞赏码.jpg",
-  },
-  {
-    name: t("community.sponsor.alipay"),
-    image: "/ReadAny/images/支付宝收款码.jpg",
-  },
-  {
-    name: t("community.sponsor.table"),
-    href: "https://ifdian.net/a/codedogQBY",
-    description: t("community.sponsor.tableDesc"),
   },
 ];
 ---
@@ -71,24 +44,8 @@ const sponsorQrCodes = [
     </div>
 
     <div class="mt-12">
-      <h3 class="text-lg font-semibold mb-6">{t('community.join')}</h3>
-      <div class="flex gap-8">
-        {qrCodes.map((qr) => (
-          <div class="text-center">
-            <img 
-              src={qr.image} 
-              alt={qr.name}
-              class="w-48 h-48 rounded-lg border border-border/50 shadow-md"
-            />
-            <p class="mt-3 text-sm text-muted-foreground">{qr.name}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="mt-12">
       <a
-        href="https://github.com/codedogQBY/ReadAny"
+        href="https://github.com/racstan/ReadAny"
         target="_blank"
         rel="noopener noreferrer"
         class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -98,35 +55,6 @@ const sponsorQrCodes = [
         </svg>
         {t('footer.github')}
       </a>
-    </div>
-
-    <div class="mt-16 pt-12 border-t border-border/50">
-      <h3 class="text-lg font-semibold mb-2">{t('community.sponsor.title')}</h3>
-      <p class="text-sm text-muted-foreground mb-6">{t('community.sponsor.subtitle')}</p>
-      <div class="flex flex-wrap gap-8">
-        {sponsorQrCodes.map((qr) => (
-          <div class="text-center">
-            {qr.image ? (
-              <img
-                src={qr.image}
-                alt={qr.name}
-                class="w-40 h-40 rounded-lg border border-border/50 shadow-md"
-              />
-            ) : (
-              <a
-                href={qr.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="flex h-40 w-40 flex-col items-center justify-center rounded-lg border border-border/50 bg-background px-5 text-center shadow-md transition-colors hover:border-foreground/30 hover:bg-muted/50"
-              >
-                <span class="text-lg font-semibold text-foreground">{qr.name}</span>
-                <span class="mt-2 text-xs leading-relaxed text-muted-foreground">{qr.description}</span>
-              </a>
-            )}
-            <p class="mt-3 text-sm text-muted-foreground">{qr.name}</p>
-          </div>
-        ))}
-      </div>
     </div>
   </div>
 </section>

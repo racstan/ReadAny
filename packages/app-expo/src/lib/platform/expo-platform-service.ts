@@ -600,7 +600,7 @@ export class ExpoPlatformService implements IPlatformService {
   async checkUpdate() {
     try {
       const response = await fetch(
-        "https://api.github.com/repos/codedogQBY/ReadAny/releases/latest",
+        "https://api.github.com/repos/racstan/ReadAny/releases/latest",
       );
       if (!response.ok) return null;
 

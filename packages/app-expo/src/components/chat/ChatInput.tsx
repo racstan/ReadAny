@@ -134,8 +134,8 @@ export function ChatInput({
           style={[s.input, { height: inputHeight }]}
           placeholder={
             quotes.length > 0
-              ? t("chat.askAboutQuote", "关于引用提问...")
-              : placeholder || t("chat.inputPlaceholder", "输入消息...")
+              ? t("chat.askAboutQuote", "Ask about citation...")
+              : placeholder || t("chat.inputPlaceholder", "Type a message...")
           }
           placeholderTextColor={colors.mutedForeground}
           value={text}
@@ -157,7 +157,7 @@ export function ChatInput({
             >
               <BrainIcon size={13} color={deepThinking ? colors.primary : colors.mutedForeground} />
               <Text style={[s.deepThinkText, deepThinking && s.deepThinkTextActive]}>
-                {t("chat.deepThinking", "深度思考")}
+                {t("chat.deepThinking", "Deep Thinking")}
               </Text>
             </TouchableOpacity>
 
@@ -168,7 +168,7 @@ export function ChatInput({
             >
               <EyeOffIcon size={13} color={spoilerFree ? colors.primary : colors.mutedForeground} />
               <Text style={[s.deepThinkText, spoilerFree && s.deepThinkTextActive]}>
-                {t("chat.spoilerFree", "防剧透")}
+                {t("chat.spoilerFree", "Spoiler Free")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -179,7 +179,7 @@ export function ChatInput({
                 style={s.sendBtn}
                 onPress={Keyboard.dismiss}
                 activeOpacity={0.7}
-                accessibilityLabel={t("chat.dismissKeyboard", "收起键盘")}
+                accessibilityLabel={t("chat.dismissKeyboard", "Dismiss Keyboard")}
               >
                 <ChevronDownIcon size={15} color={colors.mutedForeground} />
               </TouchableOpacity>
@@ -207,12 +207,12 @@ export function ChatInput({
       </View>
       {deepThinking && (
         <Text style={s.deepThinkHint}>
-          {t("chat.deepThinkingHint", "深度思考模式会使用更多 tokens")}
+          {t("chat.deepThinkingHint", "Deep thinking uses more tokens")}
         </Text>
       )}
       {spoilerFree && (
         <Text style={s.deepThinkHint}>
-          {t("chat.spoilerFreeHint", "AI 将避免透露当前阅读进度之后的内容")}
+          {t("chat.spoilerFreeHint", "AI will avoid spoiling content beyond current reading progress")}
         </Text>
       )}
     </View>

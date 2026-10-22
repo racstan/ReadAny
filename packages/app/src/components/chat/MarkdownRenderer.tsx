@@ -245,7 +245,7 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
     const filename = `diagram-${Date.now()}.svg`;
     const platform = getPlatformService();
     await platform.shareOrDownloadFile(svgData, filename, "image/svg+xml");
-    toast.success(t("common.downloadSuccess", "图表已下载"));
+    toast.success(t("common.downloadSuccess", "Diagram downloaded"));
   }, [expanded, t]);
 
   if (error) {
@@ -265,13 +265,13 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
           />
           <div className="relative z-10 m-4 flex h-[90vh] w-[90vw] max-w-6xl flex-col rounded-lg border bg-background shadow-lg">
             <div className="flex items-center justify-between border-b px-4 py-3">
-              <span className="text-sm font-medium">{t("mermaid.title", "Mermaid 图表")}</span>
+              <span className="text-sm font-medium">{t("mermaid.title", "Mermaid Diagram")}</span>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={handleReset}
                   className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                  title={t("common.reset", "复原")}
+                  title={t("common.reset", "Reset")}
                 >
                   <RotateCcw className="size-4" />
                 </button>
@@ -280,7 +280,7 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
                   type="button"
                   onClick={handleDownload}
                   className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                  title={t("mindmap.download", "下载")}
+                  title={t("mindmap.download", "Download")}
                 >
                   <Download className="size-4" />
                 </button>
@@ -288,7 +288,7 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
                   type="button"
                   onClick={() => setExpanded(false)}
                   className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                  title={t("common.collapse", "收起")}
+                  title={t("common.collapse", "Collapse")}
                 >
                   <Minimize2 className="size-4" />
                 </button>
@@ -303,7 +303,7 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
             </div>
             <div className="border-t px-4 py-2">
               <span className="text-xs text-muted-foreground">
-                {t("mermaid.hint", "双击放大 · 滚轮缩放 · 拖动移动")}
+                {t("mermaid.hint", "Double click to zoom in · Scroll to zoom · Drag to pan")}
               </span>
             </div>
           </div>
@@ -317,14 +317,14 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
       <div className="group relative overflow-hidden">
         <div className="flex items-center justify-between px-1 py-1">
           <span className="text-xs text-muted-foreground">
-            {t("mermaid.title", "Mermaid 图表")}
+            {t("mermaid.title", "Mermaid Diagram")}
           </span>
           <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
             <button
               type="button"
               onClick={handleReset}
               className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-              title={t("common.reset", "复原")}
+              title={t("common.reset", "Reset")}
             >
               <RotateCcw className="size-3.5" />
             </button>
@@ -332,7 +332,7 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
               type="button"
               onClick={handleDownload}
               className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-              title={t("mindmap.download", "下载")}
+              title={t("mindmap.download", "Download")}
             >
               <Download className="size-3.5" />
             </button>
@@ -340,7 +340,7 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
               type="button"
               onClick={() => setExpanded(true)}
               className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-              title={t("common.expand", "放大")}
+              title={t("common.expand", "Expand")}
             >
               <Maximize2 className="size-3.5" />
             </button>
@@ -354,7 +354,7 @@ const MermaidBlock = memo(function MermaidBlock({ code }: { code: string }) {
         />
         <div className="px-1 py-1">
           <span className="text-xs text-muted-foreground">
-            {t("mermaid.hint", "双击放大 · 滚轮缩放 · 拖动移动")}
+            {t("mermaid.hint", "Double click to zoom in · Scroll to zoom · Drag to pan")}
           </span>
         </div>
       </div>

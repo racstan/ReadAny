@@ -71,17 +71,16 @@ interface BookDetailsDialogProps {
 const NO_GROUP = "__none__";
 const LANGUAGE_PRESETS = [
   { value: "", label: "—" },
-  { value: "zh-CN", label: "中文" },
-  { value: "zh-TW", label: "繁體中文" },
   { value: "en", label: "English" },
-  { value: "ja", label: "日本語" },
-  { value: "ko", label: "한국어" },
-  { value: "fr", label: "Français" },
-  { value: "es", label: "Español" },
-  { value: "de", label: "Deutsch" },
-  { value: "it", label: "Italiano" },
-  { value: "pt", label: "Português" },
-  { value: "ru", label: "Русский" },
+  { value: "zh", label: "Chinese" },
+  { value: "ja", label: "Japanese" },
+  { value: "ko", label: "Korean" },
+  { value: "fr", label: "French" },
+  { value: "es", label: "Spanish" },
+  { value: "de", label: "German" },
+  { value: "it", label: "Italian" },
+  { value: "pt", label: "Portuguese" },
+  { value: "ru", label: "Russian" },
 ];
 const NO_LANGUAGE = "__none__";
 const DATE_PRECISIONS = ["year", "month", "day"] as const;
@@ -411,7 +410,7 @@ export function BookDetailsDialog({ book, open, onOpenChange }: BookDetailsDialo
         addTab({
           id: `epub-draft-${draftId}`,
           type: "epubDraft",
-          title: t("library.detailsDraftTabTitle", "精排草稿"),
+          title: t("library.detailsDraftTabTitle", "EPUB Draft"),
           bookId: book.id,
           draftId,
         });
@@ -439,7 +438,7 @@ export function BookDetailsDialog({ book, open, onOpenChange }: BookDetailsDialo
     addTab({
       id: `epub-draft-${draftId}`,
       type: "epubDraft",
-      title: t("library.detailsDraftTabTitle", "精排草稿"),
+      title: t("library.detailsDraftTabTitle", "EPUB Draft"),
       bookId: book.id,
       draftId,
     });
@@ -890,7 +889,7 @@ export function BookDetailsDialog({ book, open, onOpenChange }: BookDetailsDialo
                           <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground">
                             {t(
                               "library.detailsDraftDesc",
-                              "Start the EPUB精排 flow from here. AI and user edits will share the same draft, history, diff, validate, and export path.",
+                              "Start the EPUB formatting draft flow from here. AI and user edits will share the same draft, history, diff, validate, and export path.",
                             )}
                           </p>
                         </div>

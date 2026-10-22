@@ -31,12 +31,12 @@ export function ThreadList({
   const handleDelete = useCallback(
     (threadId: string) => {
       Alert.alert(
-        t("chat.deleteThread", "删除对话"),
-        t("chat.deleteThreadConfirm", "确定要删除这个对话吗？"),
+        t("chat.deleteThread", "Delete Conversation"),
+        t("chat.deleteThreadConfirm", "Are you sure you want to delete this conversation?"),
         [
-          { text: t("common.cancel", "取消"), style: "cancel" },
+          { text: t("common.cancel", "Cancel"), style: "cancel" },
           {
-            text: t("common.delete", "删除"),
+            text: t("common.delete", "Delete"),
             style: "destructive",
             onPress: () => onDelete(threadId),
           },
@@ -51,7 +51,7 @@ export function ThreadList({
       const date = new Date(ts);
       const now = new Date();
       const diff = now.getTime() - date.getTime();
-      if (diff < 60000) return t("chat.justNow", "刚刚");
+      if (diff < 60000) return t("chat.justNow", "Just now");
       if (diff < 3600000) return `${Math.floor(diff / 60000)}m`;
       if (diff < 86400000) return `${Math.floor(diff / 3600000)}h`;
       return date.toLocaleDateString();
@@ -62,7 +62,7 @@ export function ThreadList({
   const getPreview = useCallback(
     (thread: Thread) => {
       const lastMsg = thread.messages[thread.messages.length - 1];
-      if (!lastMsg) return t("chat.noMessages", "暂无消息");
+      if (!lastMsg) return t("chat.noMessages", "No messages");
       return lastMsg.content?.slice(0, 60) || t("chat.noContent", "...");
     },
     [t],
@@ -80,7 +80,7 @@ export function ThreadList({
           <View style={s.itemContent}>
             <View style={s.itemHeader}>
               <Text style={[s.itemTitle, isActive && s.itemTitleActive]} numberOfLines={1}>
-                {item.title || t("chat.untitled", "新对话")}
+                {item.title || t("chat.untitled", "New Conversation")}
               </Text>
               <Text style={s.itemTime}>{formatTime(item.updatedAt)}</Text>
             </View>
@@ -106,16 +106,16 @@ export function ThreadList({
       <View style={s.header}>
         <View style={s.headerLeft}>
           <HistoryIcon size={16} color={colors.foreground} />
-          <Text style={s.headerTitle}>{t("chat.threads", "对话列表")}</Text>
+          <Text style={s.headerTitle}>{t("chat.threads", "Conversations")}</Text>
         </View>
         <TouchableOpacity style={s.newBtn} onPress={onCreate} activeOpacity={0.7}>
           <MessageCirclePlusIcon size={16} color={colors.primary} />
-          <Text style={s.newBtnText}>{t("chat.newThread", "新对话")}</Text>
+          <Text style={s.newBtnText}>{t("chat.newThread", "New Conversation")}</Text>
         </TouchableOpacity>
       </View>
       {threads.length === 0 ? (
         <View style={s.emptyWrap}>
-          <Text style={s.emptyText}>{t("chat.noThreads", "还没有对话，点击上方创建")}</Text>
+          <Text style={s.emptyText}>{t("chat.noThreads", "No conversations yet. Tap above to create one")}</Text>
         </View>
       ) : (
         <FlatList

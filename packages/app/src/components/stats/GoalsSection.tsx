@@ -149,7 +149,7 @@ export function GoalsSection({
   currentDimension?: StatsDimension;
 }) {
   const [showForm, setShowForm] = useState(false);
-  const isZh = copy.goalCharactersUnit === "字";
+  const isZh = false;
 
   // Auto-determine default period from current stats dimension
   const defaultPeriod: GoalPeriod = currentDimension === "year" ? "yearly" : "monthly";

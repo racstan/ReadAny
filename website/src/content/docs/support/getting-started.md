@@ -8,7 +8,7 @@ ReadAny is an AI-powered e-book reader that supports EPUB, PDF, MOBI, AZW, AZW3,
 
 ## Quick Start
 
-1. **Download** ReadAny from the [download page](https://codedogqby.github.io/ReadAny/#download)
+1. **Download** ReadAny from the [download page](https://racstan.github.io/ReadAny/#download)
 2. **Install** the application on your platform
 3. **Import** your e-books by dragging them into the library or clicking the import button
 4. **Start reading** — select any book to open it in the reader

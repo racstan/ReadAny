@@ -15,34 +15,6 @@ import en_onboarding from "./locales/en/onboarding.json";
 import en_profile from "./locales/en/profile.json";
 import en_misc from "./locales/en/misc.json";
 
-// --- Simplified Chinese ---
-import zh_common from "./locales/zh/common.json";
-import zh_library from "./locales/zh/library.json";
-import zh_reader from "./locales/zh/reader.json";
-import zh_chat from "./locales/zh/chat.json";
-import zh_notes from "./locales/zh/notes.json";
-import zh_settings from "./locales/zh/settings.json";
-import zh_translation from "./locales/zh/translation.json";
-import zh_tts from "./locales/zh/tts.json";
-import zh_stats from "./locales/zh/stats.json";
-import zh_onboarding from "./locales/zh/onboarding.json";
-import zh_profile from "./locales/zh/profile.json";
-import zh_misc from "./locales/zh/misc.json";
-
-// --- Traditional Chinese ---
-import zhTW_common from "./locales/zh-TW/common.json";
-import zhTW_library from "./locales/zh-TW/library.json";
-import zhTW_reader from "./locales/zh-TW/reader.json";
-import zhTW_chat from "./locales/zh-TW/chat.json";
-import zhTW_notes from "./locales/zh-TW/notes.json";
-import zhTW_settings from "./locales/zh-TW/settings.json";
-import zhTW_translation from "./locales/zh-TW/translation.json";
-import zhTW_tts from "./locales/zh-TW/tts.json";
-import zhTW_stats from "./locales/zh-TW/stats.json";
-import zhTW_onboarding from "./locales/zh-TW/onboarding.json";
-import zhTW_profile from "./locales/zh-TW/profile.json";
-import zhTW_misc from "./locales/zh-TW/misc.json";
-
 // --- Japanese ---
 import ja_common from "./locales/ja/common.json";
 import ja_library from "./locales/ja/library.json";
@@ -101,8 +73,6 @@ import es_misc from "./locales/es/misc.json";
 
 // --- Merge modules per language ---
 const en = { ...en_common, ...en_library, ...en_reader, ...en_chat, ...en_notes, ...en_settings, ...en_translation, ...en_tts, ...en_stats, ...en_onboarding, ...en_profile, ...en_misc };
-const zh = { ...zh_common, ...zh_library, ...zh_reader, ...zh_chat, ...zh_notes, ...zh_settings, ...zh_translation, ...zh_tts, ...zh_stats, ...zh_onboarding, ...zh_profile, ...zh_misc };
-const zhTW = { ...zhTW_common, ...zhTW_library, ...zhTW_reader, ...zhTW_chat, ...zhTW_notes, ...zhTW_settings, ...zhTW_translation, ...zhTW_tts, ...zhTW_stats, ...zhTW_onboarding, ...zhTW_profile, ...zhTW_misc };
 const ja = { ...ja_common, ...ja_library, ...ja_reader, ...ja_chat, ...ja_notes, ...ja_settings, ...ja_translation, ...ja_tts, ...ja_stats, ...ja_onboarding, ...ja_profile, ...ja_misc };
 const ko = { ...ko_common, ...ko_library, ...ko_reader, ...ko_chat, ...ko_notes, ...ko_settings, ...ko_translation, ...ko_tts, ...ko_stats, ...ko_onboarding, ...ko_profile, ...ko_misc };
 const fr = { ...fr_common, ...fr_library, ...fr_reader, ...fr_chat, ...fr_notes, ...fr_settings, ...fr_translation, ...fr_tts, ...fr_stats, ...fr_onboarding, ...fr_profile, ...fr_misc };
@@ -115,8 +85,6 @@ export const i18nReady = i18n
   .init({
     resources: {
       en: { translation: en },
-      zh: { translation: zh },
-      "zh-TW": { translation: zhTW },
       ja: { translation: ja },
       ko: { translation: ko },
       fr: { translation: fr },
@@ -156,9 +124,7 @@ export async function initI18nLanguage(): Promise<void> {
         const systemLocale = await platform.getLocale();
         if (systemLocale) {
           const lc = systemLocale.toLowerCase();
-          const lang = lc.startsWith("zh-tw") || lc.startsWith("zh-hk") || lc.startsWith("zh-hant") ? "zh-TW"
-            : lc.startsWith("zh") ? "zh"
-            : lc.startsWith("ja") ? "ja"
+          const lang = lc.startsWith("ja") ? "ja"
             : lc.startsWith("ko") ? "ko"
             : lc.startsWith("fr") ? "fr"
             : lc.startsWith("es") ? "es"

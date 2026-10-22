@@ -43,3 +43,13 @@ export {
   type FallbackContentProvider,
   type FallbackTextSegment,
 } from "./fallback-content-service";
+
+export {
+  type ProviderModeInterface,
+  DirectApiProviderMode,
+  OpenCodeProviderMode,
+  PiProviderMode,
+  ProviderModeRegistry,
+  providerModeRegistry,
+} from "./modes";
+

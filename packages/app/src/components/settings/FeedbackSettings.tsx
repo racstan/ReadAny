@@ -47,8 +47,8 @@ const FEEDBACK_TYPES: {
   Icon: LucideIcon;
 }[] = [
   { key: "bug", labelKey: "feedback.typeBug", fallback: "Bug", Icon: Bug },
-  { key: "feature", labelKey: "feedback.typeFeature", fallback: "建议", Icon: Lightbulb },
-  { key: "other", labelKey: "feedback.typeOther", fallback: "其他", Icon: MessageSquare },
+  { key: "feature", labelKey: "feedback.typeFeature", fallback: "Feature", Icon: Lightbulb },
+  { key: "other", labelKey: "feedback.typeOther", fallback: "Other", Icon: MessageSquare },
 ];
 
 type SubmitResult = { kind: "success" | "error"; message: string } | null;
@@ -66,7 +66,7 @@ export function FeedbackSettings() {
   const hasUnread = useMemo(() => records.some((r) => r.hasNewReply), [records]);
   const autoSwitchedRef = useRef(false);
 
-  // Auto-switch to "我的反馈" tab once on mount when there are unread replies,
+  // Auto-switch to history tab once on mount when there are unread replies,
   // so the user lands on the relevant list instead of the submit form.
   useEffect(() => {
     if (hasUnread && !autoSwitchedRef.current) {
@@ -138,7 +138,7 @@ export function FeedbackSettings() {
       });
       setSubmitResult({
         kind: "success",
-        message: t("feedback.submitSuccessDesc", "感谢你的反馈！Issue #{{number}} 已创建。", {
+        message: t("feedback.submitSuccessDesc", "Thank you for your feedback! Issue #{{number}} created.", {
           number: result.issueNumber,
         }),
       });
@@ -152,7 +152,7 @@ export function FeedbackSettings() {
         message:
           err instanceof Error
             ? err.message
-            : t("feedback.submitFailedUnknown", "提交失败，请稍后重试"),
+            : t("feedback.submitFailedUnknown", "Submission failed, please try again later"),
       });
     } finally {
       setSubmitting(false);
@@ -177,17 +177,17 @@ export function FeedbackSettings() {
     <div className="mx-auto max-w-3xl px-6 py-5">
       <div className="mb-5 border-b border-border/70 pb-4">
         <h2 className="mb-1 text-sm font-semibold text-foreground">
-          {t("feedback.title", "反馈建议")}
+          {t("feedback.title", "Feedback")}
         </h2>
         <p className="text-xs leading-5 text-muted-foreground">
-          {t("feedback.desc", "提交 bug 报告或功能建议，我们会尽快处理")}
+          {t("feedback.desc", "Submit bug reports or feature suggestions and we will review them")}
         </p>
       </div>
 
       <div className="mb-5 inline-flex rounded-md border border-border/70 bg-muted/30 p-0.5">
         {[
-          { key: "submit", label: t("feedback.submitTab", "提交反馈"), showDot: false },
-          { key: "history", label: t("feedback.historyTab", "我的反馈"), showDot: hasUnread },
+          { key: "submit", label: t("feedback.submitTab", "Submit Feedback"), showDot: false },
+          { key: "history", label: t("feedback.historyTab", "My Feedback"), showDot: hasUnread },
         ].map((tab) => (
           <button
             type="button"
@@ -204,7 +204,7 @@ export function FeedbackSettings() {
             {tab.showDot && (
               <span
                 className="inline-block h-1.5 w-1.5 rounded-full bg-destructive"
-                aria-label={t("feedback.hasNewReply", "有新回复")}
+                aria-label={t("feedback.hasNewReply", "New reply available")}
               />
             )}
           </button>
@@ -215,7 +215,7 @@ export function FeedbackSettings() {
         <div className="space-y-5">
           <div className="space-y-2">
             <span className="text-xs font-medium text-foreground">
-              {t("feedback.type", "类型")}
+              {t("feedback.type", "Type")}
             </span>
             <div className="grid max-w-md grid-cols-3 gap-2">
               {FEEDBACK_TYPES.map((ft) => (
@@ -239,11 +239,11 @@ export function FeedbackSettings() {
 
           <div className="space-y-1.5">
             <label htmlFor="feedback-title" className="text-xs font-medium text-foreground">
-              {t("feedback.titleLabel", "标题")} *
+              {t("feedback.titleLabel", "Title")} *
             </label>
             <Input
               id="feedback-title"
-              placeholder={t("feedback.titlePlaceholder", "简要描述问题或建议")}
+              placeholder={t("feedback.titlePlaceholder", "Brief summary of issue or suggestion")}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               maxLength={100}
@@ -253,11 +253,11 @@ export function FeedbackSettings() {
 
           <div className="space-y-1.5">
             <label htmlFor="feedback-description" className="text-xs font-medium text-foreground">
-              {t("feedback.descLabel", "详细描述")} *
+              {t("feedback.descLabel", "Description")} *
             </label>
             <Textarea
               id="feedback-description"
-              placeholder={t("feedback.descPlaceholder", "请详细描述你遇到的问题或建议...")}
+              placeholder={t("feedback.descPlaceholder", "Please describe what happened or what you suggest...")}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={5}
@@ -288,10 +288,10 @@ export function FeedbackSettings() {
                   className="cursor-pointer text-xs font-medium text-foreground"
                   onClick={() => setIncludeLogs((checked) => !checked)}
                 >
-                  {t("feedback.uploadLogs", "上传应用日志")}
+                  {t("feedback.uploadLogs", "Attach diagnostics logs")}
                 </button>
                 <p className="mt-0.5 text-[11px] leading-4 text-muted-foreground">
-                  {t("feedback.logsHint", "仅在勾选时附带最近 1 小时诊断日志，帮助定位问题。")}
+                  {t("feedback.logsHint", "Includes anonymous diagnostic logs from the last hour to help resolve issues.")}
                 </p>
               </div>
             </div>
@@ -306,13 +306,13 @@ export function FeedbackSettings() {
 
           <div className="flex items-center justify-between gap-3">
             <span className="text-xs text-muted-foreground">
-              {t("feedback.remaining", "今日还可提交 {{count}} 次", { count: remaining })}
+              {t("feedback.remaining", "{{count}} submissions remaining today", { count: remaining })}
             </span>
             <Button onClick={handleSubmit} disabled={!canSubmit || submitting} className="min-w-28">
               {submitting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                t("feedback.submit", "提交反馈")
+                t("feedback.submit", "Submit")
               )}
             </Button>
           </div>
@@ -352,7 +352,7 @@ export function FeedbackSettings() {
                     {record.hasNewReply && (
                       <span
                         className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-destructive"
-                        aria-label={t("feedback.hasNewReply", "有新回复")}
+                        aria-label={t("feedback.hasNewReply", "New reply available")}
                       />
                     )}
                     <p className="truncate text-xs font-medium text-foreground">{record.title}</p>
@@ -363,7 +363,7 @@ export function FeedbackSettings() {
                     </p>
                     {record.hasNewReply && (
                       <span className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[10px] text-amber-700 dark:text-amber-300">
-                        {t("feedback.newReply", "有新回复")}
+                        {t("feedback.newReply", "New reply")}
                       </span>
                     )}
                   </div>
@@ -376,14 +376,14 @@ export function FeedbackSettings() {
                   }`}
                 >
                   {record.status === "open"
-                    ? t("feedback.statusOpen", "处理中")
-                    : t("feedback.statusClosed", "已关闭")}
+                    ? t("feedback.statusOpen", "Open")
+                    : t("feedback.statusClosed", "Closed")}
                 </span>
               </button>
             ))
           ) : (
             <div className="flex h-44 items-center justify-center text-xs text-muted-foreground">
-              {t("feedback.noHistory", "暂无反馈记录")}
+              {t("feedback.noHistory", "No feedback history")}
             </div>
           )}
         </div>
@@ -423,18 +423,18 @@ function FeedbackDetailView({
           className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          {t("common.back", "返回")}
+          {t("common.back", "Back")}
         </button>
         <span className="text-xs text-muted-foreground">|</span>
         <span className="text-xs font-medium text-foreground truncate">
           #{issueNumber} {title}
         </span>
         <a
-          href={`https://github.com/codedogQBY/ReadAny/issues/${issueNumber}`}
+          href={`https://github.com/racstan/ReadAny/issues/${issueNumber}`}
           target="_blank"
           rel="noopener noreferrer"
           className="ml-auto text-muted-foreground hover:text-foreground"
-          title={t("feedback.openInBrowser", "在浏览器打开")}
+          title={t("feedback.openInBrowser", "Open in browser")}
         >
           <ExternalLink className="h-3.5 w-3.5" />
         </a>
@@ -447,7 +447,7 @@ function FeedbackDetailView({
       ) : !detail ? (
         <div className="flex items-center justify-center py-12">
           <p className="text-xs text-muted-foreground">
-            {t("feedback.detailLoadFailed", "加载失败，请稍后重试")}
+            {t("feedback.detailLoadFailed", "Failed to load, please try again later")}
           </p>
         </div>
       ) : (
@@ -463,8 +463,8 @@ function FeedbackDetailView({
               )}
             >
               {detail.state === "open"
-                ? t("feedback.statusOpen", "处理中")
-                : t("feedback.statusClosed", "已关闭")}
+                ? t("feedback.statusOpen", "Open")
+                : t("feedback.statusClosed", "Closed")}
             </span>
             <span className="text-[11px] text-muted-foreground">
               {new Date(detail.createdAt).toLocaleDateString()}
@@ -484,7 +484,7 @@ function FeedbackDetailView({
               <div className="flex items-center gap-1.5 text-muted-foreground">
                 <MessageCircle className="h-3.5 w-3.5" />
                 <span className="text-xs font-medium">
-                  {t("feedback.replies", "回复")} ({detail.comments.length})
+                  {t("feedback.replies", "Replies")} ({detail.comments.length})
                 </span>
               </div>
               {detail.comments.map((comment) => (
@@ -506,7 +506,7 @@ function FeedbackDetailView({
           ) : (
             <div className="py-6 text-center">
               <p className="text-xs text-muted-foreground">
-                {t("feedback.noReplies", "暂无回复，我们会尽快处理。")}
+                {t("feedback.noReplies", "No replies yet.")}
               </p>
             </div>
           )}

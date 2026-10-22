@@ -65,7 +65,7 @@ export function TranslationPanel({ text, onClose }: TranslationPanelProps) {
       } else if (translationConfig.provider.id === "deepl") {
         const apiKey = translationConfig.provider.apiKey;
         if (!apiKey) {
-          throw new Error(t("translation.noApiKey", "请先配置翻译设置"));
+          throw new Error(t("translation.noApiKey", "Please configure translation settings first"));
         }
         results = await deeplTranslate(
           [input],
@@ -80,7 +80,7 @@ export function TranslationPanel({ text, onClose }: TranslationPanelProps) {
         const endpoint = await getEndpointById(endpointId);
 
         if (!endpoint || (providerRequiresApiKey(endpoint.provider) && !endpoint.apiKey)) {
-          throw new Error(t("translation.noApiKey", "请先配置 AI 设置"));
+          throw new Error(t("translation.noApiKey", "Please configure AI settings first"));
         }
 
         let model = translationConfig.provider.model || aiConfig.activeModel;
@@ -105,11 +105,11 @@ export function TranslationPanel({ text, onClose }: TranslationPanelProps) {
       if (result) {
         setTranslation(result);
       } else {
-        throw new Error(t("translation.noResult", "翻译失败，请重试"));
+        throw new Error(t("translation.noResult", "Translation failed, please try again"));
       }
     } catch (err) {
       console.error("[TranslationPanel] Error:", err);
-      setError(err instanceof Error ? err.message : t("translation.error", "翻译出错"));
+      setError(err instanceof Error ? err.message : t("translation.error", "Translation error"));
     } finally {
       setLoading(false);
     }
@@ -239,22 +239,22 @@ export function TranslationPanel({ text, onClose }: TranslationPanelProps) {
         )}
 
         <ScrollView style={s.content} nestedScrollEnabled>
-          <Text style={s.originalLabel}>{t("translation.original", "原文")}</Text>
+          <Text style={s.originalLabel}>{t("translation.original", "Original")}</Text>
           <Text style={s.originalText}>{text}</Text>
 
           <View style={s.divider} />
 
-          <Text style={s.translationLabel}>{t("translation.translation", "译文")}</Text>
+          <Text style={s.translationLabel}>{t("translation.translation", "Translation")}</Text>
           {loading ? (
             <View style={s.loadingWrap}>
               <ActivityIndicator size="small" color={colors.primary} />
-              <Text style={s.loadingText}>{t("translation.translating", "翻译中...")}</Text>
+              <Text style={s.loadingText}>{t("translation.translating", "Translating...")}</Text>
             </View>
           ) : error ? (
             <View style={s.errorWrap}>
               <Text style={s.errorText}>{error}</Text>
               <TouchableOpacity style={s.retryBtn} onPress={translate}>
-                <Text style={s.retryBtnText}>{t("common.retry", "重试")}</Text>
+                <Text style={s.retryBtnText}>{t("common.retry", "Retry")}</Text>
               </TouchableOpacity>
             </View>
           ) : translation ? (

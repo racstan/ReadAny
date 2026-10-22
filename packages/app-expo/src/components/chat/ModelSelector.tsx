@@ -36,7 +36,7 @@ export function ModelSelector({ onNavigateToSettings }: ModelSelectorProps) {
   const totalModels = endpointsWithModels.reduce((sum, ep) => sum + ep.models.length, 0);
   const canSwitch = totalModels >= 1;
 
-  const displayName = aiConfig.activeModel || t("chat.currentModel", "模型");
+  const displayName = aiConfig.activeModel || t("chat.currentModel", "Model");
 
   const handleSelect = useCallback(
     (endpointId: string, model: string) => {
@@ -51,7 +51,7 @@ export function ModelSelector({ onNavigateToSettings }: ModelSelectorProps) {
     return (
       <TouchableOpacity style={s.trigger} onPress={onNavigateToSettings} activeOpacity={0.7}>
         <Text style={[s.triggerText, { color: colors.amber }]}>
-          {t("chat.configureAI", "配置 AI")}
+          {t("chat.configureAI", "Configure AI")}
         </Text>
       </TouchableOpacity>
     );
