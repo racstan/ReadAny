@@ -139,6 +139,10 @@ export const TTS_PROVIDER_DEFINITIONS: TTSProviderDefinition[] = [
 
 export const XIAOMI_TTS_VOICES = [
   { id: "mimo_default", label: "MiMo Default" },
+  { id: "冰糖", label: "Bing Tang (Female)" },
+  { id: "茉莉", label: "Mo Li (Female)" },
+  { id: "苏打", label: "Su Da (Male)" },
+  { id: "白桦", label: "Bai Hua (Male)" },
   { id: "Mia", label: "Mia · English female" },
   { id: "Chloe", label: "Chloe" },
   { id: "Milo", label: "Milo · English male" },
