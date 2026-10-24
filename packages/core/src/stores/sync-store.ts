@@ -484,7 +484,7 @@ export const useSyncStore = create<SyncState>((set, get) => ({
 
         const connected = await backend.testConnection();
         if (!connected) {
-          const connectionError = "无法连接到同步服务器，请检查网络和凭据";
+          const connectionError = "Could not connect to the sync server. Check the network and credentials";
           const result: SyncResult = {
             success: false,
             direction: "none",
@@ -673,9 +673,9 @@ export const useSyncStore = create<SyncState>((set, get) => ({
             filesUploadFailed: 0,
             filesDownloadFailed: 0,
             durationMs: 0,
-            error: result.error || "同步失败",
+            error: result.error || "Sync failed",
           },
-          error: result.error || "同步失败",
+          error: result.error || "Sync failed",
           progress: null,
         });
         await persistSyncRuntimeState({
@@ -688,7 +688,7 @@ export const useSyncStore = create<SyncState>((set, get) => ({
             filesUploadFailed: 0,
             filesDownloadFailed: 0,
             durationMs: 0,
-            error: result.error || "同步失败",
+            error: result.error || "Sync failed",
           },
         });
       }
@@ -786,7 +786,7 @@ export const useSyncStore = create<SyncState>((set, get) => ({
         const connected = await backend.testConnection();
 
         if (!connected) {
-          const connectionError = "无法连接到同步服务器，请检查网络和凭据";
+          const connectionError = "Could not connect to the sync server. Check the network and credentials";
           const result: SyncResult = {
             success: false,
             direction: "none",
@@ -880,7 +880,7 @@ export const useSyncStore = create<SyncState>((set, get) => ({
           set({
             status: "error",
             lastResult: result,
-            error: result.error || "同步失败",
+            error: result.error || "Sync failed",
             progress: null,
             pendingDirection: null,
           });

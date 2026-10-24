@@ -20,7 +20,7 @@ describe("OLED Black mobile theme", () => {
     expect(app).toContain('<StatusBar style={isDark ? "light" : "dark"} />');
   });
 
-  it("offers OLED in both phone-safe theme pickers and every settings locale", () => {
+  it("offers OLED in both phone-safe theme pickers and the settings locale (English only)", () => {
     const settings = read("packages/app-expo/src/screens/settings/AppearanceSettingsScreen.tsx");
     const onboarding = read("packages/app-expo/src/components/onboarding/steps/AppearancePage.tsx");
 
@@ -30,20 +30,10 @@ describe("OLED Black mobile theme", () => {
       expect(source).toMatch(/width: "48%"/);
     }
 
-    const labels = {
-      en: "OLED Black",
-      es: "Negro OLED",
-      fr: "Noir OLED",
-      ja: "OLEDブラック",
-      ko: "OLED 블랙",
-    } as const;
-
-    for (const [locale, label] of Object.entries(labels)) {
-      const messages = JSON.parse(
-        read(`packages/core/src/i18n/locales/${locale}/settings.json`),
-      ) as { settings: Record<string, string> };
-      expect(messages.settings.oled).toBe(label);
-    }
+    const messages = JSON.parse(
+      read("packages/core/src/i18n/locales/en/settings.json"),
+    ) as { settings: Record<string, string> };
+    expect(messages.settings.oled).toBe("OLED Black");
   });
 
   it("carries OLED into the generated reader and treats PDFs as true black", () => {

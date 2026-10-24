@@ -39,13 +39,9 @@ describe("justified EPUB text setting", () => {
     expect(readerBridge.match(/withJustifiedTextSetting\(/g)).toHaveLength(3);
   });
 
-  it("provides reader copy in every supported locale", () => {
+  it("provides reader copy in the supported locale (English only)", () => {
     const expected = {
       en: ["Justify body text", "Align ordinary prose to both page edges"],
-      es: ["Justificar el texto", "Alinea la prosa normal con ambos bordes de la página"],
-      fr: ["Justifier le texte", "Aligne le texte courant sur les deux bords de la page"],
-      ja: ["本文を両端揃え", "通常の本文をページの両端に揃えます"],
-      ko: ["본문 양쪽 맞춤", "일반 본문을 페이지 양쪽 가장자리에 맞춥니다"],
     } as const;
 
     for (const [locale, [label, description]] of Object.entries(expected)) {

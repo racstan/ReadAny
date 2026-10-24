@@ -115,7 +115,7 @@ function createHttpWebDavError(
       return new WebDavError(
         "auth",
         i18n.t("settings.syncWebdavAuthFailed", {
-          defaultValue: "WebDAV 认证失败，请检查用户名和应用密码是否正确。",
+          defaultValue: "WebDAV authentication failed. Check your username and app password.",
         }),
         { status, method, url },
       );
@@ -123,7 +123,7 @@ function createHttpWebDavError(
       return new WebDavError(
         "forbidden",
         i18n.t("settings.syncWebdavForbidden", {
-          defaultValue: "WebDAV 访问被拒绝，请检查当前账号是否有这个路径的权限。",
+          defaultValue: "WebDAV access denied. Check that the current account has permission for this path.",
         }),
         { status, method, url },
       );
@@ -131,7 +131,7 @@ function createHttpWebDavError(
       return new WebDavError(
         "not-found",
         i18n.t("settings.syncWebdavNotFound", {
-          defaultValue: "WebDAV 地址或路径不存在，请检查服务器地址和根路径。",
+          defaultValue: "The WebDAV address or path does not exist. Check the server address and root path.",
         }),
         { status, method, url },
       );
@@ -139,7 +139,7 @@ function createHttpWebDavError(
       return new WebDavError(
         "method-not-allowed",
         i18n.t("settings.syncWebdavMethodNotAllowed", {
-          defaultValue: "服务器没有正确响应 WebDAV 请求，请确认 WebDAV 服务已经开启。",
+          defaultValue: "The server did not respond correctly to the WebDAV request. Make sure the WebDAV service is enabled.",
         }),
         { status, method, url },
       );
@@ -148,7 +148,7 @@ function createHttpWebDavError(
         return new WebDavError(
           "server",
           i18n.t("settings.syncWebdavServerError", {
-            defaultValue: "WebDAV 服务器异常（{{status}}）。",
+            defaultValue: "WebDAV server error ({{status}}).",
             status: statusSummary,
           }),
           { status, method, url },
@@ -157,7 +157,7 @@ function createHttpWebDavError(
       return new WebDavError(
         "http",
         i18n.t("settings.syncWebdavHttpError", {
-          defaultValue: "WebDAV 请求失败（{{status}}）。",
+          defaultValue: "WebDAV request failed ({{status}}).",
           status: statusSummary,
         }),
         { status, method, url },
@@ -174,7 +174,7 @@ function createRequestWebDavError(
   const err = error as { name?: string; message?: string; cause?: { code?: string } };
   const lowerMessage = err.message?.toLowerCase() ?? "";
   const connectionMessage = i18n.t("settings.syncWebdavNetworkError", {
-    defaultValue: "无法连接到 WebDAV 服务器，请检查网络、地址、端口或证书配置。",
+    defaultValue: "Could not connect to the WebDAV server. Check the network, address, port, or certificate configuration.",
   });
 
   if (
@@ -186,7 +186,7 @@ function createRequestWebDavError(
     return new WebDavError(
       "timeout",
       i18n.t("settings.syncWebdavTimeout", {
-        defaultValue: "WebDAV 连接超时（{{seconds}} 秒），请检查服务器地址、端口和网络。",
+        defaultValue: "WebDAV connection timed out ({{seconds}}s). Check the server address, port, and network.",
         seconds: Math.max(1, Math.round(timeoutMs / 1000)),
       }),
       { method, url, cause: error },
@@ -201,7 +201,7 @@ function createRequestWebDavError(
     return new WebDavError(
       "tls",
       i18n.t("settings.syncWebdavTlsError", {
-        defaultValue: "WebDAV TLS 证书校验失败，请检查证书，或开启允许不安全连接后再试。",
+        defaultValue: "WebDAV TLS certificate verification failed. Check the certificate, or enable insecure connections and try again.",
       }),
       { method, url, cause: error },
     );
@@ -223,7 +223,7 @@ function createRequestWebDavError(
       lowerMessage.includes("configured scope") || lowerMessage.includes("url not allowed")
         ? i18n.t("settings.syncWebdavDesktopScopeError", {
             defaultValue:
-              "桌面端当前没有放行这个 WebDAV 地址，请更新到最新版本后重试，或重新启动应用。",
+              "The desktop app does not currently allow this WebDAV address. Update to the latest version and retry, or restart the app.",
           })
         : connectionMessage;
     return new WebDavError("network", message, {
@@ -236,7 +236,7 @@ function createRequestWebDavError(
   return new WebDavError(
     "network",
     i18n.t("settings.syncWebdavUnknownError", {
-      defaultValue: "WebDAV 请求失败：{{message}}",
+      defaultValue: "WebDAV request failed: {{message}}",
       message: err.message || connectionMessage,
     }),
     { method, url, cause: error },

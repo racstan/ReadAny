@@ -197,12 +197,12 @@ export function ChatScreen() {
 
       if (!resolvedAIConfig) {
         Alert.alert(
-          t("chat.configRequired", "需要配置 AI"),
-          t("chat.configRequiredMessage", "请先在设置中配置 AI 端点和模型"),
+          t("chat.configRequired", "AI configuration required"),
+          t("chat.configRequiredMessage", "Configure your AI endpoint and model in Settings first"),
           [
-            { text: t("common.cancel", "取消"), style: "cancel" },
+            { text: t("common.cancel", "Cancel"), style: "cancel" },
             {
-              text: t("common.settings", "去设置"),
+              text: t("common.settings", "Open Settings"),
               onPress: () => navigation.navigate("AISettings"),
             },
           ],
@@ -247,7 +247,7 @@ export function ChatScreen() {
     const filename = getExportFilename("md");
     const platform = getPlatformService();
     const saved = await platform.shareOrDownloadFile(md, filename, "text/markdown");
-    if (saved) Alert.alert(t("chat.exportSuccess", "导出成功"));
+    if (saved) Alert.alert(t("chat.exportSuccess", "Export successful"));
   }, [allMessages, exportOpts, t]);
 
   const handleExportJSON = useCallback(async () => {
@@ -256,23 +256,23 @@ export function ChatScreen() {
     const filename = getExportFilename("json");
     const platform = getPlatformService();
     const saved = await platform.shareOrDownloadFile(json, filename, "application/json");
-    if (saved) Alert.alert(t("chat.exportSuccess", "导出成功"));
+    if (saved) Alert.alert(t("chat.exportSuccess", "Export successful"));
   }, [allMessages, exportOpts, t]);
 
   const handleCopyAll = useCallback(async () => {
     setShowExportMenu(false);
     const text = formatChatForClipboard(allMessages, exportOpts);
     await Clipboard.setStringAsync(text);
-    Alert.alert(t("chat.copiedSuccess", "已复制到剪贴板"));
+    Alert.alert(t("chat.copiedSuccess", "Copied to clipboard"));
   }, [allMessages, exportOpts, t]);
 
   const groupedThreads = useMemo(() => {
     const grouped = groupThreadsByTime(generalThreads);
     const sections: { key: string; label: string; threads: typeof generalThreads }[] = [
-      { key: "today", label: t("chat.today", "今天"), threads: grouped.today },
-      { key: "yesterday", label: t("chat.yesterday", "昨天"), threads: grouped.yesterday },
-      { key: "last7Days", label: t("chat.last7Days", "7 天内"), threads: grouped.last7Days },
-      { key: "last30Days", label: t("chat.last30Days", "30 天内"), threads: grouped.last30Days },
+      { key: "today", label: t("chat.today", "Today"), threads: grouped.today },
+      { key: "yesterday", label: t("chat.yesterday", "Yesterday"), threads: grouped.yesterday },
+      { key: "last7Days", label: t("chat.last7Days", "Last 7 days"), threads: grouped.last7Days },
+      { key: "last30Days", label: t("chat.last30Days", "Last 30 days"), threads: grouped.last30Days },
     ];
 
     const olderByMonth = new Map<string, typeof generalThreads>();
@@ -300,7 +300,7 @@ export function ChatScreen() {
     (closable: boolean) => (
       <>
         <View style={s.sidebarHeader}>
-          <Text style={s.sidebarTitle}>{t("chat.history", "历史记录")}</Text>
+          <Text style={s.sidebarTitle}>{t("chat.history", "History")}</Text>
           {closable ? (
             <TouchableOpacity style={s.iconBtn} onPress={closeSidebar}>
               <XIcon size={16} color={colors.foreground} />
@@ -318,7 +318,7 @@ export function ChatScreen() {
         >
           {generalThreads.length === 0 ? (
             <View style={s.sidebarEmpty}>
-              <Text style={s.sidebarEmptyText}>{t("chat.noConversations", "暂无对话")}</Text>
+              <Text style={s.sidebarEmptyText}>{t("chat.noConversations", "No conversations yet")}</Text>
             </View>
           ) : (
             groupedThreads.map(({ key, label, threads }) => {
@@ -346,7 +346,7 @@ export function ChatScreen() {
                               style={[s.threadTitle, isActive && s.threadTitleActive]}
                               numberOfLines={1}
                             >
-                              {thread.title || t("chat.newChat", "新对话")}
+                              {thread.title || t("chat.newChat", "New chat")}
                             </Text>
                             <Text style={s.threadTime}>{formatTime(thread.updatedAt)}</Text>
                           </View>
@@ -435,7 +435,7 @@ export function ChatScreen() {
                         >
                           <ScrollTextIcon size={18} color={colors.foreground} />
                           <Text style={s.exportMenuText}>
-                            {t("chat.exportMarkdown", "导出 Markdown")}
+                            {t("chat.exportMarkdown", "Export Markdown")}
                           </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -444,7 +444,7 @@ export function ChatScreen() {
                           onPress={handleExportJSON}
                         >
                           <Download size={18} color={colors.foreground} />
-                          <Text style={s.exportMenuText}>{t("chat.exportJSON", "导出 JSON")}</Text>
+                          <Text style={s.exportMenuText}>{t("chat.exportJSON", "Export JSON")}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           style={s.exportMenuItem}
@@ -452,7 +452,7 @@ export function ChatScreen() {
                           onPress={handleCopyAll}
                         >
                           <CopyIcon size={18} color={colors.foreground} />
-                          <Text style={s.exportMenuText}>{t("chat.copyAll", "复制全部")}</Text>
+                          <Text style={s.exportMenuText}>{t("chat.copyAll", "Copy all")}</Text>
                         </TouchableOpacity>
                       </View>
                     </Pressable>
@@ -556,19 +556,19 @@ function EmptyState({
     () => [
       {
         icon: <ScrollTextIcon size={18} color={colors.mutedForeground} />,
-        text: t("chat.suggestions.summarizeReading", "总结最近读过的内容"),
+        text: t("chat.suggestions.summarizeReading", "Summarize what I've read recently"),
       },
       {
         icon: <LightbulbIcon size={18} color={colors.mutedForeground} />,
-        text: t("chat.suggestions.analyzeArguments", "分析文中论点"),
+        text: t("chat.suggestions.analyzeArguments", "Analyze the arguments in the text"),
       },
       {
         icon: <LibraryIcon size={18} color={colors.mutedForeground} />,
-        text: t("chat.suggestions.findConcepts", "查找关键概念"),
+        text: t("chat.suggestions.findConcepts", "Find key concepts"),
       },
       {
         icon: <BookOpenIcon size={18} color={colors.mutedForeground} />,
-        text: t("chat.suggestions.generateNotes", "生成阅读笔记"),
+        text: t("chat.suggestions.generateNotes", "Generate reading notes"),
       },
     ],
     [t, colors],
@@ -578,9 +578,9 @@ function EmptyState({
     <View style={[s.emptyContainer, compact && s.emptyContainerCompact]}>
       <View style={s.emptyInner}>
         <Image source={isDark ? THINK_DARK_PNG : THINK_PNG} style={{ width: 140, height: 140 }} />
-        <Text style={s.emptyTitle}>{t("chat.howCanIHelp", "有什么我可以帮你的？")}</Text>
+        <Text style={s.emptyTitle}>{t("chat.howCanIHelp", "How can I help you?")}</Text>
         <Text style={s.emptySubtitle}>
-          {t("chat.askAboutBooks", "关于书籍的任何问题都可以问我")}
+          {t("chat.askAboutBooks", "Ask me anything about your books")}
         </Text>
       </View>
       <View style={s.suggestionsGrid}>

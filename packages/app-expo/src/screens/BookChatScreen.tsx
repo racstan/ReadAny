@@ -142,10 +142,10 @@ export function BookChatScreen({ route, navigation }: Props) {
   const groupedThreads = useMemo(() => {
     const grouped = groupThreadsByTime(bookThreads);
     const sections: { key: string; label: string; threads: typeof bookThreads }[] = [
-      { key: "today", label: t("chat.today", "今天"), threads: grouped.today },
-      { key: "yesterday", label: t("chat.yesterday", "昨天"), threads: grouped.yesterday },
-      { key: "last7Days", label: t("chat.last7Days", "7 天内"), threads: grouped.last7Days },
-      { key: "last30Days", label: t("chat.last30Days", "30 天内"), threads: grouped.last30Days },
+      { key: "today", label: t("chat.today", "Today"), threads: grouped.today },
+      { key: "yesterday", label: t("chat.yesterday", "Yesterday"), threads: grouped.yesterday },
+      { key: "last7Days", label: t("chat.last7Days", "Last 7 days"), threads: grouped.last7Days },
+      { key: "last30Days", label: t("chat.last30Days", "Last 30 days"), threads: grouped.last30Days },
     ];
 
     const olderByMonth = new Map<string, typeof bookThreads>();
@@ -251,12 +251,12 @@ export function BookChatScreen({ route, navigation }: Props) {
 
       if (!resolvedAIConfig) {
         Alert.alert(
-          t("chat.configRequired", "需要配置 AI"),
-          t("chat.configRequiredMessage", "请先在设置中配置 AI 端点和模型"),
+          t("chat.configRequired", "AI configuration required"),
+          t("chat.configRequiredMessage", "Configure your AI endpoint and model in Settings first"),
           [
-            { text: t("common.cancel", "取消"), style: "cancel" },
+            { text: t("common.cancel", "Cancel"), style: "cancel" },
             {
-              text: t("common.settings", "去设置"),
+              text: t("common.settings", "Open Settings"),
               onPress: () => navigation.navigate("AISettings"),
             },
           ],
@@ -290,7 +290,7 @@ export function BookChatScreen({ route, navigation }: Props) {
     const filename = getExportFilename("md");
     const platform = getPlatformService();
     const saved = await platform.shareOrDownloadFile(md, filename, "text/markdown");
-    if (saved) Alert.alert(t("chat.exportSuccess", "导出成功"));
+    if (saved) Alert.alert(t("chat.exportSuccess", "Export successful"));
   }, [allMessages, exportOpts, t]);
 
   const handleExportJSON = useCallback(async () => {
@@ -299,14 +299,14 @@ export function BookChatScreen({ route, navigation }: Props) {
     const filename = getExportFilename("json");
     const platform = getPlatformService();
     const saved = await platform.shareOrDownloadFile(json, filename, "application/json");
-    if (saved) Alert.alert(t("chat.exportSuccess", "导出成功"));
+    if (saved) Alert.alert(t("chat.exportSuccess", "Export successful"));
   }, [allMessages, exportOpts, t]);
 
   const handleCopyAll = useCallback(async () => {
     setShowExportMenu(false);
     const text = formatChatForClipboard(allMessages, exportOpts);
     await Clipboard.setStringAsync(text);
-    Alert.alert(t("chat.copiedSuccess", "已复制到剪贴板"));
+    Alert.alert(t("chat.copiedSuccess", "Copied to clipboard"));
   }, [allMessages, exportOpts, t]);
 
   const handleCitationClick = useCallback(
@@ -353,7 +353,7 @@ export function BookChatScreen({ route, navigation }: Props) {
     (closable: boolean) => (
       <>
         <View style={s.sidebarHeader}>
-          <Text style={s.sidebarTitle}>{t("chat.history", "历史记录")}</Text>
+          <Text style={s.sidebarTitle}>{t("chat.history", "History")}</Text>
           {closable ? (
             <TouchableOpacity style={s.iconBtn} onPress={closeSidebar}>
               <XIcon size={16} color={colors.foreground} />
@@ -371,7 +371,7 @@ export function BookChatScreen({ route, navigation }: Props) {
         >
           {bookThreads.length === 0 ? (
             <View style={s.sidebarEmpty}>
-              <Text style={s.sidebarEmptyText}>{t("chat.noConversations", "暂无对话")}</Text>
+              <Text style={s.sidebarEmptyText}>{t("chat.noConversations", "No conversations yet")}</Text>
             </View>
           ) : (
             groupedThreads.map(({ key, label, threads: sectionThreads }) => {
@@ -399,7 +399,7 @@ export function BookChatScreen({ route, navigation }: Props) {
                               style={[s.threadTitle, isActive && s.threadTitleActive]}
                               numberOfLines={1}
                             >
-                              {thread.title || t("chat.newChat", "新对话")}
+                              {thread.title || t("chat.newChat", "New chat")}
                             </Text>
                             <Text style={s.threadTime}>{formatTime(thread.updatedAt)}</Text>
                           </View>
@@ -469,7 +469,7 @@ export function BookChatScreen({ route, navigation }: Props) {
             </View>
 
             <Text style={s.headerTitle} numberOfLines={1}>
-              {t("chat.aiAssistant", "AI 助手")}
+              {t("chat.aiAssistant", "AI assistant")}
             </Text>
 
             <View style={s.headerRight}>
@@ -498,7 +498,7 @@ export function BookChatScreen({ route, navigation }: Props) {
                         >
                           <ScrollTextIcon size={18} color={colors.foreground} />
                           <Text style={s.exportMenuText}>
-                            {t("chat.exportMarkdown", "导出 Markdown")}
+                            {t("chat.exportMarkdown", "Export Markdown")}
                           </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -507,7 +507,7 @@ export function BookChatScreen({ route, navigation }: Props) {
                           onPress={handleExportJSON}
                         >
                           <Download size={18} color={colors.foreground} />
-                          <Text style={s.exportMenuText}>{t("chat.exportJSON", "导出 JSON")}</Text>
+                          <Text style={s.exportMenuText}>{t("chat.exportJSON", "Export JSON")}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           style={s.exportMenuItem}
@@ -515,7 +515,7 @@ export function BookChatScreen({ route, navigation }: Props) {
                           onPress={handleCopyAll}
                         >
                           <CopyIcon size={18} color={colors.foreground} />
-                          <Text style={s.exportMenuText}>{t("chat.copyAll", "复制全部")}</Text>
+                          <Text style={s.exportMenuText}>{t("chat.copyAll", "Copy all")}</Text>
                         </TouchableOpacity>
                       </View>
                     </Pressable>
@@ -536,7 +536,7 @@ export function BookChatScreen({ route, navigation }: Props) {
           >
             {selectedText?.trim() ? (
               <View style={s.selectionContext} accessibilityLabel="Selected text context">
-                <Text style={s.selectionContextLabel}>{t("chat.selectedText", "选中文本")}</Text>
+                <Text style={s.selectionContextLabel}>{t("chat.selectedText", "Selected text")}</Text>
                 <Text style={s.selectionContextText} numberOfLines={4}>
                   “{selectedText.trim()}”
                 </Text>
@@ -558,9 +558,9 @@ export function BookChatScreen({ route, navigation }: Props) {
                         source={isDark ? THINK_DARK_PNG : THINK_PNG}
                         style={{ width: 120, height: 120 }}
                       />
-                      <Text style={s.emptyTitle}>{t("chat.aiAssistant", "AI 阅读助手")}</Text>
+                      <Text style={s.emptyTitle}>{t("chat.aiAssistant", "AI reading assistant")}</Text>
                       <Text style={s.emptySubtitle}>
-                        {t("chat.aiAssistantDesc", "分析内容、回答问题...")}
+                        {t("chat.aiAssistantDesc", "Analyze content, answer questions...")}
                       </Text>
                     </View>
                     <View style={s.suggestionsContainer}>
@@ -583,7 +583,7 @@ export function BookChatScreen({ route, navigation }: Props) {
               onSend={handleSend}
               onStop={stopStream}
               isStreaming={isStreaming}
-              placeholder={t("chat.askAboutBook", "询问关于这本书的问题...")}
+              placeholder={t("chat.askAboutBook", "Ask about this book...")}
               quotes={quotes}
               onRemoveQuote={handleRemoveQuote}
               keyboardBottomOffset={insets.bottom}

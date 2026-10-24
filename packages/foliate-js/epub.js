@@ -720,23 +720,23 @@ const deobfuscators = (sha1 = WebCryptoSHA1) => ({
     },
     decode: (key, blob) => deobfuscate(key, 1024, blob),
   },
-  // 多看阅读 Duokan DRM - 使用 AES128-CTR 加密
-  // 实际上是简单的 XOR 加密：明文[i] = 加密内容[i+16] XOR 密钥[i]
+  // Duokan DRM - uses AES128-CTR encryption
+  // In practice it is simple XOR encryption: plain[i] = encrypted[i+16] XOR key[i]
   "http://www.w3.org/2001/04/xmlenc#aes128-ctr": {
     key: (opf, knownPlain) => {
-      // 注意：我们无法自动解密多看阅读的加密文件，因为需要私钥
-      // 但是，大部分文件（包括封面图）可能没有被加密
-      // 所以我们可以继续加载书籍，只是加密的文件会显示为乱码
+      // Note: we cannot automatically decrypt Duokan-encrypted files because the private key is required
+      // However, most files (including cover images) may not be encrypted
+      // so we can still load the book; encrypted files will just appear garbled
       console.log("[Duokan] Encrypted file detected, but decryption key is not available");
       return null;
     },
     decode: (keyInfo, blob) => {
-      // 如果没有密钥，无法解密，返回原始数据（会显示为乱码）
+      // Without a key we cannot decrypt; return the original data (it will appear garbled)
       if (!keyInfo) {
         console.log("[Duokan] Cannot decrypt file (no key), returning encrypted data");
         return blob;
       }
-      // 有密钥，尝试解密
+      // With a key, attempt decryption
       return duokanDecrypt(blob, keyInfo);
     },
   },
@@ -746,9 +746,9 @@ const deobfuscators = (sha1 = WebCryptoSHA1) => ({
   },
 });
 
-// 多看阅读解密函数
-// 文件格式：[IV (16字节)] + [XOR加密内容]
-// 解密方法：明文[i] = 加密内容[i+16] XOR 密钥[i]
+// Duokan decryption function
+// File format: [IV (16 bytes)] + [XOR-encrypted content]
+// Decryption: plain[i] = encrypted[i+16] XOR key[i]
 const duokanDecrypt = async (blob, keyInfo) => {
   if (!keyInfo || !keyInfo.key) {
     console.log("[duokanDecrypt] No key info, returning encrypted data");
@@ -762,7 +762,7 @@ const duokanDecrypt = async (blob, keyInfo) => {
   const content = encrypted.slice(16);
   const decrypted = new Uint8Array(content.length);
 
-  // 检查IV是否匹配
+  // Check whether the IV matches
   if (keyInfo.iv) {
     let ivMatch = true;
     if (keyInfo.iv.length !== iv.length) {
@@ -780,7 +780,7 @@ const duokanDecrypt = async (blob, keyInfo) => {
     }
   }
 
-  // XOR 解密
+  // XOR decryption
   const key = keyInfo.key;
   for (let i = 0; i < content.length; i++) {
     decrypted[i] = content[i] ^ key[i];
@@ -789,16 +789,16 @@ const duokanDecrypt = async (blob, keyInfo) => {
   return new Blob([decrypted], { type: blob.type });
 };
 
-// 从已知明文推导多看阅读密钥
-// 参考 kankan.py 的实现
-// 密钥[i] = 明文[i] XOR 加密内容[i+16]
+// Derive the Duokan key from known plaintext
+// Based on the kankan.py implementation
+// key[i] = plain[i] XOR encrypted[i+16]
 export const generateDuokanKey = (encryptedBytes, plainBytes) => {
   if (encryptedBytes.length < 16) return null;
 
   const iv = encryptedBytes.slice(0, 16);
   const content = encryptedBytes.slice(16);
 
-  // 检查明文大小是否合适
+  // Check that the plaintext size is appropriate
   const diffLen = content.length - plainBytes.length;
   if (diffLen < 0 || diffLen >= 16) {
     console.warn(
@@ -807,10 +807,10 @@ export const generateDuokanKey = (encryptedBytes, plainBytes) => {
     return null;
   }
 
-  // 创建密钥，长度等于加密内容长度
+  // Create the key, with the same length as the encrypted content
   const key = new Uint8Array(content.length);
 
-  // 前 diffLen 个字节用 0 填充
+  // Pad the first diffLen bytes with 0
   // key[i] = plain[i] ^ enc[i+16]
   for (let i = 0; i < content.length; i++) {
     const plainByte = i < plainBytes.length ? plainBytes[i] : 0;
@@ -1260,7 +1260,7 @@ export class EPUB {
     this.getSize = getSize;
     this.#encryption = new Encryption(deobfuscators(sha1));
   }
-  // 设置已知明文用于多看阅读解密
+  // Set the known plaintext used for Duokan decryption
   setKnownPlain(plain) {
     this.#encryption.setKnownPlain(plain);
   }

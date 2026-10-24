@@ -574,7 +574,7 @@ export function createTagBooksTool(): ToolDefinition {
       assignments: {
         type: "string",
         description:
-          'JSON array of {bookId, tags: string[]}. Example: [{"bookId":"abc","tags":["科幻","小说"]}]',
+          'JSON array of {bookId, tags: string[]}. Example: [{"bookId":"abc","tags":["sci-fi","novel"]}]',
         required: true,
       },
     },
@@ -634,7 +634,7 @@ export function createUpdateBookMetadataTool(): ToolDefinition {
       updates: {
         type: "string",
         description:
-          'JSON object with any editable fields. Example: {"title":"New title","author":"Author","tags":["文学"],"rating":4.5,"groupId":"group-id","reviews":["Short review"]}',
+          'JSON object with any editable fields. Example: {"title":"New title","author":"Author","tags":["literature"],"rating":4.5,"groupId":"group-id","reviews":["Short review"]}',
         required: true,
       },
     },
@@ -840,7 +840,7 @@ export function createManageBookTagsTool(): ToolDefinition {
       tags: {
         type: "string",
         description:
-          'JSON array of tags. For create action: tags to create. For delete action: tags to delete. For removeFromBook/setBookTags: tags to remove/set. Example: ["科幻","小说"]',
+          'JSON array of tags. For create action: tags to create. For delete action: tags to delete. For removeFromBook/setBookTags: tags to remove/set. Example: ["sci-fi","novel"]',
       },
     },
     execute: async (args) => {

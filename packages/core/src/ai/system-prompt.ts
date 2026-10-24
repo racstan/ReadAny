@@ -523,7 +523,7 @@ function buildWorkflowSection(
       : undefined;
   if (primarySearchTool) {
     steps.push(
-      `- **NEVER call the same tool repeatedly with similar/identical arguments.** If ${primarySearchTool}("人物") returned results, DO NOT call ${primarySearchTool}("人物介绍"), ${primarySearchTool}("人物关系") etc. Use the results you already have.`,
+      `- **NEVER call the same tool repeatedly with similar/identical arguments.** If ${primarySearchTool}("characters") returned results, DO NOT call ${primarySearchTool}("character introductions"), ${primarySearchTool}("character relationships") etc. Use the results you already have.`,
     );
   } else {
     steps.push(
@@ -558,7 +558,7 @@ function buildWorkflowSection(
       "- For a specific chapter request, call resolveChapterReference first. If matched=false, present the candidates or ask for clarification instead of guessing chapterIndex.",
     );
     steps.push(
-      "- For chapter lookup failures, chapter search gets at most three chances in one turn. The first uses the user's original wording, the second may use one simplified query, and the third is the last chance. After that, STOP and tell the user: 未能可靠定位章节，请补充更准确的章节名",
+      "- For chapter lookup failures, chapter search gets at most three chances in one turn. The first uses the user's original wording, the second may use one simplified query, and the third is the last chance. After that, STOP and tell the user: \"I could not reliably locate that chapter. Please provide a more accurate chapter title.\"",
     );
   }
   steps.push(

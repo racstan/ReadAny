@@ -129,6 +129,7 @@ export type AIProviderType =
   | "atlascloud"
   | "anthropic"
   | "google"
+  | "nvidia"
   | "deepseek"
   | "ollama"
   | "lmstudio"
@@ -148,6 +149,7 @@ export type AIProviderType =
   | "perplexity"
   | "aihubmix"
   | "opencode"
+  | "opencode-go"
   | "pi"
   | "custom";
 

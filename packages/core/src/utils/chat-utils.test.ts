@@ -73,7 +73,7 @@ describe("convertToMessageV2", () => {
         id: "message-1",
         threadId: "thread-1",
         role: "assistant",
-        content: "第二处引用[2]在第一处引用[1]前面生成也不能错。",
+        content: "The second citation [2] was generated before the first citation [1] and must not be mismatched.",
         partsOrder: [
           {
             type: "citation",
@@ -95,7 +95,7 @@ describe("convertToMessageV2", () => {
             text: "first citation",
             citationIndex: 1,
           },
-          { type: "text", id: "text-1", text: "第二处引用[2]在第一处引用[1]前面生成也不能错。" },
+          { type: "text", id: "text-1", text: "The second citation [2] was generated before the first citation [1] and must not be mismatched." },
         ],
         createdAt: 123,
       },
@@ -114,7 +114,7 @@ describe("convertToMessageV2", () => {
         id: "message-1",
         threadId: "thread-1",
         role: "assistant",
-        content: "引用[1]",
+        content: "Citation [1]",
         toolCalls: [
           {
             id: "tool-1",

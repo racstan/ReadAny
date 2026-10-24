@@ -1164,18 +1164,18 @@ Module._load = function patchedLoad(request, parent, isMain) {
     expect(JSON.parse(scaffold.stdout)).toMatchObject({ ok: true, outputPath: scaffoldPath });
     const scaffoldRecord = await readFile(scaffoldPath, "utf8");
     expect(scaffoldRecord).toContain("## Manual Acceptance Closure");
-    expect(scaffoldRecord).toContain(`sample SHA-256：${evidence.sampleFiles[0]?.sha256}`);
+    expect(scaffoldRecord).toContain(`sample SHA-256: ${evidence.sampleFiles[0]?.sha256}`);
     expect(scaffoldRecord).toContain(
-      `citation target：${evidence.citationTargets.find((target) => target.type === "rag-chunk")?.cfi}`,
+      `citation target: ${evidence.citationTargets.find((target) => target.type === "rag-chunk")?.cfi}`,
     );
-    expect(scaffoldRecord).toContain("distribution：builtBundle: true");
+    expect(scaffoldRecord).toContain("distribution: builtBundle: true");
     expect(scaffoldRecord).toContain(
       `| macOS | fixture packaged cli | CLI executable checked; installer install TBD | builtBundle: true / desktopResourceBundle: false / nativeBinary: false / usesNodeRuntime: true | install/status/uninstall pass | readany / tools: 27 / safety metadata: yes | export pass / spine: ${packagedEvidence.draftExport.exportedInspect.spineCount} / hash: ${packagedEvidence.draftExport.outputHash} | partial |`,
     );
     expect(scaffoldRecord).toContain("| Windows |  |  |  |  |  |  |  |");
     expect(scaffoldRecord).toContain("| Linux |  |  |  |  |  |  |  |");
     expect(scaffoldRecord).toContain(
-      `- packaged macOS：packageSource: fixture packaged cli / builtBundle: true / desktopResourceBundle: false / nativeBinary: false / usesNodeRuntime: true / MCP readany / tools: 27 / safety metadata: yes / draftExport export pass / spine: ${packagedEvidence.draftExport.exportedInspect.spineCount} / hash: ${packagedEvidence.draftExport.outputHash}`,
+      `- packaged macOS: packageSource: fixture packaged cli / builtBundle: true / desktopResourceBundle: false / nativeBinary: false / usesNodeRuntime: true / MCP readany / tools: 27 / safety metadata: yes / draftExport export pass / spine: ${packagedEvidence.draftExport.exportedInspect.spineCount} / hash: ${packagedEvidence.draftExport.outputHash}`,
     );
     expect(scaffoldRecord).toContain(
       "pnpm --filter @readany/cli acceptance:validate -- --record <acceptance-record.md> --evidence <evidence-json> --evidence <agent-evidence-json> --evidence <desktop-evidence-json> --evidence <macos-packaged-evidence-json> --evidence <windows-packaged-evidence-json> --evidence <linux-packaged-evidence-json> --strict-m5",
@@ -1193,16 +1193,16 @@ Module._load = function patchedLoad(request, parent, isMain) {
       "| Claude Desktop | fixture-2.0.0 | readonly/editor/publisher / CLI | CLI flow; MCP not used | CLI-backed client prompt listed books and read a chapter through the installed readany command | agent requested draft edit and export only after profile elevation was confirmed | manual evidence captured |",
     );
     expect(scaffoldRecord).toContain(
-      "- external agent Codex：version: fixture-1.0.0 / profile: readonly/editor/publisher / usesMcp: true / tools: 27 / readonly denial: readonly epub.export returned permission_denied before any draft output",
+      "- external agent Codex: version: fixture-1.0.0 / profile: readonly/editor/publisher / usesMcp: true / tools: 27 / readonly denial: readonly epub.export returned permission_denied before any draft output",
     );
     expect(scaffoldRecord).toContain(
-      "- 桌面设置页：CLI: available / Skill: installed / MCP: codex/readonly / tools: 27 / source: fixture bundled CLI",
+      "- Desktop settings page: CLI: available / Skill: installed / MCP: codex/readonly / tools: 27 / source: fixture bundled CLI",
     );
     expect(scaffoldRecord).toContain(
       "| desktop-settings | resolved | CLI: available / Skill: installed / MCP: codex/readonly / tools: 27 / source: fixture bundled CLI | Vitest |",
     );
     expect(scaffoldRecord).toContain(
-      "- desktop settings：CLI: available / Skill: installed / MCP: codex/readonly / tools: 27 / source: fixture bundled CLI",
+      "- desktop settings: CLI: available / Skill: installed / MCP: codex/readonly / tools: 27 / source: fixture bundled CLI",
     );
     expect(scaffoldRecord).toContain("sample-source | pending");
 
@@ -1398,44 +1398,44 @@ Module._load = function patchedLoad(request, parent, isMain) {
       strictRecordPath,
       `# ReadAny CLI M5 Acceptance
 
-## 基本信息
-- 日期：2026-06-16
+## Basic Information
+- Date: 2026-06-16
 
-## 本次验收范围
-- [x] CLI 基础命令
-- [x] 外部 agent 接入
+## Acceptance Scope
+- [x] CLI basic commands
+- [x] External agent integration
 - [x] macOS / Windows / Linux install matrix
 
-## 本次明确不验收
+## Explicitly Out of Scope
 -
 
-## 执行命令
+## Commands Executed
 \`\`\`bash
 pnpm --filter @readany/cli acceptance:validate -- --strict-m5
 \`\`\`
 
-## 验收结果
+## Acceptance Result
 \`\`\`text
-通过
+Pass
 \`\`\`
 
-## 证据摘要
-- CLI check：pass
+## Evidence Summary
+- CLI check: pass
 
-## 安全边界证据
-- readonly 写入拒绝：pass
+## Safety Boundary Evidence
+- Read-only write rejection: pass
 
-## 真实样本证据
-- RAG result 引用字段：pass
+## Real Sample Evidence
+- RAG result citation fields: pass
 
-## 外部 Agent 证据
-| 客户端 | 版本 | MCP 配置 profile | tools/list | read flow | draft/export flow | 结果 |
+## External Agent Evidence
+| Client | Version | MCP config profile | tools/list | read flow | draft/export flow | Result |
 | --- | --- | --- | --- | --- | --- | --- |
 | Codex | 1.0.0 | readonly/editor/publisher | pass | pass | pass | pass |
 | Claude Desktop | 2.0.0 | readonly/editor/publisher | pass | pass | pass | pass |
 
-## 打包 / 安装矩阵
-| 平台 | 包来源 | 安装 | \`readany doctor --json\` | Skill install/status | MCP initialize/tools/list | Draft export | 结果 |
+## Packaging / Installation Matrix
+| Platform | Package source | Install | \`readany doctor --json\` | Skill install/status | MCP initialize/tools/list | Draft export | Result |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | macOS | release dmg | pass | pass | pass | pass | pass | pass |
 | Windows | release msi | pass | pass | pass | pass | pass | pass |
@@ -1451,17 +1451,17 @@ pnpm --filter @readany/cli acceptance:validate -- --strict-m5
 | reader-jumpback | resolved | citation target evidence attached | QA |
 | runtime-bundle | resolved | doctor distribution evidence attached | QA |
 
-## 当前可对外说明
+## What Can Be Stated Publicly
 - M5 complete.
 
-## 当前不能对外宣称
+## What Cannot Be Claimed Publicly
 -
 
-## 已知问题
+## Known Issues
 -
 
-## 是否允许进入下一阶段
-- [x] 是
+## Approved To Proceed To Next Phase
+- [x] Yes
 `,
       "utf8",
     );
@@ -1524,11 +1524,11 @@ pnpm --filter @readany/cli acceptance:validate -- --strict-m5
       `${await readFile(strictRecordPath, "utf8")}
 
 ## Evidence Anchors
-- sample SHA-256：${evidence.sampleFiles[0]?.sha256}
-- citation target：${evidence.citationTargets.find((target) => target.type === "rag-chunk")?.cfi}
-- distribution：builtBundle: true
-- distribution：desktopResourceBundle: false
-- distribution：nativeBinary: false
+- sample SHA-256: ${evidence.sampleFiles[0]?.sha256}
+- citation target: ${evidence.citationTargets.find((target) => target.type === "rag-chunk")?.cfi}
+- distribution: builtBundle: true
+- distribution: desktopResourceBundle: false
+- distribution: nativeBinary: false
 `,
       "utf8",
     );
@@ -2255,9 +2255,9 @@ pnpm --filter @readany/cli acceptance:validate -- --strict-m5
     const workspaceRecord = await readFile(join(acceptanceInitWorkspace, "record.md"), "utf8");
     expect(workspaceRecord).toContain("# ReadAny CLI Acceptance Record");
     expect(workspaceRecord).toContain("sample SHA-256");
-    expect(workspaceRecord).toContain("- Milestone：Workspace M5");
-    expect(workspaceRecord).toContain("- 验收人：Workspace Reviewer");
-    expect(workspaceRecord).toContain("- 桌面包来源：workspace desktop package");
+    expect(workspaceRecord).toContain("- Milestone: Workspace M5");
+    expect(workspaceRecord).toContain("- Reviewer: Workspace Reviewer");
+    expect(workspaceRecord).toContain("- Desktop package source: workspace desktop package");
     expect(workspaceRecord).toContain(
       `acceptance:status -- --workspace ${join(acceptanceInitWorkspace, "workspace.json")}`,
     );

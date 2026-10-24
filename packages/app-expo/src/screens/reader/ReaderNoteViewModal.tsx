@@ -76,7 +76,7 @@ export function ReaderNoteViewModal({
           ]}
         >
           <View style={s.noteViewHeader}>
-            <Text style={s.noteViewTitle}>{t("reader.viewNote", "查看笔记")}</Text>
+            <Text style={s.noteViewTitle}>{t("reader.viewNote", "View note")}</Text>
             <TouchableOpacity style={s.noteViewCloseBtn} onPress={onClose}>
               <XIcon size={18} color={colors.mutedForeground} />
             </TouchableOpacity>
@@ -92,14 +92,14 @@ export function ReaderNoteViewModal({
                     <RichTextEditor
                       initialContent={editContent}
                       onChange={onContentChange}
-                      placeholder={t("reader.notePlaceholder", "写下你的想法...")}
+                      placeholder={t("reader.notePlaceholder", "Write down your thoughts...")}
                       autoFocus
                     />
                   </View>
                   <View style={s.noteViewActions}>
                     <TouchableOpacity style={s.noteViewCancelBtn} onPress={onCancelEdit}>
                       <XIcon size={14} color={colors.mutedForeground} />
-                      <Text style={s.noteViewCancelText}>{t("common.cancel", "取消")}</Text>
+                      <Text style={s.noteViewCancelText}>{t("common.cancel", "Cancel")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={s.noteViewSaveBtn}
@@ -121,7 +121,7 @@ export function ReaderNoteViewModal({
                       }}
                     >
                       <CheckIcon size={14} color={colors.primaryForeground} />
-                      <Text style={s.noteViewSaveText}>{t("common.save", "保存")}</Text>
+                      <Text style={s.noteViewSaveText}>{t("common.save", "Save")}</Text>
                     </TouchableOpacity>
                   </View>
                 </>
@@ -133,7 +133,7 @@ export function ReaderNoteViewModal({
                   <View style={s.noteViewActions}>
                     <TouchableOpacity style={s.noteViewEditBtn} onPress={onStartEdit}>
                       <EditIcon size={14} color={colors.primaryForeground} />
-                      <Text style={s.noteViewEditText}>{t("common.edit", "编辑")}</Text>
+                      <Text style={s.noteViewEditText}>{t("common.edit", "Edit")}</Text>
                     </TouchableOpacity>
                   </View>
                 </>

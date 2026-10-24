@@ -291,7 +291,7 @@ export default function SyncSettingsScreen() {
     const result = await syncNow();
     if (result?.success && (result.filesUploadFailed > 0 || result.filesDownloadFailed > 0)) {
       Alert.alert(
-        t("common.warning", "提示"),
+        t("common.warning", "Notice"),
         t("settings.syncFilesPartialFailed", {
           uploadFailed: result.filesUploadFailed,
           downloadFailed: result.filesDownloadFailed,
@@ -772,9 +772,9 @@ export default function SyncSettingsScreen() {
 
             {/* Transfer sync config */}
             <View style={[styles.section, { marginTop: spacing.lg }]}>
-              <Text style={styles.sectionTitle}>{t("settings.transferConfig", "配置迁移")}</Text>
+              <Text style={styles.sectionTitle}>{t("settings.transferConfig", "Configuration transfer")}</Text>
               <ConfigTransfer
-                label={t("settings.syncConfig", "同步配置")}
+                label={t("settings.syncConfig", "Sync configuration")}
                 getData={() => {
                   const base = { backendType, config };
                   if (backendType === "webdav") {

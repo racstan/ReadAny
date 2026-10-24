@@ -107,7 +107,7 @@ export class NativeOnnxEmbeddingEngine implements ILocalEmbeddingEngine {
     const timeout = new Promise<never>((_, reject) => {
       timeoutId = setTimeout(() => {
         timedOut = true;
-        reject(new Error("无法连接模型下载服务器。请检查手机网络或开启可访问 Hugging Face 的 VPN 后重试。"));
+        reject(new Error("Unable to connect to the model download server. Check your phone's network or enable a VPN that can reach Hugging Face, then try again."));
       }, DOWNLOAD_TIMEOUT_MS);
     });
     try {
@@ -127,8 +127,9 @@ function encodeWordPiece(text: string, vocab: Record<string, number>): number[] 
   const unk = vocab["[UNK]"] ?? 100, cls = vocab["[CLS]"] ?? 101, sep = vocab["[SEP]"] ?? 102;
   const ids = [cls];
   // BERT's BasicTokenizer surrounds each CJK code point with whitespace before
-  // WordPiece. Treating "梅琳娜" as one word makes an English-style tokenizer
-  // emit one [UNK] token, which collapses all short Chinese queries together.
+  // WordPiece. Treating a multi-character CJK name as one word makes an
+  // English-style tokenizer emit one [UNK] token, which collapses all short
+  // Chinese queries together.
   const cjkSeparated = Array.from(text.normalize("NFD"), (char) =>
     isCjk(char) ? ` ${char} ` : char,
   ).join("");

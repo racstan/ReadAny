@@ -94,7 +94,7 @@ export function TagManagementSheet({
           ]}
         >
           <View style={s.handle} />
-          <Text style={s.title}>{t("home.manageTags", "管理标签")}</Text>
+          <Text style={s.title}>{t("home.manageTags", "Manage tags")}</Text>
 
           <ScrollView
             style={s.list}
@@ -164,12 +164,12 @@ export function TagManagementSheet({
                         style={s.actionBtn}
                         onPress={() => {
                           Alert.alert(
-                            t("common.confirm", "确认"),
-                            t("library.deleteTagConfirm", `确定删除标签"${tag}"？`),
+                            t("common.confirm", "Confirm"),
+                            t("library.deleteTagConfirm", `Delete tag "${tag}"?`),
                             [
-                              { text: t("common.cancel", "取消"), style: "cancel" },
+                              { text: t("common.cancel", "Cancel"), style: "cancel" },
                               {
-                                text: t("common.delete", "删除"),
+                                text: t("common.delete", "Delete"),
                                 style: "destructive",
                                 onPress: () => onRemoveTag(tag),
                               },
@@ -184,7 +184,7 @@ export function TagManagementSheet({
                 );
               })
             ) : (
-              <Text style={s.empty}>{t("sidebar.noTags", "暂无标签")}</Text>
+              <Text style={s.empty}>{t("sidebar.noTags", "No tags yet")}</Text>
             )}
 
             {/* New tag input */}
@@ -194,7 +194,7 @@ export function TagManagementSheet({
                 <PlusIcon size={16} color={colors.mutedForeground} />
                 <TextInput
                   style={s.input}
-                  placeholder={t("sidebar.tagPlaceholder", "输入标签名...")}
+                  placeholder={t("sidebar.tagPlaceholder", "Enter a tag name...")}
                   placeholderTextColor={colors.mutedForeground}
                   value={newTagInput}
                   onChangeText={setNewTagInput}
@@ -209,7 +209,7 @@ export function TagManagementSheet({
               </View>
               {newTagInput.trim().length > 0 && (
                 <TouchableOpacity style={s.addBtn} onPress={handleCreateAndAssignTag}>
-                  <Text style={s.addText}>{t("common.add", "添加")}</Text>
+                  <Text style={s.addText}>{t("common.add", "Add")}</Text>
                 </TouchableOpacity>
               )}
             </View>

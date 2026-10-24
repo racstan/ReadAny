@@ -1024,8 +1024,9 @@ export class EdgeTTSPlayer implements ITTSPlayer {
     this.scheduledEnd = 0;
 
     if (this.audioCtx.state === "suspended") {
-      // 重入下（同步 stop()+speak()）后继 run 可能在此 await 期间 close 掉本 ctx，
-      // 使 resume() reject；吞掉它——下方的 myRun !== this.runId 守卫本就会丢弃本 run。
+      // Under re-entrancy (synchronous stop()+speak()), a later run may close this
+      // ctx during the await, making resume() reject; swallow it — the
+      // myRun !== this.runId guard below discards this run anyway.
       await this.audioCtx.resume().catch(() => {});
     }
     // A newer run may have superseded us during the resume() await.

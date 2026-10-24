@@ -64,7 +64,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
         ]}
       >
         <View style={s.sheetHeader}>
-          <Text style={s.sheetTitle}>{t("reader.settings", "阅读设置")}</Text>
+          <Text style={s.sheetTitle}>{t("reader.settings", "Reading settings")}</Text>
           <TouchableOpacity onPress={onClose}>
             <XIcon size={18} color={colors.mutedForeground} />
           </TouchableOpacity>
@@ -72,7 +72,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Font Size */}
           <View style={s.settingRow}>
-            <Text style={s.settingLabel}>{t("reader.fontSize", "字号")}</Text>
+            <Text style={s.settingLabel}>{t("reader.fontSize", "Font size")}</Text>
             <View style={s.settingControl}>
               <TouchableOpacity
                 style={s.stepBtn}
@@ -91,7 +91,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
           </View>
           {/* Line Height */}
           <View style={s.settingRow}>
-            <Text style={s.settingLabel}>{t("reader.lineHeight", "行高")}</Text>
+            <Text style={s.settingLabel}>{t("reader.lineHeight", "Line height")}</Text>
             <View style={s.settingControl}>
               <TouchableOpacity
                 style={s.stepBtn}
@@ -120,7 +120,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
           </View>
           {/* Paragraph Spacing */}
           <View style={s.settingRow}>
-            <Text style={s.settingLabel}>{t("reader.paragraphSpacing", "段间距")}</Text>
+            <Text style={s.settingLabel}>{t("reader.paragraphSpacing", "Paragraph spacing")}</Text>
             <View style={s.settingControl}>
               <TouchableOpacity
                 style={s.stepBtn}
@@ -177,7 +177,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
           </View>
           {/* Page Margin */}
           <View style={s.settingRow}>
-            <Text style={s.settingLabel}>{t("reader.pageMargin", "页边距")}</Text>
+            <Text style={s.settingLabel}>{t("reader.pageMargin", "Page margin")}</Text>
             <View style={s.settingControl}>
               <TouchableOpacity
                 style={s.stepBtn}
@@ -196,7 +196,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
           </View>
           {/* Font */}
           <View style={s.settingRow}>
-            <Text style={s.settingLabel}>{t("fonts.title", "字体")}</Text>
+            <Text style={s.settingLabel}>{t("fonts.title", "Font")}</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.themeScroll}>
               <View style={s.themeRow}>
                 <TouchableOpacity
@@ -204,7 +204,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
                   onPress={() => setSelectedFont(null)}
                 >
                   <Text style={[s.themeBtnText, !selectedFontId && s.themeBtnTextActive]}>
-                    {t("fonts.systemDefault", "系统默认")}
+                    {t("fonts.systemDefault", "System default")}
                   </Text>
                 </TouchableOpacity>
                 {customFonts.map((font) => (
@@ -238,7 +238,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
           </View>
           {/* View Mode */}
           <View style={s.settingRow}>
-            <Text style={s.settingLabel}>{t("reader.viewMode", "阅读模式")}</Text>
+            <Text style={s.settingLabel}>{t("reader.viewMode", "Reading mode")}</Text>
             <View style={s.viewModeRow}>
               <TouchableOpacity
                 style={[s.viewModeBtn, settingViewMode === "paginated" && s.viewModeBtnActive]}
@@ -247,7 +247,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
                 <Text
                   style={[s.viewModeBtnText, settingViewMode === "paginated" && s.viewModeBtnTextActive]}
                 >
-                  {t("reader.paginated", "翻页")}
+                  {t("reader.paginated", "Pages")}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -257,7 +257,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
                 <Text
                   style={[s.viewModeBtnText, settingViewMode === "scroll" && s.viewModeBtnTextActive]}
                 >
-                  {t("reader.scrollMode", "滚动")}
+                  {t("reader.scrollMode", "Scroll")}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -267,7 +267,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
             <View style={s.settingLabelBlock}>
               <Text style={s.settingLabel}>{t("settings.smoothReading")}</Text>
               <Text style={s.settingHint}>
-                {t("settings.smoothReadingDesc", "开启翻页过渡动画与滚动惯性，关闭可提升低性能设备流畅度")}
+                {t("settings.smoothReadingDesc", "Enables page-turn transitions and scroll inertia. Turn off for smoother performance on low-end devices")}
               </Text>
             </View>
             <TouchableOpacity
@@ -284,7 +284,7 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
               <View style={s.settingLabelBlock}>
                 <Text style={s.settingLabel}>{t("settings.volumeButtonsPageTurn")}</Text>
                 <Text style={s.settingHint}>
-                  {t("settings.volumeButtonsPageTurnDesc", "开启后阅读时音量键用于上下翻页")}
+                  {t("settings.volumeButtonsPageTurnDesc", "Use the volume keys to turn pages while reading")}
                 </Text>
               </View>
               <TouchableOpacity
@@ -322,10 +322,10 @@ export function ReaderSettingsPanel({ visible, readSettings, bookId, onClose, on
           <View style={s.settingRow}>
             <View style={{ flex: 1 }}>
               <Text style={s.settingLabel}>
-                {t("settings.followSystemFontScale", "跟随系统字号")}
+                {t("settings.followSystemFontScale", "Follow system font scale")}
               </Text>
               <Text style={[s.settingLabel, { fontSize: 11, opacity: 0.6, marginTop: 2 }]}>
-                {t("settings.followSystemFontScaleDesc", "按系统辅助功能字号自动放大")}
+                {t("settings.followSystemFontScaleDesc", "Scale up automatically to match the system accessibility font size")}
               </Text>
             </View>
             <TouchableOpacity
@@ -406,18 +406,18 @@ function RubySettingsRow({
   );
 
   const modes: Array<{ value: RubyMode; label: string }> = [
-    { value: null, label: t("ruby.off", "关闭") },
-    { value: "zh-pinyin", label: t("ruby.pinyin", "拼音") },
-    { value: "zh-zhuyin", label: t("ruby.zhuyin", "注音") },
+    { value: null, label: t("ruby.off", "Off") },
+    { value: "zh-pinyin", label: t("ruby.pinyin", "Pinyin") },
+    { value: "zh-zhuyin", label: t("ruby.zhuyin", "Zhuyin") },
   ];
 
   return (
     <View style={[s.settingRow, { flexDirection: "column", alignItems: "stretch", gap: 10 }]}>
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
         <View style={{ flex: 1 }}>
-          <Text style={s.settingLabel}>{t("ruby.title", "注音")}</Text>
+          <Text style={s.settingLabel}>{t("ruby.title", "Phonetic annotations")}</Text>
           <Text style={[s.settingLabel, { fontSize: 11, opacity: 0.6, marginTop: 2 }]}>
-            {t("ruby.desc", "在汉字上方显示拼音读音")}
+            {t("ruby.desc", "Show pinyin readings above Chinese characters")}
           </Text>
         </View>
         {!zhReady ? (
@@ -434,7 +434,7 @@ function RubySettingsRow({
                 </Text>
               </View>
             ) : (
-              <Text style={s.settingToggleTextActive}>{t("ruby.download", "下载")}</Text>
+              <Text style={s.settingToggleTextActive}>{t("ruby.download", "Download")}</Text>
             )}
           </TouchableOpacity>
         ) : (
@@ -442,7 +442,7 @@ function RubySettingsRow({
             style={s.settingToggleBtn}
             onPress={handleDelete}
           >
-            <Text style={s.settingToggleText}>{t("common.delete", "删除")}</Text>
+            <Text style={s.settingToggleText}>{t("common.delete", "Delete")}</Text>
           </TouchableOpacity>
         )}
       </View>

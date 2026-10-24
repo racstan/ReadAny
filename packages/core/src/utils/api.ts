@@ -65,6 +65,14 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
     placeholder: "https://generativelanguage.googleapis.com",
     keyPlaceholder: "AIza...",
   },
+  nvidia: {
+    id: "nvidia",
+    name: "NVIDIA NIM",
+    defaultBaseUrl: "https://integrate.api.nvidia.com/v1",
+    needsV1Suffix: false,
+    placeholder: "https://integrate.api.nvidia.com/v1",
+    keyPlaceholder: "nvapi-...",
+  },
   ollama: {
     id: "ollama",
     name: "Ollama",
@@ -107,7 +115,7 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
   },
   zhipu: {
     id: "zhipu",
-    name: "智谱 GLM",
+    name: "Zhipu GLM (BigModel)",
     defaultBaseUrl: "https://open.bigmodel.cn/api/paas/v4",
     needsV1Suffix: false,
     placeholder: "https://open.bigmodel.cn/api/paas/v4",
@@ -115,7 +123,7 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
   },
   aliyun: {
     id: "aliyun",
-    name: "阿里云通义",
+    name: "Alibaba Qwen (DashScope)",
     defaultBaseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
     needsV1Suffix: false,
     placeholder: "https://dashscope.aliyuncs.com/compatible-mode/v1",
@@ -123,7 +131,7 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
   },
   volces: {
     id: "volces",
-    name: "火山引擎",
+    name: "Volcengine Ark",
     defaultBaseUrl: "https://ark.cn-beijing.volces.com/api/v3",
     needsV1Suffix: false,
     placeholder: "https://ark.cn-beijing.volces.com/api/v3",
@@ -131,7 +139,7 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
   },
   baichuan: {
     id: "baichuan",
-    name: "百川",
+    name: "Baichuan",
     defaultBaseUrl: "https://api.baichuan-ai.com",
     needsV1Suffix: true,
     placeholder: "https://api.baichuan-ai.com",
@@ -208,6 +216,14 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
     needsV1Suffix: false,
     placeholder: "http://localhost:4010/v1",
     keyPlaceholder: "None (local proxy) or optional key",
+  },
+  "opencode-go": {
+    id: "opencode-go",
+    name: "OpenCode Go",
+    defaultBaseUrl: "https://opencode.ai/inference/go/openai/v1",
+    needsV1Suffix: false,
+    placeholder: "https://opencode.ai/inference/go/openai/v1",
+    keyPlaceholder: "OpenCode Console API key",
   },
   pi: {
     id: "pi",
@@ -562,6 +578,7 @@ export function detectProviderFromUrl(url: string): string {
 
   if (urlLower.includes("api.atlascloud.ai")) return "atlascloud";
   if (urlLower.includes("openai.com")) return "openai";
+  if (urlLower.includes("integrate.api.nvidia.com")) return "nvidia";
   if (urlLower.includes("deepseek.com")) return "deepseek";
   if (urlLower.includes("anthropic.com")) return "anthropic";
   if (urlLower.includes("generativelanguage.googleapis.com")) return "google";
@@ -582,6 +599,7 @@ export function detectProviderFromUrl(url: string): string {
   if (urlLower.includes("mistral.ai")) return "mistral";
   if (urlLower.includes("perplexity.ai")) return "perplexity";
   if (urlLower.includes("aihubmix.com")) return "aihubmix";
+  if (urlLower.includes("opencode.ai/inference/go")) return "opencode-go";
   if (urlLower.includes("4010") || urlLower.includes("4096") || urlLower.includes("opencode")) return "opencode";
   if (urlLower.includes("31415") || urlLower.includes("pi.dev")) return "pi";
 

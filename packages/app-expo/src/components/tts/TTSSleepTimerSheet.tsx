@@ -235,23 +235,23 @@ export function TTSSleepTimerSheet({ visible, onClose }: TTSSleepTimerSheetProps
               <View style={s.header}>
                 <ClockIcon size={18} color={colors.primary} />
                 <View>
-                  <Text style={s.title}>{t("tts.sleepTimer", "定时停止")}</Text>
+                  <Text style={s.title}>{t("tts.sleepTimer", "Sleep timer")}</Text>
                   <Text style={s.subtitle}>
-                    {t("tts.sleepTimerSubtitle", "让朗读在你设定的时间后自动停止")}
+                    {t("tts.sleepTimerSubtitle", "Automatically stop reading after the time you set")}
                   </Text>
                 </View>
               </View>
 
               {sleepTimerEndsAt ? (
                 <View style={s.current}>
-                  <Text style={s.currentLabel}>{t("tts.sleepTimerActive", "已开启睡眠定时")}</Text>
+                  <Text style={s.currentLabel}>{t("tts.sleepTimerActive", "Sleep timer is on")}</Text>
                   <Text style={s.currentValue}>
                     {remainingLabel
                       ? t("tts.sleepTimerRemaining", {
                           time: remainingLabel,
                           defaultValue: `Remaining ${remainingLabel}`,
                         })
-                      : t("tts.sleepTimerSoon", "即将停止")}
+                      : t("tts.sleepTimerSoon", "Stopping soon")}
                   </Text>
                 </View>
               ) : null}
@@ -267,7 +267,7 @@ export function TTSSleepTimerSheet({ visible, onClose }: TTSSleepTimerSheetProps
                     }}
                   >
                     <Text style={s.presetBtnText}>
-                      {t("tts.sleepTimerPresetShort", { minutes, defaultValue: `${minutes} 分钟` })}
+                      {t("tts.sleepTimerPresetShort", { minutes, defaultValue: `${minutes} min` })}
                     </Text>
                   </TouchableOpacity>
                 ))}
@@ -279,11 +279,11 @@ export function TTSSleepTimerSheet({ visible, onClose }: TTSSleepTimerSheetProps
                   keyboardType="number-pad"
                   value={customMinutes}
                   onChangeText={setCustomMinutes}
-                  placeholder={t("tts.sleepTimerCustomPlaceholder", "自定义分钟数")}
+                  placeholder={t("tts.sleepTimerCustomPlaceholder", "Custom minutes")}
                   placeholderTextColor={colors.mutedForeground}
                 />
                 <TouchableOpacity style={s.applyBtn} onPress={applyCustomMinutes}>
-                  <Text style={s.applyBtnText}>{t("tts.sleepTimerApply", "开始计时")}</Text>
+                  <Text style={s.applyBtnText}>{t("tts.sleepTimerApply", "Start timer")}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -296,11 +296,11 @@ export function TTSSleepTimerSheet({ visible, onClose }: TTSSleepTimerSheetProps
                       onClose();
                     }}
                   >
-                    <Text style={s.ghostBtnText}>{t("tts.sleepTimerCancel", "关闭定时")}</Text>
+                    <Text style={s.ghostBtnText}>{t("tts.sleepTimerCancel", "Turn off timer")}</Text>
                   </TouchableOpacity>
                 ) : null}
                 <TouchableOpacity style={s.ghostBtn} onPress={onClose}>
-                  <Text style={s.ghostBtnText}>{t("common.cancel", "取消")}</Text>
+                  <Text style={s.ghostBtnText}>{t("common.cancel", "Cancel")}</Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>

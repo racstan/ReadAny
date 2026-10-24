@@ -28,15 +28,17 @@ const PROVIDERS: { id: AIProviderType; label: string }[] = [
   { id: "atlascloud", label: "Atlas Cloud" },
   { id: "anthropic", label: "Anthropic" },
   { id: "google", label: "Google Gemini" },
+  { id: "nvidia", label: "NVIDIA NIM" },
   { id: "deepseek", label: "DeepSeek" },
   { id: "ollama", label: "Ollama" },
   { id: "lmstudio", label: "LM Studio" },
   { id: "openrouter", label: "OpenRouter" },
   { id: "siliconflow", label: "SiliconFlow" },
   { id: "moonshot", label: "Moonshot" },
-  { id: "zhipu", label: "智谱 GLM" },
-  { id: "aliyun", label: "阿里云通义" },
+  { id: "zhipu", label: "Zhipu GLM (BigModel)" },
+  { id: "aliyun", label: "Alibaba Qwen (DashScope)" },
   { id: "opencode", label: "OpenCode (Local Proxy)" },
+  { id: "opencode-go", label: "OpenCode Go" },
   { id: "pi", label: "Pi Agent (Local RPC/Bridge)" },
   { id: "custom", label: "Custom" },
 ];
@@ -68,7 +70,7 @@ function ModelSearchableList({
     <View style={{ gap: 6 }}>
       {activeModel && models.includes(activeModel) && (
         <View style={{ flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 2 }}>
-          <Text style={{ fontSize: 11, color: colors.mutedForeground }}>{t("settings.ai_activeModel", "当前模型")}:</Text>
+          <Text style={{ fontSize: 11, color: colors.mutedForeground }}>{t("settings.ai_activeModel", "Active model")}:</Text>
           <Text style={{ fontSize: 12, color: colors.primary, fontWeight: "600" }}>{activeModel}</Text>
         </View>
       )}
@@ -83,7 +85,7 @@ function ModelSearchableList({
           color: colors.foreground,
           backgroundColor: colors.background,
         }}
-        placeholder={t("settings.ai_searchModelPlaceholder", "搜索模型...")}
+        placeholder={t("settings.ai_searchModelPlaceholder", "Search models...")}
         placeholderTextColor={colors.mutedForeground}
         value={search}
         onChangeText={setSearch}
@@ -97,7 +99,7 @@ function ModelSearchableList({
       >
         {filtered.length === 0 ? (
           <Text style={{ padding: 12, fontSize: 12, color: colors.mutedForeground, textAlign: "center" }}>
-            {t("common.noResults", "无匹配结果")}
+            {t("common.noResults", "No results")}
           </Text>
         ) : (
           filtered.map((m) => {
@@ -140,7 +142,7 @@ function ModelSearchableList({
         )}
       </ScrollView>
       <Text style={{ fontSize: 10, color: colors.mutedForeground }}>
-        {t("settings.ai_modelsCount", "共 {{count}} 个模型", { count: models.length })}
+        {t("settings.ai_modelsCount", "{{count}} models in total", { count: models.length })}
       </Text>
     </View>
   );
@@ -230,9 +232,9 @@ export function EndpointEditor({
     if (!requestPreview) return;
     try {
       await getPlatformService().copyToClipboard(requestPreview);
-      Alert.alert(t("common.success", "成功！"), t("notes.copiedToClipboard", "已复制到剪贴板"));
+      Alert.alert(t("common.success", "Success!"), t("notes.copiedToClipboard", "Copied to clipboard"));
     } catch (error) {
-      Alert.alert(t("common.failed", "失败"), error instanceof Error ? error.message : t("common.failed", "失败"));
+      Alert.alert(t("common.failed", "Failed"), error instanceof Error ? error.message : t("common.failed", "Failed"));
     }
   }, [requestPreview, t]);
 
@@ -268,14 +270,14 @@ export function EndpointEditor({
   return (
     <View style={styles.expandedContent}>
       <TouchableOpacity style={styles.row} onPress={() => setActiveEndpoint(ep.id)}>
-        <Text style={styles.label}>{t("settings.ai_setDefault", "设为默认")}</Text>
+        <Text style={styles.label}>{t("settings.ai_setDefault", "Set as default")}</Text>
         <View style={[styles.toggle, isActive && styles.toggleActive]}>
           <View style={[styles.toggleThumb, isActive && styles.toggleThumbActive]} />
         </View>
       </TouchableOpacity>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>{t("settings.ai_name", "名称")}</Text>
+        <Text style={styles.fieldLabel}>{t("settings.ai_name", "Name")}</Text>
         <TextInput
           style={styles.input}
           value={name}
@@ -286,7 +288,7 @@ export function EndpointEditor({
       </View>
 
       <View style={styles.fieldGroup}>
-        <Text style={styles.fieldLabel}>{t("settings.ai_providerLabel", "提供商")}</Text>
+        <Text style={styles.fieldLabel}>{t("settings.ai_providerLabel", "Provider")}</Text>
         <View style={styles.providerGrid}>
           {PROVIDERS.map((p) => (
             <TouchableOpacity
@@ -332,7 +334,7 @@ export function EndpointEditor({
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>
           {exactRequestUrlEnabled
-            ? t("settings.ai_exactRequestUrlLabel", "完整请求地址")
+            ? t("settings.ai_exactRequestUrlLabel", "Full request URL")
             : t("settings.ai_baseUrl", "Base URL")}
         </Text>
         <TextInput
@@ -347,8 +349,8 @@ export function EndpointEditor({
         {supportsExactRequestUrl && (
           <View style={styles.exactUrlCard}>
             <View style={styles.exactUrlInfo}>
-              <Text style={styles.fieldLabel}>{t("settings.ai_exactRequestUrl", "完全自定义请求地址")}</Text>
-              <Text style={styles.baseUrlHint}>{t("settings.ai_exactRequestUrlDesc", "启用后将按你填写的地址原样请求，不再自动追加 /v1、/chat/completions 或 /models。")}</Text>
+              <Text style={styles.fieldLabel}>{t("settings.ai_exactRequestUrl", "Fully custom request URL")}</Text>
+              <Text style={styles.baseUrlHint}>{t("settings.ai_exactRequestUrlDesc", "When enabled, requests are sent exactly to the URL you enter; /v1, /chat/completions, and /models are no longer appended automatically.")}</Text>
             </View>
             <Switch
               value={exactRequestUrlEnabled}
@@ -366,13 +368,13 @@ export function EndpointEditor({
         )}
         <View style={styles.previewCard}>
           <View style={styles.previewHeader}>
-            <Text style={styles.previewLabel}>{t("settings.ai_requestUrlPreview", "最终请求地址")}</Text>
+            <Text style={styles.previewLabel}>{t("settings.ai_requestUrlPreview", "Final request URL")}</Text>
             <TouchableOpacity style={styles.previewCopyButton} onPress={handleCopyRequestPreview} activeOpacity={0.8} disabled={!requestPreview}>
-              <Text style={styles.previewCopyButtonText}>{t("common.copy", "复制")}</Text>
+              <Text style={styles.previewCopyButtonText}>{t("common.copy", "Copy")}</Text>
             </TouchableOpacity>
           </View>
           <Text style={styles.previewValue}>{requestPreview || "—"}</Text>
-          <Text style={styles.previewLabel}>{t("settings.ai_testModel", "测试模型")}</Text>
+          <Text style={styles.previewLabel}>{t("settings.ai_testModel", "Test model")}</Text>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
             <TouchableOpacity
               style={[styles.testModelChip, testModel === "__auto__" && styles.testModelChipActive]}
@@ -380,7 +382,7 @@ export function EndpointEditor({
               activeOpacity={0.8}
             >
               <Text style={[styles.testModelChipText, testModel === "__auto__" && styles.testModelChipTextActive]}>
-                {t("settings.ai_testModelAuto", "自动")}
+                {t("settings.ai_testModelAuto", "Auto")}
               </Text>
             </TouchableOpacity>
             {testModel !== "__auto__" && (
@@ -402,7 +404,7 @@ export function EndpointEditor({
 
       <View style={styles.fieldGroup}>
         <View style={styles.modelsHeader}>
-          <Text style={styles.fieldLabel}>{t("settings.ai_modelsList", "模型列表")}</Text>
+          <Text style={styles.fieldLabel}>{t("settings.ai_modelsList", "Model list")}</Text>
           <View style={styles.modelsActions}>
             <TouchableOpacity
               style={styles.fetchBtn}
@@ -410,18 +412,18 @@ export function EndpointEditor({
               disabled={exactRequestUrlEnabled || !!ep.modelsFetching || (providerRequiresApiKey(ep.provider) && !apiKey.trim())}
             >
               {ep.modelsFetching ? <LoaderIcon size={12} color={colors.primary} /> : (
-                <Text style={styles.fetchBtnText}>{t("settings.ai_fetchModels", "获取模型")}</Text>
+                <Text style={styles.fetchBtnText}>{t("settings.ai_fetchModels", "Fetch models")}</Text>
               )}
             </TouchableOpacity>
             <TouchableOpacity style={styles.fetchBtn} onPress={handleTestConnection} disabled={testState === "testing"}>
               {testState === "testing" ? <LoaderIcon size={12} color={colors.primary} /> : (
-                <Text style={styles.fetchBtnText}>{t("settings.ai_testConnection", "测试连接")}</Text>
+                <Text style={styles.fetchBtnText}>{t("settings.ai_testConnection", "Test connection")}</Text>
               )}
             </TouchableOpacity>
           </View>
         </View>
         {exactRequestUrlEnabled && (
-          <Text style={styles.endpointTestResult}>{t("settings.ai_exactRequestUrlFetchHint", "完全自定义请求地址模式下无法自动推断模型列表地址，请手动添加模型后再测试。")}</Text>
+          <Text style={styles.endpointTestResult}>{t("settings.ai_exactRequestUrlFetchHint", "In fully custom request URL mode the model-list endpoint cannot be inferred automatically. Add models manually before testing.")}</Text>
         )}
         {testState !== "idle" && !!testMessage && (
           <Text style={[styles.endpointTestResult, testState === "success" ? styles.endpointTestSuccess : styles.endpointTestError]}>
@@ -443,21 +445,21 @@ export function EndpointEditor({
         <View style={styles.addModelRow}>
           <TextInput
             style={[styles.input, { flex: 1 }]}
-            placeholder={t("settings.ai_addManualModelPlaceholder", "手动添加模型名")}
+            placeholder={t("settings.ai_addManualModelPlaceholder", "Add a model name manually")}
             placeholderTextColor={colors.mutedForeground}
             value={newModelInput}
             onChangeText={setNewModelInput}
             onSubmitEditing={handleAddModel}
           />
           <TouchableOpacity style={styles.addModelBtn} onPress={handleAddModel} activeOpacity={0.8}>
-            <Text style={styles.addModelBtnText}>{t("common.add", "添加")}</Text>
+            <Text style={styles.addModelBtnText}>{t("common.add", "Add")}</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       <TouchableOpacity style={styles.deleteBtn} onPress={() => onDelete(ep.id)} activeOpacity={0.8}>
         <Trash2Icon size={14} color={colors.destructive} />
-        <Text style={styles.deleteBtnText}>{t("common.delete", "删除")}</Text>
+        <Text style={styles.deleteBtnText}>{t("common.delete", "Delete")}</Text>
       </TouchableOpacity>
     </View>
   );

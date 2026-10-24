@@ -28,10 +28,10 @@ describe("sync-naming", () => {
     });
 
     it("falls back to placeholder for empty / nullish / whitespace-only input", () => {
-      expect(sanitizeBookTitleForFs("")).toBe("未命名");
-      expect(sanitizeBookTitleForFs(null)).toBe("未命名");
-      expect(sanitizeBookTitleForFs(undefined)).toBe("未命名");
-      expect(sanitizeBookTitleForFs("   ")).toBe("未命名");
+      expect(sanitizeBookTitleForFs("")).toBe("Untitled");
+      expect(sanitizeBookTitleForFs(null)).toBe("Untitled");
+      expect(sanitizeBookTitleForFs(undefined)).toBe("Untitled");
+      expect(sanitizeBookTitleForFs("   ")).toBe("Untitled");
     });
 
     it("caps overlong titles at 64 chars", () => {
@@ -105,7 +105,7 @@ describe("sync-naming", () => {
 
     it("falls back to placeholder when title is null/empty", () => {
       const noTitle = { id: UUID, title: null };
-      expect(buildBookFolderName(noTitle)).toBe(`未命名-${UUID}`);
+      expect(buildBookFolderName(noTitle)).toBe(`Untitled-${UUID}`);
     });
 
     it("round-trips via parseBookFolderName", () => {

@@ -289,12 +289,12 @@ export function WebDavConnectSheet({
             <View style={s.handle} />
             <View>
               <Text style={s.title}>
-                {t("library.importSourceTemporaryWebDav", "连接其他 WebDAV")}
+                {t("library.importSourceTemporaryWebDav", "Connect to another WebDAV")}
               </Text>
               <Text style={s.subtitle}>
                 {t(
                   "library.importSourceTemporaryWebDavDesc",
-                  "临时输入另一个地址、账号和文件夹，这次导完就走，不会改动当前同步配置。",
+                  "Temporarily enter another address, account, and folder. It applies to this import only and won't change your current sync configuration.",
                 )}
               </Text>
             </View>
@@ -347,7 +347,7 @@ export function WebDavConnectSheet({
                   />
                 </View>
                 <View style={s.field}>
-                  <Text style={s.label}>{t("settings.syncRemoteRoot", "远端文件夹")}</Text>
+                  <Text style={s.label}>{t("settings.syncRemoteRoot", "Remote folder")}</Text>
                   <TextInput
                     style={s.input}
                     value={remoteRoot}
@@ -356,26 +356,26 @@ export function WebDavConnectSheet({
                     autoCorrect={false}
                     placeholder={t(
                       "library.webdavImportRemoteRootPlaceholder",
-                      "留空则从服务器基准目录开始",
+                      "Leave empty to start from the server's base directory",
                     )}
                     placeholderTextColor={colors.mutedForeground}
                   />
                   <Text style={s.helper}>
                     {t(
                       "library.importRemoteRootHint",
-                      "可以填写任意多级路径；留空时会从当前 WebDAV 服务的基准目录开始浏览。",
+                      "You can enter a path of any depth; when left empty, browsing starts from the base directory of the current WebDAV service.",
                     )}
                   </Text>
                 </View>
                 <View style={s.switchRow}>
                   <View style={s.switchCopy}>
                     <Text style={s.switchTitle}>
-                      {t("settings.syncAllowInsecure", "允许不安全连接")}
+                      {t("settings.syncAllowInsecure", "Allow insecure connection")}
                     </Text>
                     <Text style={s.switchDesc}>
                       {t(
                         "library.importAllowInsecureHint",
-                        "对自签名证书或纯 HTTP 服务有帮助，生产环境仍建议使用 HTTPS。",
+                        "Useful for self-signed certificates or plain HTTP servers. HTTPS is still recommended in production.",
                       )}
                     </Text>
                   </View>
@@ -392,7 +392,7 @@ export function WebDavConnectSheet({
 
             <View style={s.footer}>
               <TouchableOpacity style={s.secondaryBtn} onPress={onClose} activeOpacity={0.85}>
-                <Text style={s.secondaryBtnText}>{t("common.cancel", "取消")}</Text>
+                <Text style={s.secondaryBtnText}>{t("common.cancel", "Cancel")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={s.primaryBtn}
@@ -405,8 +405,8 @@ export function WebDavConnectSheet({
                 ) : null}
                 <Text style={s.primaryBtnText}>
                   {submitting
-                    ? t("library.webdavImportConnecting", "连接中...")
-                    : t("library.webdavImportConnectAndBrowse", "连接并浏览")}
+                    ? t("library.webdavImportConnecting", "Connecting...")
+                    : t("library.webdavImportConnectAndBrowse", "Connect and browse")}
                 </Text>
               </TouchableOpacity>
             </View>

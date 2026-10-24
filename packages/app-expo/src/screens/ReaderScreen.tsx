@@ -906,7 +906,8 @@ export function ReaderScreen({ route, navigation }: Props) {
       ttsPlayState === "stopped" &&
       isFocused &&
       appActive,
-    // 维护约定：任何新增遮盖正文/输入态/导航跳转，必须在此追加判定。
+    // Maintenance rule: any new overlay that covers body content, input, or a
+    // navigation jump must be added as a condition here.
     [
       readSettings.volumeButtonsPageTurn, webViewReady, loading, error, isReimporting,
       showSearch, showTOC, showSettings, showNotebook, showTTS,
@@ -1059,7 +1060,7 @@ export function ReaderScreen({ route, navigation }: Props) {
   // Load book metadata and annotations
   useEffect(() => {
     if (!book) {
-      setError(t("reader.bookNotFound", "书籍未找到"));
+      setError(t("reader.bookNotFound", "Book not found"));
       setLoading(false);
       return;
     }
@@ -1185,17 +1186,17 @@ export function ReaderScreen({ route, navigation }: Props) {
         });
         if (candidate && shouldConfirmReimportCandidate(book, candidate)) {
           const shouldContinue = await useMissingBookPromptStore.getState().showPrompt({
-            title: t("reader.reimportMismatchTitle", "这份文件看起来和原书不太一致"),
+            title: t("reader.reimportMismatchTitle", "This file doesn't quite match the original book"),
             description: t(
               "reader.reimportMismatchDescription",
-              "原书《{{originalTitle}}》与当前文件《{{candidateTitle}}》信息差异较大。仍要把它接回原来的笔记和阅读统计吗？",
+              "The original book \"{{originalTitle}}\" and the selected file \"{{candidateTitle}}\" differ significantly. Reconnect it to the original notes and reading stats anyway?",
               {
                 originalTitle: book.meta.title,
-                candidateTitle: candidate.title || t("reader.unknownBook", "未命名书籍"),
+                candidateTitle: candidate.title || t("reader.unknownBook", "Untitled book"),
               },
             ),
-            confirmLabel: t("reader.reimportContinue", "继续接回"),
-            cancelLabel: t("reader.reimportPickAnotherFile", "重新选择"),
+            confirmLabel: t("reader.reimportContinue", "Reconnect anyway"),
+            cancelLabel: t("reader.reimportPickAnotherFile", "Choose another file"),
           });
           if (!shouldContinue) return;
         }
@@ -1206,7 +1207,7 @@ export function ReaderScreen({ route, navigation }: Props) {
         .reimportDeletedBook(bookId, { uri: selectedUri, name: result.assets[0].name });
 
       if (!restoredBook) {
-        setError(t("reader.reimportFailed", "重新导入失败，请稍后再试。"));
+        setError(t("reader.reimportFailed", "Re-import failed. Please try again later."));
         return;
       }
 
@@ -1217,7 +1218,7 @@ export function ReaderScreen({ route, navigation }: Props) {
       setError(
         err instanceof Error
           ? err.message
-          : t("reader.reimportFailed", "重新导入失败，请稍后再试。"),
+          : t("reader.reimportFailed", "Re-import failed. Please try again later."),
       );
     } finally {
       setIsReimporting(false);
@@ -1335,7 +1336,7 @@ export function ReaderScreen({ route, navigation }: Props) {
       <SafeAreaView style={[s.container, { backgroundColor: colors.background }]}>
         <View style={s.loadingWrap}>
           <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={s.loadingText}>{t("reader.loading", "正在加载...")}</Text>
+          <Text style={s.loadingText}>{t("reader.loading", "Loading...")}</Text>
         </View>
       </SafeAreaView>
     );
@@ -1345,7 +1346,7 @@ export function ReaderScreen({ route, navigation }: Props) {
     return (
       <SafeAreaView style={[s.container, { backgroundColor: colors.background }]}>
         <View style={s.loadingWrap}>
-          <Text style={s.errorText}>{t("reader.loadFailed", "加载失败")}</Text>
+          <Text style={s.errorText}>{t("reader.loadFailed", "Failed to load")}</Text>
           <Text style={[s.loadingText, { textAlign: "center", maxWidth: 320 }]}>{error}</Text>
           <View style={{ flexDirection: "row", gap: 12, marginTop: 8 }}>
             <TouchableOpacity
@@ -1361,7 +1362,7 @@ export function ReaderScreen({ route, navigation }: Props) {
               }}
             >
               <Text style={s.backButtonText}>
-                {book?.filePath ? t("common.retry", "重试") : t("common.back", "返回")}
+                {book?.filePath ? t("common.retry", "Retry") : t("common.back", "Back")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -1374,8 +1375,8 @@ export function ReaderScreen({ route, navigation }: Props) {
             >
               <Text style={[s.backButtonText, { color: colors.foreground }]}>
                 {isReimporting
-                  ? t("reader.reimporting", "正在重新导入...")
-                  : t("reader.reimport", "重新导入")}
+                  ? t("reader.reimporting", "Re-importing...")
+                  : t("reader.reimport", "Re-import")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1389,7 +1390,7 @@ export function ReaderScreen({ route, navigation }: Props) {
       <View style={s.container}>
         <View style={s.loadingWrap}>
           <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={s.loadingText}>{t("reader.loading", "加载阅读器...")}</Text>
+          <Text style={s.loadingText}>{t("reader.loading", "Loading reader...")}</Text>
         </View>
       </View>
     );
@@ -1847,7 +1848,7 @@ export function ReaderScreen({ route, navigation }: Props) {
                 }}
               >
                 <ListIcon size={bottomDockIconSize} color={colors.foreground} />
-                <Text style={s.bottomDockLabel}>{t("reader.toc", "目录")}</Text>
+                <Text style={s.bottomDockLabel}>{t("reader.toc", "Contents")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[s.bottomDockBtn, isBookmarked && s.bottomDockBtnActive]}
@@ -1859,7 +1860,7 @@ export function ReaderScreen({ route, navigation }: Props) {
                   <BookmarkIcon size={bottomDockIconSize} color={colors.foreground} />
                 )}
                 <Text style={[s.bottomDockLabel, isBookmarked && s.bottomDockLabelActive]}>
-                  {t("reader.bookmarks", "书签")}
+                  {t("reader.bookmarks", "Bookmarks")}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -1867,7 +1868,7 @@ export function ReaderScreen({ route, navigation }: Props) {
                 onPress={() => navigation.navigate("FullScreenNotes", { bookId })}
               >
                 <NotebookPenIcon size={bottomDockIconSize} color={colors.foreground} />
-                <Text style={s.bottomDockLabel}>{t("notes.title", "笔记")}</Text>
+                <Text style={s.bottomDockLabel}>{t("notes.title", "Notes")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={s.bottomDockBtn}
@@ -1883,11 +1884,11 @@ export function ReaderScreen({ route, navigation }: Props) {
                 }}
               >
                 <SearchIcon size={bottomDockIconSize} color={colors.foreground} />
-                <Text style={s.bottomDockLabel}>{t("reader.search", "搜索")}</Text>
+                <Text style={s.bottomDockLabel}>{t("reader.search", "Search")}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={s.bottomDockBtn} onPress={() => setShowSettings(true)}>
                 <SettingsIcon size={bottomDockIconSize} color={colors.foreground} />
-                <Text style={s.bottomDockLabel}>{t("common.settings", "设置")}</Text>
+                <Text style={s.bottomDockLabel}>{t("common.settings", "Settings")}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1902,7 +1903,7 @@ export function ReaderScreen({ route, navigation }: Props) {
               <SearchIcon size={16} color={colors.mutedForeground} />
               <TextInput
                 style={s.searchInput}
-                placeholder={t("reader.searchInBook", "在书中搜索")}
+                placeholder={t("reader.searchInBook", "Search in book")}
                 placeholderTextColor={colors.mutedForeground}
                 value={search.searchQuery}
                 onChangeText={search.handleSearchInput}
@@ -1946,18 +1947,18 @@ export function ReaderScreen({ route, navigation }: Props) {
               onPress={() => {
                 if (search.searchStartCfi && search.searchResultCount > 0) {
                   Alert.alert(
-                    t("reader.searchComplete", "搜索完成"),
-                    t("reader.returnToOriginal", "是否返回搜索前的位置？"),
+                    t("reader.searchComplete", "Search complete"),
+                    t("reader.returnToOriginal", "Return to where you were before searching?"),
                     [
                       {
-                        text: t("common.cancel", "取消"),
+                        text: t("common.cancel", "Cancel"),
                         style: "cancel",
                         onPress: () => {
                           search.setSearchStartCfi(null);
                         },
                       },
                       {
-                        text: t("common.confirm", "确定"),
+                        text: t("common.confirm", "OK"),
                         onPress: () => {
                           goToCFISafely(search.searchStartCfi!);
                           search.setSearchStartCfi(null);
@@ -2044,7 +2045,7 @@ export function ReaderScreen({ route, navigation }: Props) {
           ]}
         >
           <View style={s.sheetHeader}>
-            <Text style={s.sheetTitle}>{t("reader.notebook", "笔记本")}</Text>
+            <Text style={s.sheetTitle}>{t("reader.notebook", "Notebook")}</Text>
             <TouchableOpacity onPress={() => setShowNotebook(false)}>
               <XIcon size={18} color={colors.mutedForeground} />
             </TouchableOpacity>
@@ -2085,7 +2086,7 @@ export function ReaderScreen({ route, navigation }: Props) {
             <View style={s.notebookPlaceholder}>
               <NotebookPenIcon size={40} color={colors.mutedForeground} />
               <Text style={s.notebookPlaceholderText}>
-                {t("reader.notebookHint", "在阅读时选中文字来创建笔记和高亮")}
+                {t("reader.notebookHint", "Select text while reading to create notes and highlights")}
               </Text>
             </View>
           )}

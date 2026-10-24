@@ -254,7 +254,7 @@ function agentRows(agentEvidences) {
 
 function agentAnchors(agentEvidences) {
   return agentEvidences.map((agentEvidence) => [
-    `- external agent ${agentClientLabel(agentEvidence)}：version: ${value(agentEvidence.client?.version)}`,
+    `- external agent ${agentClientLabel(agentEvidence)}: version: ${value(agentEvidence.client?.version)}`,
     `profile: ${value(agentEvidence.client?.profile)}`,
     `usesMcp: ${flag(agentEvidence.client?.usesMcp)}`,
     `tools: ${value(agentEvidence.mcp?.toolCount, agentEvidence.client?.usesMcp ? "TBD" : "not used")}`,
@@ -345,110 +345,110 @@ function renderRecord(evidence, options, packagedEvidences, agentEvidences, desk
   const agentAnchorRows = agentAnchors(agentEvidences);
   return `# ReadAny CLI Acceptance Record
 
-## 基本信息
+## Basic Information
 
-- 日期：${new Date().toISOString().slice(0, 10)}
-- Milestone：${options.milestone}
-- 分支：${value(evidence.environment?.gitBranch)}
-- Commit：${value(evidence.environment?.gitCommit)}
-- 验收人：${options.reviewer}
-- 操作系统：${value(evidence.environment?.platform)} / ${value(evidence.environment?.arch)}
-- Node 版本：${value(evidence.environment?.node)}
-- pnpm 版本：${value(evidence.environment?.pnpm)}
-- ReadAny CLI 版本：${value(evidence.environment?.cliVersion ?? evidence.doctor?.version)}
-- 样本数据位置：${value(evidence.readanyHome)}
-- 样本数据 hash：${sampleHash}
-- 外部 agent 客户端：${agentEvidences.length > 0 ? agentEvidences.map(agentClientLabel).join(", ") : "TBD"}
-- 桌面包来源：${options.desktopPackage}
+- Date: ${new Date().toISOString().slice(0, 10)}
+- Milestone: ${options.milestone}
+- Branch: ${value(evidence.environment?.gitBranch)}
+- Commit: ${value(evidence.environment?.gitCommit)}
+- Reviewer: ${options.reviewer}
+- OS: ${value(evidence.environment?.platform)} / ${value(evidence.environment?.arch)}
+- Node version: ${value(evidence.environment?.node)}
+- pnpm version: ${value(evidence.environment?.pnpm)}
+- ReadAny CLI version: ${value(evidence.environment?.cliVersion ?? evidence.doctor?.version)}
+- Sample data location: ${value(evidence.readanyHome)}
+- Sample data hash: ${sampleHash}
+- External agent clients: ${agentEvidences.length > 0 ? agentEvidences.map(agentClientLabel).join(", ") : "TBD"}
+- Desktop package source: ${options.desktopPackage}
 
-## 本次验收范围
+## Acceptance Scope
 
-- [ ] CLI 基础命令
-- [ ] Skill 安装 / 卸载
+- [ ] CLI basic commands
+- [ ] Skill install / uninstall
 - [ ] readonly MCP
-- [ ] 只读书库查询
+- [ ] Read-only library queries
 - [ ] indexed chapters
 - [ ] reader context snapshot
 - [ ] RAG search
 - [ ] EPUB draft
 - [ ] EPUB export
 - [ ] exported EPUB reimport / open
-- [ ] 桌面设置页
-- [ ] 外部 agent 接入
+- [ ] Desktop settings page
+- [ ] External agent integration
 - [ ] macOS / Windows / Linux install matrix
 - [ ] native binary / runtime bundle
 
-## 本次明确不验收
+## Explicitly Out of Scope
 
-- 当前为 scaffold，pending 项必须补证后才能改为通过。
+- This is a scaffold; pending items require evidence before the result can be changed to a pass.
 
-## 执行命令
+## Commands Executed
 
 ${renderCommandBlock(options, workspaceFile, workspace)}
 
-## 验收结果
+## Acceptance Result
 
 \`\`\`text
-部分通过
+Partial pass
 \`\`\`
 
-## 证据摘要
+## Evidence Summary
 
-- evidence generatedAt：${value(evidence.generatedAt)}
-- checks：${value(evidence.summary?.checkCount)}
-- commands：${value(evidence.summary?.commandCount)}
-- sample files：${value(evidence.summary?.sampleFileCount)}
-- citation targets：${value(evidence.summary?.citationTargetCount)}
-- sample SHA-256：${sampleHash}
-- citation target：${citationAnchor}
-- distribution：${distribution.join(" / ")}
+- evidence generatedAt: ${value(evidence.generatedAt)}
+- checks: ${value(evidence.summary?.checkCount)}
+- commands: ${value(evidence.summary?.commandCount)}
+- sample files: ${value(evidence.summary?.sampleFileCount)}
+- citation targets: ${value(evidence.summary?.citationTargetCount)}
+- sample SHA-256: ${sampleHash}
+- citation target: ${citationAnchor}
+- distribution: ${distribution.join(" / ")}
 
-## 安全边界证据
+## Safety Boundary Evidence
 
-- readonly 写入拒绝：TBD
-- 原始 EPUB hash 不变：TBD
-- export 不覆盖源文件：TBD
-- export 不覆盖已有文件：TBD
-- Tauri allowlist：TBD
-- MCP tools/list 与真实实现一致：TBD
-- 桌面设置页：${desktopSettingsText(desktopEvidence)}
+- Read-only write rejection: TBD
+- Original EPUB hash unchanged: TBD
+- Export does not overwrite the source file: TBD
+- Export does not overwrite existing files: TBD
+- Tauri allowlist: TBD
+- MCP tools/list matches real implementation: TBD
+- Desktop settings page: ${desktopSettingsText(desktopEvidence)}
 
-## 真实样本证据
+## Real Sample Evidence
 
-样本清单：
+Sample inventory:
 
-| 类型 | 标题 / 文件 | 来源 | SHA-256 | 是否可公开 | 用途 |
+| Type | Title / File | Source | SHA-256 | Publicly shareable | Purpose |
 | --- | --- | --- | --- | --- | --- |
 ${sampleRows(evidence)}
 
-端到端结果：
+End-to-end results:
 
-- EPUB inspect：TBD
-- EPUB draft edit：TBD
-- EPUB validate：TBD
-- EPUB export：TBD
-- 导出 EPUB 重新导入或标准 EPUB 工具打开：TBD
-- PDF \`chapters.list/get\` fallback：TBD
-- RAG result 引用字段：${citationAnchor}
-- 桌面端引用点击回跳：TBD
+- EPUB inspect: TBD
+- EPUB draft edit: TBD
+- EPUB validate: TBD
+- EPUB export: TBD
+- Exported EPUB re-imports or opens in a standard EPUB tool: TBD
+- PDF \`chapters.list/get\` fallback: TBD
+- RAG result citation fields: ${citationAnchor}
+- Desktop citation click-through: TBD
 
-## 外部 Agent 证据
+## External Agent Evidence
 
-| 客户端 | 版本 | MCP 配置 profile | tools/list | read flow | draft/export flow | 结果 |
+| Client | Version | MCP config profile | tools/list | read flow | draft/export flow | Result |
 | --- | --- | --- | --- | --- | --- | --- |
 ${agentRows(agentEvidences)}
 
-必须附：
+Must attach:
 
-- MCP config 片段，不含密钥。
-- \`tools/list\` 是否只包含真实实现工具。
-- readonly 写入拒绝截图或日志摘要。
-- editor draft 修改摘要。
-- publisher validate/export 摘要。
+- MCP config snippet without secrets.
+- Whether \`tools/list\` contains only real implemented tools.
+- Screenshot or log excerpt of the read-only write rejection.
+- Editor draft change summary.
+- Publisher validate/export summary.
 
-## 打包 / 安装矩阵
+## Packaging / Installation Matrix
 
-| 平台 | 包来源 | 安装 | \`readany doctor --json\` | Skill install/status | MCP initialize/tools/list | Draft export | 结果 |
+| Platform | Package source | Install | \`readany doctor --json\` | Skill install/status | MCP initialize/tools/list | Draft export | Result |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 ${packageMatrixRows(packagedEvidences)}
 
@@ -460,31 +460,31 @@ ${closureRows(evidence, desktopEvidence)}
 
 ## Evidence Anchors
 
-- sample SHA-256：${sampleHash}
-- citation target：${citationAnchor}
-${distribution.map((item) => `- distribution：${item}`).join("\n")}
-${agentAnchorRows.length > 0 ? agentAnchorRows.join("\n") : "- external agent evidence：TBD"}
-${desktopEvidence ? `- desktop settings：${desktopSettingsText(desktopEvidence)}` : "- desktop settings evidence：TBD"}
-${packagedAnchorRows.length > 0 ? packagedAnchorRows.join("\n") : "- packaged evidence：TBD"}
+- sample SHA-256: ${sampleHash}
+- citation target: ${citationAnchor}
+${distribution.map((item) => `- distribution: ${item}`).join("\n")}
+${agentAnchorRows.length > 0 ? agentAnchorRows.join("\n") : "- external agent evidence: TBD"}
+${desktopEvidence ? `- desktop settings: ${desktopSettingsText(desktopEvidence)}` : "- desktop settings evidence: TBD"}
+${packagedAnchorRows.length > 0 ? packagedAnchorRows.join("\n") : "- packaged evidence: TBD"}
 
-## 当前可对外说明
-
-- TBD
-
-## 当前不能对外宣称
-
-- 该记录仍是 scaffold，不能作为 M5 完成记录。
-
-## 已知问题
+## What Can Be Stated Publicly
 
 - TBD
 
-## 是否允许进入下一阶段
+## What Cannot Be Claimed Publicly
 
-- [ ] 是
-- [x] 否
+- This record is still a scaffold and cannot be used as the M5 completion record.
 
-原因：scaffold 仍含 pending/TBD 项，需补齐人工验收和 strict M5 校验。
+## Known Issues
+
+- TBD
+
+## Approved To Proceed To Next Phase
+
+- [ ] Yes
+- [x] No
+
+Reason: the scaffold still contains pending/TBD items; manual acceptance and strict M5 validation are still required.
 `;
 }
 

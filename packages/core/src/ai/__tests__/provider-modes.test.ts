@@ -15,7 +15,8 @@ import {
 describe("Provider Modes Architecture", () => {
   it("resolves the correct mode handler by provider string", () => {
     expect(providerModeRegistry.forProvider("opencode").mode).toBe("opencode");
-    expect(providerModeRegistry.forProvider("opencode-go").mode).toBe("opencode");
+    expect(providerModeRegistry.forProvider("opencode-go").mode).toBe("normal");
+    expect(providerModeRegistry.forProvider("nvidia").mode).toBe("normal");
     expect(providerModeRegistry.forProvider("pi").mode).toBe("pi");
     expect(providerModeRegistry.forProvider("openai").mode).toBe("normal");
     expect(providerModeRegistry.forProvider("anthropic").mode).toBe("normal");
@@ -90,6 +91,25 @@ describe("Provider Modes Architecture", () => {
       expect(PROVIDER_CONFIGS.opencode.defaultBaseUrl).toBe("http://localhost:4010/v1");
       expect(PROVIDER_CONFIGS.pi).toBeDefined();
       expect(PROVIDER_CONFIGS.pi.defaultBaseUrl).toBe("http://localhost:31415/v1");
+    });
+
+    it("has NVIDIA NIM and OpenCode Go direct-API providers", () => {
+      expect(PROVIDER_CONFIGS.nvidia).toBeDefined();
+      expect(PROVIDER_CONFIGS.nvidia.defaultBaseUrl).toBe("https://integrate.api.nvidia.com/v1");
+      expect(PROVIDER_CONFIGS["opencode-go"]).toBeDefined();
+      expect(PROVIDER_CONFIGS["opencode-go"].defaultBaseUrl).toBe(
+        "https://opencode.ai/inference/go/openai/v1",
+      );
+      expect(providerRequiresApiKey("nvidia")).toBe(true);
+      expect(providerRequiresApiKey("opencode-go")).toBe(true);
+    });
+
+    it("detects NVIDIA NIM and OpenCode Go from their URLs", () => {
+      expect(detectProviderFromUrl("https://integrate.api.nvidia.com/v1")).toBe("nvidia");
+      expect(detectProviderFromUrl("https://opencode.ai/inference/go/openai/v1")).toBe(
+        "opencode-go",
+      );
+      expect(detectProviderFromUrl("http://localhost:4010/v1")).toBe("opencode");
     });
 
     it("does not require API keys for local opencode and pi endpoints", () => {

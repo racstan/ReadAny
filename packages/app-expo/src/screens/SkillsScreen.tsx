@@ -118,10 +118,10 @@ export default function SkillsScreen() {
 
   const handleDeleteSkill = useCallback(
     async (skillId: string) => {
-      Alert.alert(t("common.confirm", "确认"), t("skills.deleteConfirm", "确定删除此技能？"), [
-        { text: t("common.cancel", "取消"), style: "cancel" },
+      Alert.alert(t("common.confirm", "Confirm"), t("skills.deleteConfirm", "Delete this skill?"), [
+        { text: t("common.cancel", "Cancel"), style: "cancel" },
         {
-          text: t("common.delete", "删除"),
+          text: t("common.delete", "Delete"),
           style: "destructive",
           onPress: async () => {
             try {
@@ -189,7 +189,7 @@ export default function SkillsScreen() {
 
   const builtInSection = (
     <View style={s.section}>
-      <Text style={s.sectionTitle}>{t("skills.builtinSkills", "内置技能")}</Text>
+      <Text style={s.sectionTitle}>{t("skills.builtinSkills", "Built-in skills")}</Text>
       {builtInList.map((skill) => (
         <TouchableOpacity
           key={skill.id}
@@ -217,16 +217,16 @@ export default function SkillsScreen() {
 
   const customSection = (
     <View style={s.section}>
-      <Text style={s.sectionTitle}>{t("skills.customSkills", "自定义技能")}</Text>
+      <Text style={s.sectionTitle}>{t("skills.customSkills", "Custom skills")}</Text>
       {customList.length === 0 ? (
         <View style={s.customEmpty}>
           <View style={s.customEmptyIcon}>
             <PuzzleIcon size={28} color={colors.mutedForeground} />
           </View>
-          <Text style={s.customEmptyText}>{t("skills.noCustomSkills", "暂无自定义技能")}</Text>
+          <Text style={s.customEmptyText}>{t("skills.noCustomSkills", "No custom skills yet")}</Text>
           <TouchableOpacity style={s.customEmptyBtn} onPress={handleCreateSkill}>
             <PlusIcon size={16} color={colors.primaryForeground} />
-            <Text style={s.customEmptyBtnText}>{t("settings.addSkill", "添加技能")}</Text>
+            <Text style={s.customEmptyBtnText}>{t("settings.addSkill", "Add skill")}</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -277,11 +277,11 @@ export default function SkillsScreen() {
             >
               <ChevronLeftIcon size={20} color={colors.foreground} />
             </TouchableOpacity>
-            <Text style={s.headerTitle}>{t("skills.title", "技能")}</Text>
+            <Text style={s.headerTitle}>{t("skills.title", "Skills")}</Text>
           </View>
           <TouchableOpacity style={s.addBtn} onPress={handleCreateSkill}>
             <PlusIcon size={14} color={colors.primaryForeground} />
-            <Text style={s.addBtnText}>{t("settings.addSkill", "添加技能")}</Text>
+            <Text style={s.addBtnText}>{t("settings.addSkill", "Add skill")}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -323,8 +323,8 @@ export default function SkillsScreen() {
             <View style={s.editorHandle} />
             <Text style={s.editorTitle}>
               {editingSkill
-                ? t("skills.editSkill", "编辑技能")
-                : t("skills.createSkill", "创建技能")}
+                ? t("skills.editSkill", "Edit skill")
+                : t("skills.createSkill", "Create skill")}
             </Text>
 
             <ScrollView
@@ -332,31 +332,31 @@ export default function SkillsScreen() {
               keyboardShouldPersistTaps="handled"
               keyboardDismissMode="on-drag"
             >
-              <Text style={s.fieldLabel}>{t("skills.name", "名称")} *</Text>
+              <Text style={s.fieldLabel}>{t("skills.name", "Name")} *</Text>
               <TextInput
                 style={[s.fieldInput, editingSkill?.builtIn && s.fieldInputDisabled]}
                 value={formName}
                 onChangeText={setFormName}
-                placeholder={t("skills.namePlaceholder", "技能名称")}
+                placeholder={t("skills.namePlaceholder", "Skill name")}
                 placeholderTextColor={colors.mutedForeground}
                 editable={!editingSkill?.builtIn}
               />
 
-              <Text style={s.fieldLabel}>{t("skills.description", "描述")}</Text>
+              <Text style={s.fieldLabel}>{t("skills.description", "Description")}</Text>
               <TextInput
                 style={s.fieldInput}
                 value={formDescription}
                 onChangeText={setFormDescription}
-                placeholder={t("skills.descriptionPlaceholder", "简要描述...")}
+                placeholder={t("skills.descriptionPlaceholder", "Brief description...")}
                 placeholderTextColor={colors.mutedForeground}
               />
 
-              <Text style={s.fieldLabel}>{t("skills.prompt", "提示词")}</Text>
+              <Text style={s.fieldLabel}>{t("skills.prompt", "Prompt")}</Text>
               <TextInput
                 style={[s.fieldInput, s.fieldTextarea]}
                 value={formPrompt}
                 onChangeText={setFormPrompt}
-                placeholder={t("skills.promptPlaceholder", "输入提示词...")}
+                placeholder={t("skills.promptPlaceholder", "Enter a prompt...")}
                 placeholderTextColor={colors.mutedForeground}
                 multiline
                 textAlignVertical="top"
@@ -365,14 +365,14 @@ export default function SkillsScreen() {
 
             <View style={s.editorActions}>
               <TouchableOpacity style={s.editorCancelBtn} onPress={() => setEditorOpen(false)}>
-                <Text style={s.editorCancelText}>{t("common.cancel", "取消")}</Text>
+                <Text style={s.editorCancelText}>{t("common.cancel", "Cancel")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[s.editorSaveBtn, !formName.trim() && s.editorSaveBtnDisabled]}
                 onPress={handleSaveSkill}
                 disabled={!formName.trim()}
               >
-                <Text style={s.editorSaveText}>{t("common.save", "保存")}</Text>
+                <Text style={s.editorSaveText}>{t("common.save", "Save")}</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -2,7 +2,6 @@ import { DarkModeSvg } from "@/components/DarkModeSvg";
 import { type ThemeMode, useTheme } from "@/styles/ThemeContext";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { changeAndPersistLanguage } from "@readany/core/i18n";
 import { Coffee, Moon, Sun } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -14,7 +13,7 @@ import type { OnboardingStackParamList } from "../OnboardingNavigator";
 type NavProp = NativeStackNavigationProp<OnboardingStackParamList, "Appearance">;
 
 export function AppearancePage() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigation = useNavigation<NavProp>();
   const { mode: currentTheme, setMode: setTheme, colors } = useTheme();
   const insets = useSafeAreaInsets();
@@ -45,15 +44,6 @@ export function AppearancePage() {
     },
   ];
 
-  const handleLangChange = async (code: string) => {
-    try {
-      await changeAndPersistLanguage(code);
-    } catch (err) {
-      console.warn("[Settings] Failed to change and persist language:", err);
-      i18n.changeLanguage(code);
-    }
-  };
-
   return (
     <View style={[styles.safeArea, { backgroundColor: colors.background }]}>
       <Animated.View entering={SlideInRight.duration(500)} style={styles.container}>
@@ -70,7 +60,7 @@ export function AppearancePage() {
               </DarkModeSvg>
             </View>
             <Text style={[styles.title, { color: colors.foreground }]}>
-              {t("onboarding.appearance.title", "Appearance & Language")}
+              {t("onboarding.appearance.title", "Appearance")}
             </Text>
             <Text style={[styles.subtitle, { color: colors.mutedForeground }]}>
               {t("onboarding.appearance.desc", "Customize ReadAny to suit your preferences.")}
@@ -108,48 +98,6 @@ export function AppearancePage() {
                         ]}
                       >
                         {theme.name}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-            </View>
-
-            <View
-              style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}
-            >
-              <Text style={[styles.cardTitle, { color: colors.mutedForeground }]}>
-                {t("settings.language", "Language")}
-              </Text>
-              <View style={styles.langGrid}>
-                {[
-                  { code: "en", label: "English" },
-                  { code: "ja", label: "日本語" },
-                  { code: "ko", label: "한국어" },
-                  { code: "fr", label: "Français" },
-                  { code: "es", label: "Español" },
-                ].map((lang) => {
-                  const isActive = i18n.language === lang.code;
-                  return (
-                    <Pressable
-                      key={lang.code}
-                      style={[
-                        styles.langBtn,
-                        {
-                          borderColor: isActive ? colors.primary : colors.border,
-                          backgroundColor: isActive ? colors.primary : colors.muted,
-                        },
-                        isActive && styles.langBtnActive,
-                      ]}
-                      onPress={() => handleLangChange(lang.code)}
-                    >
-                      <Text
-                        style={[
-                          styles.langLabel,
-                          { color: isActive ? colors.primaryForeground : colors.mutedForeground },
-                        ]}
-                      >
-                        {lang.label}
                       </Text>
                     </Pressable>
                   );
@@ -244,23 +192,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   themeName: { fontSize: 13, fontWeight: "500" },
-  langGrid: { gap: 8 },
-  langBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    borderWidth: 2,
-  },
-  langBtnActive: {
-    shadowColor: "#6366f1",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-  },
-  langLabel: { fontSize: 15, fontWeight: "500" },
   footer: {
     flexDirection: "row",
     justifyContent: "space-between",

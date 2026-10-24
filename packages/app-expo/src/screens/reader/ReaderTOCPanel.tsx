@@ -95,7 +95,7 @@ export function ReaderTOCPanel({
                   { color: activeTab === "toc" ? colors.primary : colors.mutedForeground },
                 ]}
               >
-                {t("reader.toc", "目录")}
+                {t("reader.toc", "Contents")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -119,7 +119,7 @@ export function ReaderTOCPanel({
                   },
                 ]}
               >
-                {t("bookmarks.title", "书签")}
+                {t("bookmarks.title", "Bookmarks")}
                 {bookmarks.length > 0 ? ` (${bookmarks.length})` : ""}
               </Text>
             </TouchableOpacity>
@@ -142,7 +142,7 @@ export function ReaderTOCPanel({
                 />
               ))
             ) : (
-              <Text style={s.sheetEmpty}>{t("reader.noToc", "暂无目录信息")}</Text>
+              <Text style={s.sheetEmpty}>{t("reader.noToc", "No table of contents available")}</Text>
             )}
           </ScrollView>
         ) : bookmarks.length > 0 ? (
@@ -189,9 +189,9 @@ export function ReaderTOCPanel({
         ) : (
           <View style={s.notebookPlaceholder}>
             <BookmarkIcon size={32} color={`${colors.mutedForeground}60`} />
-            <Text style={s.notebookPlaceholderText}>{t("bookmarks.empty", "暂无书签")}</Text>
+            <Text style={s.notebookPlaceholderText}>{t("bookmarks.empty", "No bookmarks yet")}</Text>
             <Text style={[s.notebookPlaceholderText, { fontSize: fontSize.xs, opacity: 0.6 }]}>
-              {t("bookmarks.emptyHint", "使用工具栏的书签按钮来标记页面")}
+              {t("bookmarks.emptyHint", "Use the bookmark button in the toolbar to mark pages")}
             </Text>
           </View>
         )}

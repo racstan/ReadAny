@@ -5,12 +5,12 @@ describe("ThinkTagStreamParser", () => {
   it("splits visible text and reasoning in a single chunk", () => {
     const parser = new ThinkTagStreamParser();
 
-    const events = parser.push("开头<think>先查统计</think>结尾");
+    const events = parser.push("start<think>check stats first</think>end");
 
     expect(events).toEqual([
-      { type: "token", content: "开头" },
-      { type: "reasoning", content: "先查统计" },
-      { type: "token", content: "结尾" },
+      { type: "token", content: "start" },
+      { type: "reasoning", content: "check stats first" },
+      { type: "token", content: "end" },
     ]);
   });
 
@@ -19,32 +19,32 @@ describe("ThinkTagStreamParser", () => {
 
     const events = [
       ...parser.push("<thi"),
-      ...parser.push("nk>让我"),
-      ...parser.push("先整理一下</th"),
-      ...parser.push("ink>好的"),
+      ...parser.push("nk>let me"),
+      ...parser.push("organize this</th"),
+      ...parser.push("ink>okay"),
       ...parser.flush(),
     ];
 
     expect(events).toEqual([
-      { type: "reasoning", content: "让我" },
-      { type: "reasoning", content: "先整理一下" },
-      { type: "token", content: "好的" },
+      { type: "reasoning", content: "let me" },
+      { type: "reasoning", content: "organize this" },
+      { type: "token", content: "okay" },
     ]);
   });
 
   it("keeps plain text untouched when no think tags exist", () => {
     const parser = new ThinkTagStreamParser();
 
-    const events = [...parser.push("普通回复"), ...parser.flush()];
+    const events = [...parser.push("plain reply"), ...parser.flush()];
 
-    expect(events).toEqual([{ type: "token", content: "普通回复" }]);
+    expect(events).toEqual([{ type: "token", content: "plain reply" }]);
   });
 
   it("flushes unfinished reasoning blocks as reasoning content", () => {
     const parser = new ThinkTagStreamParser();
 
-    const events = [...parser.push("<think>还没闭合"), ...parser.flush()];
+    const events = [...parser.push("<think>not yet closed"), ...parser.flush()];
 
-    expect(events).toEqual([{ type: "reasoning", content: "还没闭合" }]);
+    expect(events).toEqual([{ type: "reasoning", content: "not yet closed" }]);
   });
 });

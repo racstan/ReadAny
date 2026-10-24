@@ -1,11 +1,4 @@
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Coffee, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +14,7 @@ const THEME_CONFIG: Record<ThemeMode, { icon: typeof Sun; labelKey: string }> = 
 import { OnboardingLayout } from "../OnboardingLayout";
 
 export function AppearancePage({ onNext, onPrev, step, totalSteps }: any) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [theme, setThemeState] = useState<ThemeMode>("dark");
 
   useEffect(() => {
@@ -30,11 +23,6 @@ export function AppearancePage({ onNext, onPrev, step, totalSteps }: any) {
       setThemeState(saved);
     }
   }, []);
-
-  const handleLanguageChange = async (lang: string) => {
-    const { changeAndPersistLanguage } = await import("@readany/core/i18n");
-    await changeAndPersistLanguage(lang);
-  };
 
   const handleThemeChange = (newTheme: ThemeMode) => {
     setThemeState(newTheme);
@@ -61,57 +49,37 @@ export function AppearancePage({ onNext, onPrev, step, totalSteps }: any) {
       <div className="animate-in fade-in slide-in-from-right-4 duration-500 flex-1 flex flex-col justify-center">
         <div className="space-y-2 text-center mb-6">
           <h2 className="text-2xl font-bold tracking-tight">
-            {t("onboarding.appearance.title", "Appearance & Language")}
+            {t("onboarding.appearance.title", "Appearance")}
           </h2>
           <p className="text-sm text-muted-foreground">
             {t("onboarding.appearance.desc", "Customize ReadAny to suit your preferences.")}
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-xl border bg-muted/30 p-4 shadow-sm">
-            <h3 className="mb-3 text-xs font-medium text-foreground uppercase tracking-wide">
-              {t("settings.theme", "Theme")}
-            </h3>
-            <div className="grid grid-cols-3 gap-2">
-              {(Object.keys(THEME_CONFIG) as ThemeMode[]).map((mode) => {
-                const config = THEME_CONFIG[mode];
-                const Icon = config.icon;
-                const isActive = theme === mode;
-                return (
-                  <button
-                    key={mode}
-                    onClick={() => handleThemeChange(mode)}
-                    className={`flex flex-col items-center justify-center gap-1.5 rounded-lg border py-3 transition-all duration-300 ${
-                      isActive
-                        ? "border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(var(--primary),0.2)]"
-                        : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:bg-muted"
-                    }`}
-                  >
-                    <Icon className="h-5 w-5" />
-                    <span className="text-xs font-medium">{t(config.labelKey)}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="rounded-xl border bg-muted/30 p-4 shadow-sm">
-            <h3 className="mb-3 text-xs font-medium text-foreground uppercase tracking-wide">
-              {t("settings.language", "Language")}
-            </h3>
-            <Select value={i18n.language} onValueChange={handleLanguageChange}>
-              <SelectTrigger className="h-10 rounded-lg font-medium text-sm">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="en">English</SelectItem>
-                <SelectItem value="ja">日本語</SelectItem>
-                <SelectItem value="ko">한국어</SelectItem>
-                <SelectItem value="fr">Français</SelectItem>
-                <SelectItem value="es">Español</SelectItem>
-              </SelectContent>
-            </Select>
+        <div className="rounded-xl border bg-muted/30 p-4 shadow-sm">
+          <h3 className="mb-3 text-xs font-medium text-foreground uppercase tracking-wide">
+            {t("settings.theme", "Theme")}
+          </h3>
+          <div className="grid grid-cols-3 gap-2">
+            {(Object.keys(THEME_CONFIG) as ThemeMode[]).map((mode) => {
+              const config = THEME_CONFIG[mode];
+              const Icon = config.icon;
+              const isActive = theme === mode;
+              return (
+                <button
+                  key={mode}
+                  onClick={() => handleThemeChange(mode)}
+                  className={`flex flex-col items-center justify-center gap-1.5 rounded-lg border py-3 transition-all duration-300 ${
+                    isActive
+                      ? "border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(var(--primary),0.2)]"
+                      : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:bg-muted"
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="text-xs font-medium">{t(config.labelKey)}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

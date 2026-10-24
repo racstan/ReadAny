@@ -79,7 +79,7 @@ async function fetchJson(
     });
   }
 
-  // 使用跨域适配fetch，和AI对话逻辑一致
+  // Use the CORS-adapted fetch, consistent with the AI chat logic
   const requestFetch = debug ? getEndpointFetch(debug.endpoint, debug.model) : globalThis.fetch;
   const response = await requestFetch(url, init);
   if (!response.ok) {

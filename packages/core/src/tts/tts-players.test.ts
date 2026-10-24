@@ -2,15 +2,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_TTS_CONFIG, type TTSConfig } from "./types";
 
-// fetchEdgeTTSAudio 始终立即 resolve，使消费循环快速抵达 decodeAndSchedule；
-// 时序闸门改由下面的 decodeAudioData mock 控制。
+// fetchEdgeTTSAudio always resolves immediately so the consume loop quickly reaches
+// decodeAndSchedule; timing gates are controlled by the decodeAudioData mock below.
 vi.mock("./edge-tts", () => ({
   fetchEdgeTTSAudio: vi.fn(async () => new ArrayBuffer(8)),
 }));
 
 const { EdgeTTSPlayer } = await import("./tts-players");
 
-// 每次 decodeAudioData 调用都把 resolver 收集起来，便于手动控制某个 run 的解码完成时机。
+// Collect a resolver for every decodeAudioData call so we can manually control when each run finishes decoding.
 let decodeResolvers: Array<(buf: unknown) => void>;
 let createdSources: Array<{
   stop: ReturnType<typeof vi.fn>;
@@ -58,7 +58,7 @@ function installAudioMock() {
   (globalThis as unknown as { AudioContext: unknown }).AudioContext = MockAudioContext;
 }
 
-// 反复让出微任务队列，推动被 await 暂停的消费循环前进到下一个闸门。
+// Yield to the microtask queue repeatedly to push the awaited consume loop forward to the next gate.
 const flush = async () => {
   for (let i = 0; i < 20; i++) await Promise.resolve();
 };
@@ -76,44 +76,44 @@ describe("EdgeTTSPlayer — per-run runId isolation (#372 reentrancy slice)", ()
     vi.clearAllMocks();
   });
 
-  it("被取代的旧 run 解码完成后不再触发 onChunkChange", async () => {
+  it("a superseded run no longer fires onChunkChange after its decode completes", async () => {
     const player = new EdgeTTSPlayer();
     const onChunk = vi.fn();
     player.onChunkChange = onChunk;
 
-    // Run A：停在 decodeAudioData（resolver[0]）。
+    // Run A: parked in decodeAudioData (resolver[0]).
     player.speak(["a0"], cfg);
     await flush();
     expect(decodeResolvers.length).toBe(1);
 
-    // Run B 在同一单例上取代 run A；其解码（resolver[1]）保持 pending，故 run B 不会触发 onChunkChange。
+    // Run B supersedes run A on the same instance; its decode (resolver[1]) stays pending, so run B does not fire onChunkChange.
     player.speak(["b0"], cfg);
     await flush();
     expect(decodeResolvers.length).toBe(2);
 
-    // 在 run A 已被取代之后，才让它的解码完成。
+    // Only after run A has been superseded, let its decode complete.
     decodeResolvers[0]({ duration: 1 });
     await flush();
 
-    // 旧 run 必须完全失活——不得有进度回调泄漏。
+    // The old run must be fully deactivated — no progress callbacks may leak.
     expect(onChunk).not.toHaveBeenCalled();
   });
 
-  it("stop() 后旧 run 的在途解码完成不再触发 onChunkChange 或排程音频", async () => {
+  it("after stop(), an in-flight decode of the old run no longer fires onChunkChange or schedules audio", async () => {
     const player = new EdgeTTSPlayer();
     const onChunk = vi.fn();
     player.onChunkChange = onChunk;
 
-    // run 停在 decodeAudioData（resolver[0]）。
+    // The run is parked in decodeAudioData (resolver[0]).
     player.speak(["a0"], cfg);
     await flush();
     expect(decodeResolvers.length).toBe(1);
 
-    // stop() 不 bump runId，仅置 _playing=false。
+    // stop() does not bump runId; it only sets _playing=false.
     player.stop();
     await flush();
 
-    // 在 stop() 之后才让解码完成——续体须靠 _playing=false 在守卫处 bail。
+    // Let the decode complete only after stop() — the continuation must bail at the guard via _playing=false.
     decodeResolvers[0]({ duration: 1 });
     await flush();
 
@@ -137,7 +137,7 @@ describe("EdgeTTSPlayer — per-run runId isolation (#372 reentrancy slice)", ()
     expect(createdSources[0].disconnect).toHaveBeenCalledTimes(1);
   });
 
-  it("resume() 在重入下 reject 不会从 speak() 抛出未处理拒绝", async () => {
+  it("a resume() rejection under re-entrancy does not surface as an unhandled rejection from speak()", async () => {
     class SuspendedRejectingCtx {
       state = "suspended";
       currentTime = 0;
@@ -149,7 +149,7 @@ describe("EdgeTTSPlayer — per-run runId isolation (#372 reentrancy slice)", ()
         return { buffer: null, connect: vi.fn(), start: vi.fn() };
       }
       decodeAudioData() {
-        return new Promise(() => {}); // 永不 resolve
+        return new Promise(() => {}); // never resolves
       }
       resume() {
         return Promise.reject(new Error("InvalidStateError"));
@@ -164,10 +164,10 @@ describe("EdgeTTSPlayer — per-run runId isolation (#372 reentrancy slice)", ()
     (globalThis as unknown as { AudioContext: unknown }).AudioContext = SuspendedRejectingCtx;
 
     const player = new EdgeTTSPlayer();
-    const p1 = player.speak(["a0"], cfg); // 停在 await resume()（reject）
-    player.speak(["b0"], cfg); // 取代 run A，bump runId
+    const p1 = player.speak(["a0"], cfg); // parked at await resume() (rejects)
+    player.speak(["b0"], cfg); // supersedes run A, bumps runId
     await flush();
-    await expect(p1).resolves.toBeUndefined(); // run A 干净返回，未 reject
+    await expect(p1).resolves.toBeUndefined(); // run A returns cleanly, no rejection
     player.stop();
   });
 });

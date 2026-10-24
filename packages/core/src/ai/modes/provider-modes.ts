@@ -1,4 +1,4 @@
-import type { AIMode, AIProviderType } from "../../types";
+import type { AIMode } from "../../types";
 
 /**
  * Contract for AI provider mode handlers (Direct API, OpenCode, Pi).
@@ -30,7 +30,7 @@ export class DirectApiProviderMode implements ProviderModeInterface {
   readonly mode: AIMode = "normal";
 
   matches(provider: string): boolean {
-    return provider !== "opencode" && provider !== "pi" && !provider.startsWith("opencode");
+    return provider !== "opencode" && provider !== "pi";
   }
 
   normalizeModel(model: string): string {
@@ -86,12 +86,14 @@ export class DirectApiProviderMode implements ProviderModeInterface {
  * OpenCode proxy runs on port 4010 (/v1/*) when the OpenCode TUI is active,
  * and the OpenCode bridge runs on port 4096 (exposing /session, /provider).
  * Supports free OpenCode Zen models without billing.
+ * Note: the paid OpenCode Go subscription ("opencode-go" provider) is a
+ * cloud direct-API provider and does NOT use this mode.
  */
 export class OpenCodeProviderMode implements ProviderModeInterface {
   readonly mode: AIMode = "opencode";
 
   matches(provider: string): boolean {
-    return provider === "opencode" || provider.startsWith("opencode");
+    return provider === "opencode";
   }
 
   normalizeModel(model: string): string {
@@ -220,7 +222,9 @@ export class PiProviderMode implements ProviderModeInterface {
     ) {
       return (
         "The local Pi agent service is unreachable at http://localhost:31415/v1. " +
-        "Make sure the Pi CLI or bridge process is running."
+        "Install the Pi agent harness (`npm install -g --ignore-scripts @earendil-works/pi-coding-agent`, " +
+        "or `powershell -c \"irm https://pi.dev/install.ps1 | iex\"` on Windows) and start Pi with your " +
+        "bridge so it serves the OpenAI-compatible endpoint on port 31415."
       );
     }
     return null;

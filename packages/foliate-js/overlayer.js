@@ -215,16 +215,16 @@ export class Overlayer {
     } = options;
     const g = createSVGElement("g");
 
-    // 获取第一个矩形（文本开始位置）
+    // Get the first rect (where the text starts)
     const firstRect = rects[0];
     if (!firstRect) return g;
 
-    // 计算箭头位置和大小
+    // Compute the arrow position and size
     const arrowSize = Math.min(size, firstRect.height * 0.8);
     const centerY = firstRect.top + firstRect.height / 2;
     const arrowX = firstRect.left - offset - arrowSize;
 
-    // 创建右箭头路径 (三角形指向右侧，指向文本)
+    // Create the right-arrow path (triangle pointing right, toward the text)
     const arrow = createSVGElement("path");
     const arrowPath = `M ${arrowX + arrowSize} ${centerY}
                           L ${arrowX} ${centerY - arrowSize / 2}
@@ -237,11 +237,11 @@ export class Overlayer {
     arrow.setAttribute("stroke", color);
     arrow.setAttribute("stroke-width", "1");
 
-    // 添加动画类名
+    // Add the animation class
     if (animated) {
       arrow.classList.add("foliate-arrow-indicator");
 
-      // 注入CSS动画样式到文档头部
+      // Inject the CSS animation styles into the document head
       const doc = arrow.ownerDocument || document;
       if (!doc.getElementById("foliate-arrow-styles")) {
         const style = doc.createElement("style");
@@ -281,7 +281,7 @@ export class Overlayer {
         doc.head.appendChild(style);
       }
 
-      // 自动隐藏功能
+      // Auto-hide behavior
       if (autoHide && hideDelay > 0) {
         setTimeout(() => {
           arrow.classList.add("foliate-arrow-fadeout");
@@ -289,7 +289,7 @@ export class Overlayer {
             if (arrow.parentNode) {
               arrow.parentNode.removeChild(arrow);
             }
-          }, 1000); // 等待淡出动画完成
+          }, 1000); // Wait for the fade-out animation to finish
         }, hideDelay);
       }
     }

@@ -155,7 +155,7 @@ export async function importLegacySnapshots(
         continue;
       }
 
-      onProgress(`导入旧设备 ${deviceId.slice(0, 8)} 的同步数据...`);
+      onProgress(`Importing sync data from legacy device ${deviceId.slice(0, 8)}...`);
       const result = await applyChanges(payload, { forceApply });
       imported = true;
       applied += result.applied;
@@ -601,7 +601,7 @@ export async function runPerBookSync(
     }
 
     // 1. Remote directory skeleton
-    progress("检查远程目录...");
+    progress("Checking remote directory...");
     for (const dir of [BOOKS_DIR, THREADS_DIR, CHAT_DIR, PROFILE_DIR, SESSIONS_DIR]) {
       try {
         await backend.ensureDirectory?.(dir);
@@ -628,7 +628,7 @@ export async function runPerBookSync(
     const localBooksById = new Map<string, Row>();
     for (const row of bookRows) localBooksById.set(String(row.id), row);
 
-    progress("拉取书籍数据...");
+    progress("Pulling book data...");
     let pullFailures = 0;
     for (const [bookId, entry] of Object.entries(remoteIndex.books ?? {})) {
       const localRow = localBooksById.get(bookId);
@@ -667,7 +667,7 @@ export async function runPerBookSync(
           console.warn(`[PerBookSync] Missing/invalid book file for ${bookId}; skipping`);
           continue;
         }
-        progress(`应用书籍 ${String(file.book?.title ?? bookId).slice(0, 24)}...`);
+        progress(`Applying book ${String(file.book?.title ?? bookId).slice(0, 24)}...`);
         changes += await applyBookFile(db, file, forceApply, deviceId);
         await sleep(0);
       } catch (error) {
@@ -681,7 +681,7 @@ export async function runPerBookSync(
     const refreshedMarkers = await localAnnotationMarkers(db);
     const pendingIndexBooks: Record<string, BookIndexEntry> = {};
     if (!receiveOnly) {
-      progress("上传书籍数据...");
+      progress("Uploading book data...");
       const liveBooks = await tableRows(db, "books");
       let processed = 0;
       let pushFailures = 0;
@@ -720,7 +720,7 @@ export async function runPerBookSync(
         processed++;
         changes++;
         if (processed % 5 === 0) {
-          progress(`上传书籍数据 (${processed})...`);
+          progress(`Uploading book data (${processed})...`);
           await sleep(0);
         }
         } catch (error) {
@@ -742,7 +742,7 @@ export async function runPerBookSync(
     }
 
     // 5. Threads — thread rows only (small files, index markers)
-    progress("同步会话元数据...");
+    progress("Syncing session metadata...");
     const threadRows = await tableRows(db, "threads");
     const threadMarkers = new Map<string, number>();
     for (const row of threadRows) {
@@ -807,7 +807,7 @@ export async function runPerBookSync(
     }
 
     // 6. Chat messages — daily files
-    progress("同步聊天记录...");
+    progress("Syncing chat history...");
     {
       const pulledDay = (await getMetadata(CHAT_PULLED_DAY_KEY)) ?? "";
       const mergedDaysRaw = await getMetadata(CHAT_MERGED_DAYS_KEY);
@@ -915,7 +915,7 @@ export async function runPerBookSync(
     // 7. Profile files — one uniform single-table file per table
     console.log("[PBT] phase7 profile receiveOnly=", receiveOnly);
     if (!receiveOnly) {
-      progress("同步标签与技能...");
+      progress("Syncing tags and skills...");
       const profileTables = ["tags", "book_tags", "book_groups", "skills"];
       for (const table of profileTables) {
         const path = `${PROFILE_DIR}/${table}.json`;
@@ -937,7 +937,7 @@ export async function runPerBookSync(
     }
 
     // 8. Reading sessions — monthly shards
-    progress("同步阅读统计...");
+    progress("Syncing reading stats...");
     const lastSync = legacyImported ? 0 : await getLastSyncTimestamp();
     const changedSessions = await db
       .select<Row>("SELECT * FROM reading_sessions WHERE updated_at > ?", [lastSync])
@@ -1026,7 +1026,7 @@ export async function runPerBookSync(
     let filesDownloaded = 0;
     let filesUploadFailed = 0;
     let filesDownloadFailed = 0;
-    progress("同步书籍和封面文件...");
+    progress("Syncing books and cover files...");
     try {
       const { syncFiles } = await import("./sync-files");
       const defaultFileOptions: SyncFilesOptions = receiveOnly
@@ -1059,7 +1059,7 @@ export async function runPerBookSync(
       operation: receiveOnly ? "download" : "upload",
       completedFiles: 0,
       totalFiles: 0,
-      message: "同步完成",
+      message: "Sync complete",
     });
     return {
       success: true,

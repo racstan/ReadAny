@@ -88,7 +88,9 @@ describe("streamReadingAgent tool registration", () => {
       events.push(event);
     }
 
-    expect(events).toEqual([{ type: "token", content: "内容过长，请分段提问。" }]);
+    expect(events).toEqual([
+      { type: "token", content: "Your input is too long. Please split your question into smaller parts." },
+    ]);
     expect(createReactAgentMock).not.toHaveBeenCalled();
   });
 
@@ -572,7 +574,9 @@ describe("streamReadingAgent tool registration", () => {
 
     const fourth = JSON.parse(await wrappedResolveTool.func({ query: "张三疯那一章讲了什么" }));
     expect(fourth.attemptLimitReached).toBe(true);
-    expect(fourth.notice).toBe("未能可靠定位章节，请补充更准确的章节名");
+    expect(fourth.notice).toBe(
+      "I could not reliably locate that chapter. Please provide a more accurate chapter title.",
+    );
     expect(fourth.attemptedQueries).toEqual(["张三疯那一章讲了什么", "张三疯", "张三疯"]);
   });
 

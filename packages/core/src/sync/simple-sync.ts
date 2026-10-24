@@ -752,7 +752,7 @@ export async function runSimpleSync(
       operation: receiveOnly ? "download" : "upload",
       completedFiles: 0,
       totalFiles: 0,
-      message: "准备同步...",
+      message: "Preparing sync...",
     });
 
     const lastSync = await getLastSyncTimestamp();
@@ -765,13 +765,13 @@ export async function runSimpleSync(
       operation: receiveOnly ? "download" : "upload",
       completedFiles: 0,
       totalFiles: 0,
-      message: "检查远程目录...",
+      message: "Checking remote directory...",
     });
     try {
       await backend.ensureDirectories();
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
-      throw new Error(`无法创建远程同步目录，请检查存储服务配置和权限：${msg}`);
+      throw new Error(`Failed to create the remote sync directory. Check the storage service configuration and permissions: ${msg}`);
     }
 
     // 2. Pull and apply all other devices' changesets
@@ -780,7 +780,7 @@ export async function runSimpleSync(
       operation: "download",
       completedFiles: 0,
       totalFiles: 0,
-      message: "获取其他设备的变更...",
+      message: "Fetching changes from other devices...",
     });
     const remoteFiles = await listRemoteDeviceFiles(backend);
     console.log(`[SimpleSync] Found ${remoteFiles.length} remote device snapshot(s)`);
@@ -814,7 +814,7 @@ export async function runSimpleSync(
           operation: "download",
           completedFiles: 0,
           totalFiles: 0,
-          message: `应用设备 ${deviceId.slice(0, 8)} 的变更...`,
+          message: `Applying changes from device ${deviceId.slice(0, 8)}...`,
         });
         const result = await applyChanges(payload, { forceApply });
         console.log(
@@ -842,7 +842,7 @@ export async function runSimpleSync(
         operation: "upload",
         completedFiles: 0,
         totalFiles: 0,
-        message: "收集本地变更...",
+        message: "Collecting local changes...",
       });
       const localDelta = await collectChanges(lastSync);
       let snapshotPayload: DeviceSyncPayload | null = null;
@@ -863,7 +863,7 @@ export async function runSimpleSync(
             operation: "upload",
             completedFiles: 0,
             totalFiles: 0,
-            message: `上传 ${changeCount + totalApplied} 条变更...`,
+            message: `Uploading ${changeCount + totalApplied} change(s)...`,
           });
           await saveDeviceSnapshot(backend, localDeviceId, await getSnapshotPayload());
         } else {
@@ -878,7 +878,7 @@ export async function runSimpleSync(
         }
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        throw new Error(`上传本地变更失败，请检查网络连接或存储服务权限：${msg}`);
+        throw new Error(`Failed to upload local changes. Check the network connection or storage service permissions: ${msg}`);
       }
     } else if (totalApplied > 0) {
       // receiveOnly mode: still upload merged snapshot so other devices see the result
@@ -887,7 +887,7 @@ export async function runSimpleSync(
         operation: "upload",
         completedFiles: 0,
         totalFiles: 0,
-        message: "上传合并后的快照...",
+        message: "Uploading merged snapshot...",
       });
       try {
         const snapshotPayload = await collectChanges(0);
@@ -908,7 +908,7 @@ export async function runSimpleSync(
       operation: receiveOnly ? "download" : "upload",
       completedFiles: 0,
       totalFiles: 0,
-      message: "同步书籍和封面文件...",
+      message: "Syncing books and cover files...",
     });
     try {
       const { syncFiles } = await import("./sync-files");
@@ -949,7 +949,7 @@ export async function runSimpleSync(
       operation: receiveOnly ? "download" : "upload",
       completedFiles: 0,
       totalFiles: 0,
-      message: "同步完成",
+      message: "Sync complete",
     });
     return {
       success: true,

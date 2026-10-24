@@ -1,9 +1,9 @@
 import { KeyboardAwareScrollView } from "@/components/ui/KeyboardAwareScrollView";
 import { useResponsiveLayout } from "@/hooks/use-responsive-layout";
 import { useSettingsStore } from "@/stores";
-import type { AIConfig, AIEndpoint } from "@readany/core/types";
+import type { AIConfig, AIEndpoint, AIMode } from "@readany/core/types";
 import { PROVIDER_CONFIGS, getDefaultBaseUrl } from "@readany/core/utils";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Alert,
@@ -21,6 +21,12 @@ import { SettingsHeader } from "./SettingsHeader";
 import { EndpointEditor } from "./ai/EndpointEditor";
 import { makeStyles } from "./ai/ai-settings-styles";
 
+const MODE_TABS: { id: AIMode; label: string }[] = [
+  { id: "normal", label: "Direct API" },
+  { id: "opencode", label: "OpenCode Mode" },
+  { id: "pi", label: "PI Mode" },
+];
+
 export default function AISettingsScreen() {
   const colors = useColors();
   const styles = makeStyles(colors);
@@ -36,10 +42,23 @@ export default function AISettingsScreen() {
     updateAIConfig,
     importAIConfig,
     fetchModels,
+    setAIMode,
   } = useSettingsStore();
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
+
+  const activeEndpoint = aiConfig.endpoints.find((ep) => ep.id === aiConfig.activeEndpointId);
+  const currentMode = useMemo(
+    () =>
+      aiConfig.mode ||
+      (activeEndpoint?.provider === "opencode"
+        ? "opencode"
+        : activeEndpoint?.provider === "pi"
+          ? "pi"
+          : "normal"),
+    [aiConfig.mode, activeEndpoint?.provider],
+  );
 
   const handleAddEndpoint = useCallback(async () => {
     const defaultProvider = "openai";
@@ -76,13 +95,13 @@ export default function AISettingsScreen() {
           const message =
             "No models returned. Check your API key, model access, and whether the base URL points to the API root.";
           setFetchError(message);
-          Alert.alert(t("common.failed", "失败"), message);
+          Alert.alert(t("common.failed", "Failed"), message);
         }
       } catch (err) {
         const message = err instanceof Error ? err.message : "Failed to fetch models";
         console.error("Failed to fetch models:", err);
         setFetchError(message);
-        Alert.alert(t("common.failed", "失败"), message);
+        Alert.alert(t("common.failed", "Failed"), message);
       }
     },
     [fetchModels, updateEndpoint, aiConfig.activeModel, setActiveEndpoint, setActiveModel, t],
@@ -91,14 +110,14 @@ export default function AISettingsScreen() {
   const addButton = (
     <TouchableOpacity style={styles.addBtn} onPress={handleAddEndpoint} activeOpacity={0.8}>
       <PlusIcon size={14} color={colors.primaryForeground} />
-      <Text style={styles.addBtnText}>{t("common.add", "添加")}</Text>
+      <Text style={styles.addBtnText}>{t("common.add", "Add")}</Text>
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={["top"]}>
       <SettingsHeader
-        title={t("settings.ai_title", "AI 设置")}
+        title={t("settings.ai_title", "AI settings")}
         subtitle={t("settings.realtimeHint")}
         right={addButton}
       />
@@ -112,6 +131,67 @@ export default function AISettingsScreen() {
         bounces={true}
       >
           <View style={[styles.contentColumn, { width: "100%", maxWidth: layout.centeredContentWidth }]}>
+            {/* Operation Mode — Direct API / OpenCode / PI */}
+            <View style={styles.sectionCard}>
+              <Text style={styles.sectionTitle}>{t("settings.ai_mode", "Operation Mode")}</Text>
+              <View style={{ flexDirection: "row", gap: 8, marginTop: spacing.sm }}>
+                {MODE_TABS.map((tab) => {
+                  const active = currentMode === tab.id;
+                  return (
+                    <TouchableOpacity
+                      key={tab.id}
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        paddingVertical: 10,
+                        borderRadius: 8,
+                        backgroundColor: active ? colors.primary : colors.muted,
+                      }}
+                      onPress={() => setAIMode(tab.id)}
+                      activeOpacity={0.7}
+                    >
+                      <Text
+                        style={{
+                          fontSize: fontSize.xs,
+                          fontWeight: fontWeight.medium,
+                          color: active ? colors.primaryForeground : colors.mutedForeground,
+                        }}
+                      >
+                        {tab.label}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <Text style={{ fontSize: fontSize.xs, color: colors.mutedForeground, marginTop: spacing.sm }}>
+                {currentMode === "opencode"
+                  ? t(
+                      "settings.ai_mode_opencode_desc",
+                      "Access free OpenCode Zen models via local proxy (http://localhost:4010/v1)",
+                    )
+                  : currentMode === "pi"
+                    ? t(
+                        "settings.ai_mode_pi_desc",
+                        "Route through the local Pi agent harness bridge (http://localhost:31415/v1)",
+                      )
+                    : t("settings.ai_mode_normal_desc", "Connect directly using provider API keys")}
+              </Text>
+              {currentMode === "pi" && (
+                <Text
+                  style={{
+                    fontSize: fontSize.xs,
+                    color: colors.mutedForeground,
+                    marginTop: spacing.xs,
+                  }}
+                >
+                  {t(
+                    "settings.ai_pi_hint",
+                    "Install the Pi agent harness (`npm install -g --ignore-scripts @earendil-works/pi-coding-agent`) and keep your Pi bridge running on port 31415.",
+                  )}
+                </Text>
+              )}
+            </View>
+
             {/* Endpoints */}
             <View style={styles.endpointList}>
               {aiConfig.endpoints.map((ep) => {
@@ -126,10 +206,10 @@ export default function AISettingsScreen() {
                     >
                       <View style={styles.endpointInfo}>
                         <View style={styles.endpointNameRow}>
-                          <Text style={styles.endpointName}>{ep.name || t("common.unnamed", "未命名")}</Text>
+                          <Text style={styles.endpointName}>{ep.name || t("common.unnamed", "Unnamed")}</Text>
                           {isActive && (
                             <View style={styles.currentBadge}>
-                              <Text style={styles.currentBadgeText}>{t("common.current", "当前")}</Text>
+                              <Text style={styles.currentBadgeText}>{t("common.current", "Current")}</Text>
                             </View>
                           )}
                         </View>
@@ -161,7 +241,7 @@ export default function AISettingsScreen() {
 
             {/* Global Settings */}
             <View style={styles.sectionCard}>
-              <Text style={styles.sectionTitle}>{t("settings.ai_globalParams", "全局参数")}</Text>
+              <Text style={styles.sectionTitle}>{t("settings.ai_globalParams", "Global parameters")}</Text>
 
               <View style={styles.paramRow}>
                 <Text style={styles.paramLabel}>Temperature</Text>
@@ -207,7 +287,7 @@ export default function AISettingsScreen() {
               </View>
 
               <View style={[styles.paramRow, { marginTop: spacing.md }]}>
-                <Text style={styles.paramLabel}>{t("settings.ai_slidingWindow", "上下文窗口")}</Text>
+                <Text style={styles.paramLabel}>{t("settings.ai_slidingWindow", "Context window")}</Text>
                 <View style={styles.stepperContainer}>
                   <TouchableOpacity style={styles.stepperBtn} activeOpacity={0.7}
                     onPress={() => updateAIConfig({ slidingWindowSize: Math.max(1, aiConfig.slidingWindowSize - 1) })}>
@@ -234,10 +314,10 @@ export default function AISettingsScreen() {
             {/* Transfer */}
             <View style={{ marginTop: spacing.lg, gap: spacing.sm }}>
               <Text style={{ fontSize: fontSize.sm, fontWeight: fontWeight.semibold, color: colors.foreground }}>
-                {t("settings.transferConfig", "配置迁移")}
+                {t("settings.transferConfig", "Configuration transfer")}
               </Text>
               <ConfigTransfer
-                label={t("settings.aiConfig", "AI 配置")}
+                label={t("settings.aiConfig", "AI configuration")}
                 getData={() => aiConfig}
                 applyData={(data) => importAIConfig(data as AIConfig)}
                 validate={(d) =>

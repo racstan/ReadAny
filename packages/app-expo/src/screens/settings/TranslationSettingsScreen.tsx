@@ -73,7 +73,7 @@ export default function TranslationSettingsScreen() {
       edges={["top"]}
     >
       <SettingsHeader
-        title={t("translation.settingsTitle", "翻译设置")}
+        title={t("translation.settingsTitle", "Translation settings")}
         subtitle={t("settings.realtimeHint")}
       />
 
@@ -84,7 +84,7 @@ export default function TranslationSettingsScreen() {
           <View style={[styles.contentColumn, { width: "100%", maxWidth: layout.centeredContentWidth }]}>
             {/* Provider */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t("translation.engine", "翻译引擎")}</Text>
+              <Text style={styles.sectionTitle}>{t("translation.engine", "Translation engine")}</Text>
               <View style={styles.listCard}>
                 {TRANSLATOR_PROVIDERS.map((p, idx) => (
                   <TouchableOpacity
@@ -107,7 +107,7 @@ export default function TranslationSettingsScreen() {
                       )}
                       {p.id === "microsoft" && (
                         <Text style={styles.listItemSub}>
-                          {t("translation.microsoftHint", "免费，无需配置")}
+                          {t("translation.microsoftHint", "Free, no configuration needed")}
                         </Text>
                       )}
                     </View>
@@ -132,13 +132,13 @@ export default function TranslationSettingsScreen() {
                       },
                     })
                   }
-                  placeholder={t("translation.deeplApiKeyPlaceholder", "输入 DeepL API Key")}
+                  placeholder={t("translation.deeplApiKeyPlaceholder", "Enter DeepL API key")}
                   placeholderTextColor={colors.mutedForeground}
                 />
-                <Text style={styles.fieldHint}>{t("settings.deeplKeyHint", "DeepL API 密钥")}</Text>
+                <Text style={styles.fieldHint}>{t("settings.deeplKeyHint", "DeepL API key")}</Text>
 
                 <Text style={[styles.sectionTitle, styles.subSectionTitle]}>
-                  {t("translation.deeplBaseUrl", "DeepL 请求地址")}
+                  {t("translation.deeplBaseUrl", "DeepL request URL")}
                 </Text>
                 <TextInput
                   style={styles.apiKeyInput}
@@ -162,7 +162,7 @@ export default function TranslationSettingsScreen() {
                 <Text style={styles.fieldHint}>
                   {t(
                     "translation.deeplBaseUrlHint",
-                    "填写基础地址，也支持直接粘贴完整的 /translate 地址。",
+                    "Enter the base URL. Pasting a full /translate URL also works.",
                   )}
                 </Text>
               </View>
@@ -171,7 +171,7 @@ export default function TranslationSettingsScreen() {
             {/* AI Model Selection */}
             {isAIProvider && (
               <View style={[styles.section, styles.sectionSpaced]}>
-                <Text style={styles.sectionTitle}>{t("settings.translationModel", "翻译模型")}</Text>
+                <Text style={styles.sectionTitle}>{t("settings.translationModel", "Translation model")}</Text>
                 {endpointsWithModels.length > 0 ? (
                   <TouchableOpacity
                     style={styles.modelSelector}
@@ -179,14 +179,14 @@ export default function TranslationSettingsScreen() {
                     activeOpacity={totalModels > 1 ? 0.7 : 1}
                   >
                     <Text style={styles.modelSelectorText} numberOfLines={1}>
-                      {selectedModel || t("settings.selectModel", "选择模型")}
+                      {selectedModel || t("settings.selectModel", "Select a model")}
                     </Text>
                     {totalModels > 1 && <Text style={styles.chevron}>▾</Text>}
                   </TouchableOpacity>
                 ) : (
                   <View style={styles.modelSelector}>
                     <Text style={styles.modelSelectorPlaceholder}>
-                      {t("settings.noModelsFetched", "未获取到模型")}
+                      {t("settings.noModelsFetched", "No models fetched")}
                     </Text>
                   </View>
                 )}
@@ -195,7 +195,7 @@ export default function TranslationSettingsScreen() {
 
             {/* Target Language */}
             <View style={[styles.section, styles.sectionSpaced]}>
-              <Text style={styles.sectionTitle}>{t("translation.targetLanguage", "目标语言")}</Text>
+              <Text style={styles.sectionTitle}>{t("translation.targetLanguage", "Target language")}</Text>
               <View style={[styles.listCard, { maxHeight: 320 }]}>
                 <ScrollView nestedScrollEnabled>
                   {Object.entries(TRANSLATOR_LANGS).map(([code, name]) => (
@@ -239,7 +239,7 @@ export default function TranslationSettingsScreen() {
           onPress={() => setShowModelPicker(false)}
         >
           <View style={styles.modalContent} onStartShouldSetResponder={() => true}>
-            <Text style={styles.modalTitle}>{t("settings.selectModel", "选择模型")}</Text>
+            <Text style={styles.modalTitle}>{t("settings.selectModel", "Select a model")}</Text>
             <ScrollView nestedScrollEnabled>
               {endpointsWithModels.map((ep) => (
                 <View key={ep.id}>

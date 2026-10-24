@@ -45,7 +45,7 @@ export function RichTextEditor({
 }: RichTextEditorProps) {
   const colors = useColors();
   const { t } = useTranslation();
-  const defaultPlaceholder = placeholder ?? t("common.writeYourThoughts", "写下你的想法...");
+  const defaultPlaceholder = placeholder ?? t("common.writeYourThoughts", "Write down your thoughts...");
   const [value, setValue] = useState(initialContent);
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
@@ -274,7 +274,7 @@ export function RichTextEditor({
           <View style={styles.modalOverlay}>
             <View style={styles.linkModal}>
               <View style={styles.linkModalHeader}>
-                <Text style={styles.linkModalTitle}>{t("common.insertLink", "插入链接")}</Text>
+                <Text style={styles.linkModalTitle}>{t("common.insertLink", "Insert link")}</Text>
                 <TouchableOpacity onPress={() => setShowLinkModal(false)}>
                   <XIcon size={20} color={colors.mutedForeground} />
                 </TouchableOpacity>
@@ -283,14 +283,14 @@ export function RichTextEditor({
                 style={styles.linkInput}
                 value={linkText}
                 onChangeText={setLinkText}
-                placeholder={t("common.linkText", "链接文字")}
+                placeholder={t("common.linkText", "Link text")}
                 placeholderTextColor={colors.mutedForeground}
               />
               <TextInput
                 style={styles.linkInput}
                 value={linkUrl}
                 onChangeText={setLinkUrl}
-                placeholder={t("common.enterLinkUrl", "输入链接地址")}
+                placeholder={t("common.enterLinkUrl", "Enter link URL")}
                 placeholderTextColor={colors.mutedForeground}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -301,10 +301,10 @@ export function RichTextEditor({
                   style={styles.linkCancelBtn}
                   onPress={() => setShowLinkModal(false)}
                 >
-                  <Text style={styles.linkCancelText}>{t("common.cancel", "取消")}</Text>
+                  <Text style={styles.linkCancelText}>{t("common.cancel", "Cancel")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.linkConfirmBtn} onPress={handleInsertLink}>
-                  <Text style={styles.linkConfirmText}>{t("common.confirm", "确定")}</Text>
+                  <Text style={styles.linkConfirmText}>{t("common.confirm", "OK")}</Text>
                 </TouchableOpacity>
               </View>
             </View>

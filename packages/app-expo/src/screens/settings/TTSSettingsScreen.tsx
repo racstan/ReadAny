@@ -138,7 +138,7 @@ export default function TTSSettingsScreen() {
       () => endPreviewFeedback(run),
       PREVIEW_FALLBACK_TIMEOUT_MS,
     );
-    void previewTTSConfig(t("tts.testText", "这是一段测试文本"), config, {
+    void previewTTSConfig(t("tts.testText", "This is a sample of the text-to-speech voice"), config, {
       onStateChange: (state) => {
         if (state === "stopped") endPreviewFeedback(run);
       },
@@ -175,8 +175,8 @@ export default function TTSSettingsScreen() {
       <Text style={[styles.previewBtnText, isPreviewing && styles.previewBtnTextActive]}>
         {isPreviewing ? "■" : "▶"}{" "}
         {isPreviewing
-          ? t("common.previewing", "试听中")
-          : t("common.preview", "试听")}
+          ? t("common.previewing", "Previewing")
+          : t("common.preview", "Preview")}
       </Text>
     </TouchableOpacity>
   );
@@ -187,7 +187,7 @@ export default function TTSSettingsScreen() {
       edges={["top"]}
     >
       <SettingsHeader
-        title={t("tts.title", "TTS 设置")}
+        title={t("tts.title", "TTS settings")}
         subtitle={t("settings.realtimeHint")}
         right={previewBtn}
       />
@@ -198,7 +198,7 @@ export default function TTSSettingsScreen() {
       >
           <View style={[styles.contentColumn, { width: "100%", maxWidth: layout.centeredContentWidth }]}>
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t("tts.voiceProfile", "朗读方案")}</Text>
+              <Text style={styles.sectionTitle}>{t("tts.voiceProfile", "Voice profile")}</Text>
               <View style={styles.profileList}>
                 {profiles.map((profile) => {
                   const active = activeProfile.id === profile.id;
@@ -223,7 +223,7 @@ export default function TTSSettingsScreen() {
 
             {/* Voice Selection */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t("tts.voiceSelect", "声音选择")}</Text>
+              <Text style={styles.sectionTitle}>{t("tts.voiceSelect", "Voice selection")}</Text>
 
             {config.engine === "edge" && (
               <ScrollView style={styles.voiceList} nestedScrollEnabled>
@@ -428,7 +428,7 @@ export default function TTSSettingsScreen() {
                   />
                 </View>
                 <View style={styles.fieldGroup}>
-                  <Text style={styles.fieldLabel}>{t("tts.stylePrompt", "朗读风格")}</Text>
+                  <Text style={styles.fieldLabel}>{t("tts.stylePrompt", "Reading style")}</Text>
                   <TextInput
                     style={[styles.input, styles.multilineInput]}
                     value={xiaomiStylePromptValue}
@@ -531,7 +531,7 @@ export default function TTSSettingsScreen() {
                   />
                 </View>
                 <View style={styles.fieldGroup}>
-                  <Text style={styles.fieldLabel}>{t("tts.voice", "声音")}</Text>
+                  <Text style={styles.fieldLabel}>{t("tts.voice", "Voice")}</Text>
                   <TextInput
                     style={styles.input}
                     value={config.openaiTtsVoice}
@@ -558,7 +558,7 @@ export default function TTSSettingsScreen() {
                   />
                 </View>
                 <View style={styles.fieldGroup}>
-                  <Text style={styles.fieldLabel}>{t("tts.stylePrompt", "朗读风格")}</Text>
+                  <Text style={styles.fieldLabel}>{t("tts.stylePrompt", "Reading style")}</Text>
                   <TextInput
                     style={[styles.input, styles.multilineInput]}
                     value={openAIStylePromptValue}
@@ -577,12 +577,12 @@ export default function TTSSettingsScreen() {
 
             {/* Rate & Pitch */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t("tts.params", "语音参数")}</Text>
+              <Text style={styles.sectionTitle}>{t("tts.params", "Speech parameters")}</Text>
               <View style={styles.paramsCard}>
                 {/* Rate */}
                 <View style={styles.paramRow}>
                   <View style={styles.paramHeader}>
-                    <Text style={styles.paramLabel}>{t("tts.rate", "语速")}</Text>
+                    <Text style={styles.paramLabel}>{t("tts.rate", "Speed")}</Text>
                     <Text style={styles.paramValue}>{config.rate.toFixed(1)}x</Text>
                   </View>
                   <TextInput
@@ -602,7 +602,7 @@ export default function TTSSettingsScreen() {
                 {config.engine === "system" && (
                   <View style={styles.paramRow}>
                     <View style={styles.paramHeader}>
-                      <Text style={styles.paramLabel}>{t("tts.pitch", "音调")}</Text>
+                      <Text style={styles.paramLabel}>{t("tts.pitch", "Pitch")}</Text>
                       <Text style={styles.paramValue}>{config.pitch.toFixed(1)}</Text>
                     </View>
                     <TextInput

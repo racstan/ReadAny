@@ -301,7 +301,7 @@ export function createResolveChapterReferenceTool(bookId: string): ToolDefinitio
     parameters: {
       query: {
         type: "string",
-        description: "The user's chapter reference, such as '245章' or a chapter title",
+        description: "The user's chapter reference, such as 'Chapter 245' or a chapter title",
         required: true,
       },
       maxCandidates: {

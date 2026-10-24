@@ -803,12 +803,12 @@ describe("fallback content tools", () => {
     registerFallbackChapters([
       {
         index: 11,
-        title: "重游泰国",
+        title: "Revisiting Thailand",
         content:
-          "找人帮忙代填表格，结果第一道填错了，中间还重新排了一次队。工作人员告知，签证需要6~8个工作日才能办下来。",
+          "Asked someone to help fill in the form, but the first entry was wrong and I had to queue all over again. The staff said the visa takes 6~8 business days to be issued.",
         segments: [
           {
-            text: "找人帮忙代填表格，结果第一道填错了，中间还重新排了一次队。工作人员告知，签证需要6~8个工作日才能办下来。",
+            text: "Asked someone to help fill in the form, but the first entry was wrong and I had to queue all over again. The staff said the visa takes 6~8 business days to be issued.",
             cfi: "epubcfi(/6/24!/4/8)",
           },
         ],
@@ -820,11 +820,11 @@ describe("fallback content tools", () => {
     const tool = findTool(tools, "addCitation");
     const result = (await tool.execute({
       citationIndex: 1,
-      chapterTitle: "重游泰国",
+      chapterTitle: "Revisiting Thailand",
       chapterIndex: 11,
       cfi: "",
       quotedText:
-        "找人帮忙代填表格，结果第一道填错了……工作人员告知，签证需要6-8个工作日才能办下来。",
+        "Asked someone to help fill in the form... The staff said the visa takes 6-8 business days to be issued.",
       reasoning: "fallback source",
     })) as any;
 
@@ -1484,7 +1484,7 @@ describe("getSkills tool", () => {
     vi.mocked(getBuiltinSkills).mockReturnValue([
       {
         id: "mindmap",
-        name: "思维导图",
+        name: "Mindmap",
         description: "Generate mindmap",
         prompt: "...",
         parameters: [],
@@ -1493,7 +1493,7 @@ describe("getSkills tool", () => {
       },
       {
         id: "summary",
-        name: "摘要",
+        name: "Summary",
         description: "Generate summary",
         prompt: "...",
         parameters: [],
@@ -1505,7 +1505,7 @@ describe("getSkills tool", () => {
 
     const tools = getAvailableTools({ bookId: null, isVectorized: false, enabledSkills: [] });
     const tool = findTool(tools, "getSkills");
-    const result = (await tool.execute({ reasoning: "test", task: "思维导图" })) as any;
+    const result = (await tool.execute({ reasoning: "test", task: "mindmap" })) as any;
 
     expect(result.found).toBeGreaterThan(0);
     expect(result.skills[0].id).toBe("mindmap");

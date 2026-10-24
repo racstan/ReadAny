@@ -44,7 +44,7 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 export function HomeSidebar() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { activeTabId, setActiveTab, addTab } = useAppStore();
   const {
     filter,

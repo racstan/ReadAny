@@ -413,7 +413,7 @@ export function useReaderTTS({
     return ttsCurrentLocationCfi || null;
   }, [bookId, currentTTSSegment?.cfi, ttsCurrentBookId, ttsCurrentLocationCfi]);
 
-  const ttsSourceLabel = ttsSourceKind === "selection" ? "来自选中文本" : "从当前页开始";
+  const ttsSourceLabel = ttsSourceKind === "selection" ? "From selected text" : "From current page";
 
   // ─── Utility callbacks ──────────────────────────────────────────────────────
   const syncTTSChunkOffset = useCallback((nextOffset: number) => {

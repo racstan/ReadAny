@@ -833,6 +833,8 @@ export async function createChatModelFromEndpoint(
         endpoint.provider === "opencode" ||
         endpoint.provider === "pi";
 
+      const { ChatOpenAI } = await import("@langchain/openai");
+
       return new ChatOpenAI({
         model: normalizedModel,
         apiKey,

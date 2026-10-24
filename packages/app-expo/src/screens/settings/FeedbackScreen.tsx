@@ -46,8 +46,8 @@ const FEEDBACK_TYPES: {
   Icon: LucideIcon;
 }[] = [
   { key: "bug", labelKey: "feedback.typeBug", fallback: "Bug", Icon: Bug },
-  { key: "feature", labelKey: "feedback.typeFeature", fallback: "建议", Icon: Lightbulb },
-  { key: "other", labelKey: "feedback.typeOther", fallback: "其他", Icon: MessageSquare },
+  { key: "feature", labelKey: "feedback.typeFeature", fallback: "Suggestion", Icon: Lightbulb },
+  { key: "other", labelKey: "feedback.typeOther", fallback: "Other", Icon: MessageSquare },
 ];
 
 export default function FeedbackScreen() {
@@ -83,7 +83,7 @@ export default function FeedbackScreen() {
       style={[styles.container, { backgroundColor: colors.background }]}
       edges={["top"]}
     >
-      <SettingsHeader title={t("feedback.title", "反馈建议")} />
+      <SettingsHeader title={t("feedback.title", "Feedback")} />
 
       {/* Tab bar */}
       <View style={[styles.tabBar, { borderBottomColor: colors.border }]}>
@@ -97,7 +97,7 @@ export default function FeedbackScreen() {
               { color: activeTab === "submit" ? colors.primary : colors.mutedForeground },
             ]}
           >
-            {t("feedback.submitTab", "提交反馈")}
+            {t("feedback.submitTab", "Submit feedback")}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -111,7 +111,7 @@ export default function FeedbackScreen() {
                 { color: activeTab === "history" ? colors.primary : colors.mutedForeground },
               ]}
             >
-              {t("feedback.historyTab", "我的反馈")}
+              {t("feedback.historyTab", "My feedback")}
             </Text>
             {hasUnread && <View style={[styles.tabDot, { backgroundColor: colors.destructive }]} />}
           </View>
@@ -171,21 +171,21 @@ function SubmitTab({ colors, t, locale }: FeedbackTabProps & { locale: string })
         logs,
       });
       Alert.alert(
-        t("feedback.submitSuccess", "提交成功"),
-        t("feedback.submitSuccessDesc", "感谢你的反馈！Issue #{{number}} 已创建。", {
+        t("feedback.submitSuccess", "Submitted"),
+        t("feedback.submitSuccessDesc", "Thanks for your feedback! Issue #{{number}} has been created.", {
           number: result.issueNumber,
         }),
-        [{ text: t("common.ok", "好的") }],
+        [{ text: t("common.ok", "OK") }],
       );
       setTitle("");
       setDescription("");
       setIncludeLogs(false);
     } catch (err) {
       Alert.alert(
-        t("feedback.submitFailed", "提交失败"),
+        t("feedback.submitFailed", "Submission failed"),
         err instanceof Error
           ? err.message
-          : t("feedback.submitFailedUnknown", "提交失败，请稍后重试"),
+          : t("feedback.submitFailedUnknown", "Submission failed. Please try again later"),
       );
     } finally {
       setSubmitting(false);
@@ -202,14 +202,14 @@ function SubmitTab({ colors, t, locale }: FeedbackTabProps & { locale: string })
     >
       <View style={[styles.introBlock, { borderBottomColor: colors.border }]}>
         <Text style={[styles.introTitle, { color: colors.foreground }]}>
-          {t("feedback.title", "反馈建议")}
+          {t("feedback.title", "Feedback")}
         </Text>
         <Text style={[styles.introText, { color: colors.mutedForeground }]}>
-          {t("feedback.desc", "提交 bug 报告或功能建议，我们会尽快处理")}
+          {t("feedback.desc", "Submit a bug report or feature suggestion and we'll get to it as soon as we can")}
         </Text>
       </View>
 
-      <Text style={[styles.label, { color: colors.foreground }]}>{t("feedback.type", "类型")}</Text>
+      <Text style={[styles.label, { color: colors.foreground }]}>{t("feedback.type", "Type")}</Text>
       <View style={styles.typeRow}>
         {FEEDBACK_TYPES.map((ft) => (
           <TouchableOpacity
@@ -236,14 +236,14 @@ function SubmitTab({ colors, t, locale }: FeedbackTabProps & { locale: string })
 
       {/* Title */}
       <Text style={[styles.label, { color: colors.foreground }]}>
-        {t("feedback.titleLabel", "标题")} *
+        {t("feedback.titleLabel", "Title")} *
       </Text>
       <TextInput
         style={[
           styles.input,
           { borderColor: colors.border, color: colors.foreground, backgroundColor: colors.card },
         ]}
-        placeholder={t("feedback.titlePlaceholder", "简要描述问题或建议")}
+        placeholder={t("feedback.titlePlaceholder", "Briefly describe the issue or suggestion")}
         placeholderTextColor={colors.mutedForeground}
         value={title}
         onChangeText={setTitle}
@@ -252,14 +252,14 @@ function SubmitTab({ colors, t, locale }: FeedbackTabProps & { locale: string })
 
       {/* Description */}
       <Text style={[styles.label, { color: colors.foreground }]}>
-        {t("feedback.descLabel", "详细描述")} *
+        {t("feedback.descLabel", "Details")} *
       </Text>
       <TextInput
         style={[
           styles.textArea,
           { borderColor: colors.border, color: colors.foreground, backgroundColor: colors.card },
         ]}
-        placeholder={t("feedback.descPlaceholder", "请详细描述你遇到的问题或建议...")}
+        placeholder={t("feedback.descPlaceholder", "Describe the issue or suggestion in detail...")}
         placeholderTextColor={colors.mutedForeground}
         value={description}
         onChangeText={setDescription}
@@ -286,11 +286,11 @@ function SubmitTab({ colors, t, locale }: FeedbackTabProps & { locale: string })
             {includeLogs && <Check size={13} color={colors.primaryForeground} strokeWidth={3} />}
           </View>
           <Text style={[styles.logTitle, { color: colors.foreground }]}>
-            {t("feedback.uploadLogs", "上传应用日志")}
+            {t("feedback.uploadLogs", "Upload app logs")}
           </Text>
         </TouchableOpacity>
         <Text style={[styles.hint, { color: colors.mutedForeground }]}>
-          {t("feedback.logsHint", "仅在勾选时附带最近 1 小时诊断日志，帮助定位问题。")}
+          {t("feedback.logsHint", "Only when checked, diagnostic logs from the last hour are attached to help us locate the problem.")}
         </Text>
       </View>
 
@@ -315,12 +315,12 @@ function SubmitTab({ colors, t, locale }: FeedbackTabProps & { locale: string })
           <ActivityIndicator color={submitForegroundColor} size="small" />
         ) : (
           <Text style={[styles.submitBtnText, { color: submitForegroundColor }]}>
-            {t("feedback.submit", "提交反馈")}
+            {t("feedback.submit", "Submit feedback")}
           </Text>
         )}
       </TouchableOpacity>
       <Text style={[styles.remainingText, { color: colors.mutedForeground }]}>
-        {t("feedback.remaining", "今日还可提交 {{count}} 次", { count: remaining })}
+        {t("feedback.remaining", "{{count}} submissions left today", { count: remaining })}
       </Text>
     </KeyboardAwareScrollView>
   );
@@ -381,7 +381,7 @@ function HistoryTab({
     return (
       <View style={styles.emptyState}>
         <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>
-          {t("feedback.noHistory", "暂无反馈记录")}
+          {t("feedback.noHistory", "No feedback history yet")}
         </Text>
       </View>
     );
@@ -415,7 +415,7 @@ function HistoryTab({
             </Text>
             {item.hasNewReply && (
               <Text style={[styles.newReplyText, { color: colors.amber }]}>
-                {t("feedback.newReply", "有新回复")}
+                {t("feedback.newReply", "New reply")}
               </Text>
             )}
           </View>
@@ -435,8 +435,8 @@ function HistoryTab({
               ]}
             >
               {item.status === "open"
-                ? t("feedback.statusOpen", "处理中")
-                : t("feedback.statusClosed", "已关闭")}
+                ? t("feedback.statusOpen", "In progress")
+                : t("feedback.statusClosed", "Closed")}
             </Text>
           </View>
         </TouchableOpacity>

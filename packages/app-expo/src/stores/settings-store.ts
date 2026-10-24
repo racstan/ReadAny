@@ -1,7 +1,7 @@
 /**
  * Settings store — global reading settings, AI config, translation config
  */
-import type { AIConfig, AIEndpoint, ReadSettings } from "@readany/core/types";
+import type { AIConfig, AIEndpoint, AIMode, ReadSettings } from "@readany/core/types";
 import type { TranslationConfig, TranslationTargetLang } from "@readany/core/types/translation";
 import { logAIEndpointDebug, summarizeDebugText } from "@readany/core/ai/request-debug";
 import {
@@ -34,6 +34,7 @@ export interface SettingsState {
   removeEndpoint: (id: string) => Promise<void>;
   setActiveEndpoint: (id: string) => void;
   setActiveModel: (model: string) => void;
+  setAIMode: (mode: AIMode) => void;
   importAIConfig: (config: AIConfig) => Promise<void>;
   getActiveEndpoint: () => Promise<AIEndpoint | undefined>;
   getEndpointById: (id: string) => Promise<AIEndpoint | undefined>;
@@ -536,6 +537,82 @@ export const useSettingsStore = create<SettingsState>()(
         set((state) => ({
           aiConfig: { ...state.aiConfig, activeModel: model },
         })),
+
+      setAIMode: (mode: AIMode) =>
+        set((state) => {
+          const endpoints = [...state.aiConfig.endpoints];
+          let targetActiveId = state.aiConfig.activeEndpointId;
+          let targetActiveModel = state.aiConfig.activeModel;
+
+          if (mode === "opencode") {
+            let opencodeEp = endpoints.find((ep) => ep.provider === "opencode");
+            if (!opencodeEp) {
+              opencodeEp = {
+                id: `opencode-${Date.now().toString(36)}`,
+                name: "OpenCode (Local Proxy)",
+                provider: "opencode",
+                apiKey: "",
+                baseUrl: "http://localhost:4010/v1",
+                useExactRequestUrl: false,
+                models: [
+                  "opencode/mimo-v2.6-flash-free",
+                  "opencode/deepseek-v4.1-flash-free",
+                  "opencode/glm-5.3-flash-free",
+                  "opencode/deepseek-v4-flash-free",
+                  "opencode/kimi-k2.5-flash-free",
+                  "opencode/qwen-2.5-coder-32b-free",
+                ],
+                modelsFetched: true,
+              };
+              endpoints.push(opencodeEp);
+            }
+            targetActiveId = opencodeEp.id;
+            targetActiveModel = opencodeEp.models[0] || "opencode/mimo-v2.6-flash-free";
+          } else if (mode === "pi") {
+            let piEp = endpoints.find((ep) => ep.provider === "pi");
+            if (!piEp) {
+              piEp = {
+                id: `pi-${Date.now().toString(36)}`,
+                name: "Pi Agent (Local RPC/Bridge)",
+                provider: "pi",
+                apiKey: "",
+                baseUrl: "http://localhost:31415/v1",
+                useExactRequestUrl: false,
+                models: [
+                  "anthropic/claude-sonnet-4-20250514",
+                  "anthropic/claude-3-7-sonnet-20250219",
+                  "anthropic/claude-3-5-sonnet-20241022",
+                  "openai/gpt-4o",
+                  "openai/gpt-4o-mini",
+                  "google/gemini-2.0-flash",
+                  "deepseek/deepseek-chat",
+                ],
+                modelsFetched: true,
+              };
+              endpoints.push(piEp);
+            }
+            targetActiveId = piEp.id;
+            targetActiveModel = piEp.models[0] || "anthropic/claude-sonnet-4-20250514";
+          } else {
+            const normalEp = endpoints.find(
+              (ep) => ep.provider !== "opencode" && ep.provider !== "pi",
+            );
+            if (normalEp) {
+              targetActiveId = normalEp.id;
+              targetActiveModel = normalEp.models[0] || "";
+            }
+          }
+
+          return {
+            aiConfig: {
+              ...state.aiConfig,
+              mode,
+              endpoints,
+              activeEndpointId: targetActiveId,
+              activeModel: targetActiveModel,
+            },
+          };
+        }),
 
       importAIConfig: async (config) => {
         const currentState = get();

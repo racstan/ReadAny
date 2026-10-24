@@ -17,7 +17,7 @@ describe("createBuiltinEmbeddingService", () => {
 
   it("generates query embeddings with the selected builtin model", async () => {
     const service = createBuiltinEmbeddingService("bge-small-zh-v1.5");
-    await expect(service.embed("查询文本")).resolves.toEqual([1, 2]);
+    await expect(service.embed("query text")).resolves.toEqual([1, 2]);
     expect(load).toHaveBeenCalledWith("bge-small-zh-v1.5", "Xenova/bge-small-zh-v1.5", undefined);
   });
 });

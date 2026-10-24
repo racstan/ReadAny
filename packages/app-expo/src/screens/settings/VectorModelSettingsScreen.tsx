@@ -60,7 +60,7 @@ export default function VectorModelSettingsScreen() {
           <TouchableOpacity style={s.backBtn} onPress={() => nav.goBack()}>
             <ChevronLeftIcon size={20} color={colors.foreground} />
           </TouchableOpacity>
-          <Text style={s.headerTitle}>{t("settings.vm_title", "向量模型")}</Text>
+          <Text style={s.headerTitle}>{t("settings.vm_title", "Embedding models")}</Text>
         </View>
       </View>
 
@@ -77,9 +77,9 @@ export default function VectorModelSettingsScreen() {
             <View style={s.section}>
               <View style={s.enableCard}>
                 <View style={s.enableInfo}>
-                  <Text style={s.enableTitle}>{t("settings.vm_title", "向量模型")}</Text>
+                  <Text style={s.enableTitle}>{t("settings.vm_title", "Embedding models")}</Text>
                   <Text style={s.enableDesc}>
-                    {t("settings.vm_desc", "启用向量搜索和知识检索")}
+                    {t("settings.vm_desc", "Enable vector search and knowledge retrieval")}
                   </Text>
                 </View>
                 <Switch
@@ -97,12 +97,12 @@ export default function VectorModelSettingsScreen() {
                   <View style={s.enableCard}>
                     <View style={s.enableInfo}>
                       <Text style={s.enableTitle}>
-                        {t("settings.vm_autoVectorizeOnImport", "导入后自动向量化")}
+                        {t("settings.vm_autoVectorizeOnImport", "Auto-vectorize on import")}
                       </Text>
                       <Text style={s.enableDesc}>
                         {t(
                           "settings.vm_autoVectorizeOnImportDesc",
-                          "导入或从同步端下载的新书会自动排队建立索引。默认关闭，避免意外消耗模型额度。",
+                          "New books imported or downloaded from sync are queued for indexing automatically. Off by default to avoid unexpectedly consuming model quota.",
                         )}
                       </Text>
                     </View>
@@ -130,10 +130,10 @@ export default function VectorModelSettingsScreen() {
                   marginBottom: 8,
                 }}
               >
-                {t("settings.transferConfig", "配置迁移")}
+                {t("settings.transferConfig", "Configuration transfer")}
               </Text>
               <ConfigTransfer
-                label={t("settings.vectorConfig", "向量化配置")}
+                label={t("settings.vectorConfig", "Vectorization configuration")}
                 getData={() => {
                   const state = useVectorModelStore.getState();
                   return {
@@ -210,15 +210,15 @@ function BuiltinModelsSection() {
 
   return (
     <View style={s.section}>
-      <Text style={s.sectionTitle}>本地模型</Text>
-      <Text style={s.sectionDesc}>模型下载到本机后离线运行，不会发送书籍内容。BGE 适合中文，MiniLM 适合英文；不同模型需要分别重新向量化。</Text>
+      <Text style={s.sectionTitle}>Local models</Text>
+      <Text style={s.sectionDesc}>Models run offline on this device after download; no book content is ever sent. BGE works best for Chinese, MiniLM for English. Each model requires its own re-vectorization.</Text>
       <View style={[s.modelCard, selected && s.modelCardActive]}>
           <View style={s.modelCardTop}>
-            <View style={s.modelInfo}><Text style={s.modelName}>{model.name}</Text><Text style={s.modelSize}>{model.dimension} 维 · {model.size}</Text></View>
+            <View style={s.modelInfo}><Text style={s.modelName}>{model.name}</Text><Text style={s.modelSize}>{model.dimension} dims · {model.size}</Text></View>
           {ready ? <Switch value={selected} onValueChange={(value) => value ? select() : setSelectedBuiltinModelId(null)} trackColor={{ false: colors.muted, true: colors.primary }} thumbColor={colors.card} /> :
-            <TouchableOpacity style={s.downloadBtn} disabled={downloading} onPress={select}><Text style={s.downloadBtnText}>{downloading ? `下载 ${state?.progress ?? 0}%` : "下载并使用"}</Text></TouchableOpacity>}
+            <TouchableOpacity style={s.downloadBtn} disabled={downloading} onPress={select}><Text style={s.downloadBtnText}>{downloading ? `Download ${state?.progress ?? 0}%` : "Download and use"}</Text></TouchableOpacity>}
         </View>
-        {ready && <TouchableOpacity style={s.clearBtn} disabled={clearing} onPress={clear}><Text style={s.clearBtnText}>{clearing ? "正在清理…" : "删除本地模型"}</Text></TouchableOpacity>}
+        {ready && <TouchableOpacity style={s.clearBtn} disabled={clearing} onPress={clear}><Text style={s.clearBtnText}>{clearing ? "Clearing…" : "Delete local model"}</Text></TouchableOpacity>}
         {state?.error ? <Text style={[s.testResult, s.testError]}>{state.error}</Text> : null}
       </View>
       <BuiltinEnglishModelCard />
@@ -276,17 +276,17 @@ function BuiltinEnglishModelCard() {
       <View style={s.modelCardTop}>
         <View style={s.modelInfo}>
           <Text style={s.modelName}>{model.name}</Text>
-          <Text style={s.modelSize}>{model.dimension} 维 · {model.size} · 英文</Text>
+          <Text style={s.modelSize}>{model.dimension} dims · {model.size} · English</Text>
         </View>
         {ready ? (
           <Switch value={selected} onValueChange={(value) => value ? select() : setSelectedBuiltinModelId(null)} trackColor={{ false: colors.muted, true: colors.primary }} thumbColor={colors.card} />
         ) : (
           <TouchableOpacity style={s.downloadBtn} disabled={downloading} onPress={select}>
-            <Text style={s.downloadBtnText}>{downloading ? `下载 ${state?.progress ?? 0}%` : "下载并使用"}</Text>
+            <Text style={s.downloadBtnText}>{downloading ? `Download ${state?.progress ?? 0}%` : "Download and use"}</Text>
           </TouchableOpacity>
         )}
       </View>
-      {ready && <TouchableOpacity style={s.clearBtn} disabled={clearing} onPress={clear}><Text style={s.clearBtnText}>{clearing ? "正在清理…" : "删除本地模型"}</Text></TouchableOpacity>}
+      {ready && <TouchableOpacity style={s.clearBtn} disabled={clearing} onPress={clear}><Text style={s.clearBtnText}>{clearing ? "Clearing…" : "Delete local model"}</Text></TouchableOpacity>}
       {state?.error ? <Text style={[s.testResult, s.testError]}>{state.error}</Text> : null}
     </View>
   );
@@ -374,7 +374,7 @@ function RemoteModelsSection() {
   const detectModelDimension = useCallback(
     async (model: VectorModelConfig) => {
       setTestingId(model.id);
-      setTestResults((prev) => ({ ...prev, [model.id]: t("settings.vm_testing", "测试中...") }));
+      setTestResults((prev) => ({ ...prev, [model.id]: t("settings.vm_testing", "Testing...") }));
       const normalizedUrl = normalizeEmbeddingEndpointUrl(model.url);
       if (normalizedUrl && normalizedUrl !== model.url) {
         updateVectorModel(model.id, { url: normalizedUrl });
@@ -409,9 +409,9 @@ function RemoteModelsSection() {
     <View style={s.section}>
       <View style={s.remoteTitleRow}>
         <View>
-          <Text style={s.sectionTitle}>{t("settings.vm_remoteModels", "远程模型")}</Text>
+          <Text style={s.sectionTitle}>{t("settings.vm_remoteModels", "Remote models")}</Text>
           <Text style={s.sectionDesc}>
-            {t("settings.vm_remoteDesc", "通过 API 调用的嵌入模型")}
+            {t("settings.vm_remoteDesc", "Embedding models called through an API")}
           </Text>
         </View>
         {!showAddForm && !editingId && (
@@ -423,13 +423,13 @@ function RemoteModelsSection() {
             }}
           >
             <PlusIcon size={12} color={colors.foreground} />
-            <Text style={s.addModelText}>{t("settings.vm_addModel", "添加模型")}</Text>
+            <Text style={s.addModelText}>{t("settings.vm_addModel", "Add model")}</Text>
           </TouchableOpacity>
         )}
       </View>
 
       {vectorModels.length === 0 && !showAddForm && !editingId && (
-        <Text style={s.noModels}>{t("settings.vm_noRemoteModels", "暂无远程模型")}</Text>
+        <Text style={s.noModels}>{t("settings.vm_noRemoteModels", "No remote models yet")}</Text>
       )}
 
       {vectorModels.map((model) => (
@@ -474,8 +474,8 @@ function RemoteModelsSection() {
             >
               <Text style={s.testBtnText}>
                 {testingId === model.id
-                  ? t("settings.vm_testing", "测试中...")
-                  : t("settings.vm_test", "测试")}
+                  ? t("settings.vm_testing", "Testing...")
+                  : t("settings.vm_test", "Test")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={s.iconBtn} onPress={() => startEdit(model)}>
@@ -504,15 +504,15 @@ function RemoteModelsSection() {
           <View style={s.formHeader}>
             <Text style={s.formTitle}>
               {editingId
-                ? t("settings.vm_editModel", "编辑模型")
-                : t("settings.vm_addModelTitle", "添加模型")}
+                ? t("settings.vm_editModel", "Edit model")
+                : t("settings.vm_addModelTitle", "Add model")}
             </Text>
             <TouchableOpacity onPress={resetForm}>
               <XIcon size={16} color={colors.foreground} />
             </TouchableOpacity>
           </View>
 
-          <Text style={s.fieldLabel}>{t("settings.vm_name", "名称")} *</Text>
+          <Text style={s.fieldLabel}>{t("settings.vm_name", "Name")} *</Text>
           <TextInput
             style={s.fieldInput}
             value={formName}
@@ -521,7 +521,7 @@ function RemoteModelsSection() {
             placeholderTextColor={colors.mutedForeground}
           />
 
-          <Text style={s.fieldLabel}>{t("settings.vm_modelId", "模型 ID")} *</Text>
+          <Text style={s.fieldLabel}>{t("settings.vm_modelId", "Model ID")} *</Text>
           <TextInput
             style={s.fieldInput}
             value={formModelId}
@@ -549,7 +549,7 @@ function RemoteModelsSection() {
             placeholderTextColor={colors.mutedForeground}
           />
 
-          <Text style={s.fieldLabel}>{t("settings.vm_description", "描述")}</Text>
+          <Text style={s.fieldLabel}>{t("settings.vm_description", "Description")}</Text>
           <TextInput
             style={s.fieldInput}
             value={formDesc}
@@ -559,7 +559,7 @@ function RemoteModelsSection() {
 
           <View style={s.formActions}>
             <TouchableOpacity style={s.formCancelBtn} onPress={resetForm}>
-              <Text style={s.formCancelText}>{t("common.cancel", "取消")}</Text>
+              <Text style={s.formCancelText}>{t("common.cancel", "Cancel")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -571,7 +571,7 @@ function RemoteModelsSection() {
               disabled={!formName.trim() || !formUrl.trim() || !formModelId.trim()}
             >
               <Text style={s.formSaveText}>
-                {editingId ? t("common.save", "保存") : t("settings.vm_addModel", "添加模型")}
+                {editingId ? t("common.save", "Save") : t("settings.vm_addModel", "Add model")}
               </Text>
             </TouchableOpacity>
           </View>

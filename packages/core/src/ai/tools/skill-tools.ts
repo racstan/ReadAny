@@ -20,7 +20,7 @@ export function createGetSkillsTool(): ToolDefinition {
       },
       task: {
         type: "string",
-        description: "The task type or keyword to search for (e.g. '思维导图', '摘要', 'summary')",
+        description: "The task type or keyword to search for (e.g. 'mindmap', 'summary', 'character analysis')",
         required: true,
       },
     },

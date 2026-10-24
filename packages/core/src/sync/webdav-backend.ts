@@ -86,7 +86,7 @@ export class WebDavBackend implements ISyncBackend {
   }
 
   /**
-   * Some WebDAV servers (Synology, QNAP, 飞牛, etc.) return 403/404/409 when
+   * Some WebDAV servers (Synology, QNAP, fnOS, etc.) return 403/404/409 when
    * PUT-ing into a directory that doesn't exist yet. Ensure the parent and
    * retry once — most uploads land on an existing dir, so this catch path
    * only fires for first-time uploads into a brand-new folder. Shared by

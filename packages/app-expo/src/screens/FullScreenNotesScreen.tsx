@@ -24,7 +24,7 @@ export function FullScreenNotesScreen() {
           <ChevronLeftIcon size={24} color={colors.foreground} />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: colors.foreground }]}>
-          {t("notes.title", "笔记")}
+          {t("notes.title", "Notes")}
         </Text>
         <View style={{ width: 40 }} />
       </View>

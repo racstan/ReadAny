@@ -25,13 +25,13 @@ const DISPATCH = `
 module.exports = function withVolumeKeyPaging(config) {
   return withMainActivity(config, (cfg) => {
     if (cfg.modResults.language !== "kt") {
-      throw new Error("withVolumeKeyPaging: MainActivity 需为 Kotlin（SDK 54 默认 kt）");
+      throw new Error("withVolumeKeyPaging: MainActivity must be Kotlin (SDK 54 defaults to .kt)");
     }
     let src = cfg.modResults.contents;
-    if (src.includes(MARKER)) return cfg; // 幂等
+    if (src.includes(MARKER)) return cfg; // idempotent
     const anchor = /class\s+MainActivity\s*:\s*ReactActivity[\s\S]*?\{/;
     if (!anchor.test(src)) {
-      throw new Error("withVolumeKeyPaging: 未找到 MainActivity 类声明锚点");
+      throw new Error("withVolumeKeyPaging: MainActivity class declaration anchor not found");
     }
     src = src.replace(anchor, (m) => `${m}\n${DISPATCH}`);
     cfg.modResults.contents = src;

@@ -21,23 +21,23 @@ const KNOWN_MANUAL_REQUIREMENTS = [
 ];
 
 const REQUIRED_RECORD_HEADINGS = [
-  "## 基本信息",
-  "## 本次验收范围",
-  "## 本次明确不验收",
-  "## 执行命令",
-  "## 验收结果",
-  "## 证据摘要",
-  "## 安全边界证据",
-  "## 当前可对外说明",
-  "## 当前不能对外宣称",
-  "## 已知问题",
-  "## 是否允许进入下一阶段",
+  "## Basic Information",
+  "## Acceptance Scope",
+  "## Explicitly Out of Scope",
+  "## Commands Executed",
+  "## Acceptance Result",
+  "## Evidence Summary",
+  "## Safety Boundary Evidence",
+  "## What Can Be Stated Publicly",
+  "## What Cannot Be Claimed Publicly",
+  "## Known Issues",
+  "## Approved To Proceed To Next Phase",
 ];
 
 const STRICT_M5_HEADINGS = [
-  "## 真实样本证据",
-  "## 外部 Agent 证据",
-  "## 打包 / 安装矩阵",
+  "## Real Sample Evidence",
+  "## External Agent Evidence",
+  "## Packaging / Installation Matrix",
   "## Manual Acceptance Closure",
 ];
 
@@ -134,7 +134,7 @@ function parseMarkdownTableRows(text) {
 }
 
 function validateStrictM5Tables(text, errors) {
-  const agentRows = parseMarkdownTableRows(section(text, "## 外部 Agent 证据"));
+  const agentRows = parseMarkdownTableRows(section(text, "## External Agent Evidence"));
   const completedAgentRows = agentRows.filter((row) => row.length >= 7 && row.slice(0, 7).every(hasValue));
   assertCondition(
     completedAgentRows.length >= 2,
@@ -152,7 +152,7 @@ function validateStrictM5Tables(text, errors) {
     "Strict M5 record must include a completed Claude Desktop or Cursor external agent row.",
   );
 
-  const matrixRows = parseMarkdownTableRows(section(text, "## 打包 / 安装矩阵"));
+  const matrixRows = parseMarkdownTableRows(section(text, "## Packaging / Installation Matrix"));
   const requiredPlatforms = ["macOS", "Windows", "Linux"];
   for (const platform of requiredPlatforms) {
     const row = matrixRows.find((item) => item[0]?.toLowerCase() === platform.toLowerCase());
@@ -197,19 +197,19 @@ function validateRecord(text, { strictM5 }) {
   }
 
   if (strictM5) {
-    const scope = section(text, "## 本次验收范围");
-    const result = section(text, "## 验收结果");
-    const cannotClaim = section(text, "## 当前不能对外宣称");
+    const scope = section(text, "## Acceptance Scope");
+    const result = section(text, "## Acceptance Result");
+    const cannotClaim = section(text, "## What Cannot Be Claimed Publicly");
 
     assertCondition(!scope.includes("- [ ]"), errors, "Strict M5 record still has unchecked scope items.");
-    assertCondition(!/部分通过|不通过/.test(result), errors, "Strict M5 record result is not a full pass.");
+    assertCondition(!/Partial pass|Fail/.test(result), errors, "Strict M5 record result is not a full pass.");
     assertCondition(
       nonPlaceholderBullets(cannotClaim).length === 0,
       errors,
       "Strict M5 record still lists claims that cannot be made externally.",
     );
     validateStrictM5Tables(text, errors);
-  } else if (text.includes("部分通过")) {
+  } else if (text.includes("Partial pass")) {
     warnings.push("Record is marked partial; use --strict-m5 only for final M5 acceptance.");
   }
 
@@ -634,7 +634,7 @@ function validateStrictM5EvidenceSet(recordText, evidences, errors) {
   if (desktopSettings) {
     assertCondition(
       Boolean(recordText) &&
-        (recordText.includes("desktop settings") || recordText.includes("desktop-settings") || recordText.includes("桌面设置页")),
+        (recordText.includes("desktop settings") || recordText.includes("desktop-settings") || recordText.includes("Desktop settings page")),
       errors,
       "Strict M5 record must reference desktop settings evidence.",
     );

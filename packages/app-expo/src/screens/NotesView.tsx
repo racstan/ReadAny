@@ -148,8 +148,8 @@ export function NotesView({
       } else {
         grouped.set(h.bookId, {
           bookId: h.bookId,
-          title: h.bookTitle || t("notes.unknownBook", "未知书籍"),
-          author: h.bookAuthor || t("notes.unknownAuthor", "未知作者"),
+          title: h.bookTitle || t("notes.unknownBook", "Unknown book"),
+          author: h.bookAuthor || t("notes.unknownAuthor", "Unknown author"),
           coverUrl: h.bookCoverUrl || null,
           highlights: [h],
           notesCount: h.note ? 1 : 0,
@@ -196,7 +196,7 @@ export function NotesView({
     const chapters: { chapter: string; items: HighlightWithBook[] }[] = [];
     const chapterMap = new Map<string, HighlightWithBook[]>();
     for (const h of currentList) {
-      const chapter = h.chapterTitle || t("notes.unknownChapter", "未知章节");
+      const chapter = h.chapterTitle || t("notes.unknownChapter", "Unknown chapter");
       const arr = chapterMap.get(chapter) || [];
       arr.push(h);
       chapterMap.set(chapter, arr);
@@ -216,10 +216,10 @@ export function NotesView({
 
   const handleDeleteNote = useCallback(
     (highlight: HighlightWithBook) => {
-      Alert.alert(t("common.confirm", "确认"), t("notes.deleteNoteConfirm", "确定删除此笔记？"), [
-        { text: t("common.cancel", "取消"), style: "cancel" },
+      Alert.alert(t("common.confirm", "Confirm"), t("notes.deleteNoteConfirm", "Delete this note?"), [
+        { text: t("common.cancel", "Cancel"), style: "cancel" },
         {
-          text: t("common.delete", "删除"),
+          text: t("common.delete", "Delete"),
           style: "destructive",
           onPress: () => {
             updateHighlight(highlight.id, { note: undefined });
@@ -233,12 +233,12 @@ export function NotesView({
   const handleDeleteHighlight = useCallback(
     (highlight: HighlightWithBook) => {
       Alert.alert(
-        t("common.confirm", "确认"),
-        t("notes.deleteHighlightConfirm", "确定删除此高亮？"),
+        t("common.confirm", "Confirm"),
+        t("notes.deleteHighlightConfirm", "Delete this highlight?"),
         [
-          { text: t("common.cancel", "取消"), style: "cancel" },
+          { text: t("common.cancel", "Cancel"), style: "cancel" },
           {
-            text: t("common.delete", "删除"),
+            text: t("common.delete", "Delete"),
             style: "destructive",
             onPress: () => {
               removeHighlight(highlight.id);
@@ -283,14 +283,14 @@ export function NotesView({
       try {
         if (format === "notion") {
           await exporter.copyToClipboard(content);
-          Alert.alert(t("common.success", "成功"), t("notes.copiedToClipboard", "已复制到剪贴板"));
+          Alert.alert(t("common.success", "Success"), t("notes.copiedToClipboard", "Copied to clipboard"));
         } else {
           const ext = format === "json" ? "json" : "md";
           await exporter.downloadAsFile(content, `${selectedBook.title}-${format}.${ext}`, format);
         }
       } catch (err) {
         console.error("Export failed:", err);
-        Alert.alert(t("common.error", "错误"), t("notes.exportFailed", "导出失败"));
+        Alert.alert(t("common.error", "Error"), t("notes.exportFailed", "Export failed"));
       }
     },
     [selectedBook, books, t],
@@ -306,7 +306,7 @@ export function NotesView({
       <SafeAreaView style={[s.container, { backgroundColor: colors.background }]} edges={["top"]}>
         <View style={s.loadingWrap}>
           <View style={s.spinner} />
-          <Text style={s.loadingText}>{t("common.loading", "加载中...")}</Text>
+          <Text style={s.loadingText}>{t("common.loading", "Loading...")}</Text>
         </View>
       </SafeAreaView>
     );
@@ -321,13 +321,13 @@ export function NotesView({
       >
         {!hideDetailHeader && (
           <View style={s.header}>
-            <Text style={s.headerTitle}>{t("notes.title", "笔记")}</Text>
+            <Text style={s.headerTitle}>{t("notes.title", "Notes")}</Text>
           </View>
         )}
         <View style={s.emptyWrap}>
           <Image source={isDark ? NOTE_DARK_PNG : NOTE_PNG} style={{ width: 160, height: 160 }} />
-          <Text style={s.emptyTitle}>{t("notes.empty", "暂无笔记")}</Text>
-          <Text style={s.emptyHint}>{t("notes.emptyHint", "阅读时长按文字添加高亮和笔记")}</Text>
+          <Text style={s.emptyTitle}>{t("notes.empty", "No notes yet")}</Text>
+          <Text style={s.emptyHint}>{t("notes.emptyHint", "Long-press text while reading to add highlights and notes")}</Text>
         </View>
       </SafeAreaView>
     );
@@ -395,7 +395,7 @@ export function NotesView({
                     }
                   />
                   <Text style={[s.tabBtnText, detailTab === "notes" && s.tabBtnTextActive]}>
-                    {t("notebook.notesSection", "笔记")} ({selectedBook.notesCount || 0})
+                    {t("notebook.notesSection", "Notes")} ({selectedBook.notesCount || 0})
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -409,7 +409,7 @@ export function NotesView({
                     }
                   />
                   <Text style={[s.tabBtnText, detailTab === "highlights" && s.tabBtnTextActive]}>
-                    {t("notebook.highlightsSection", "高亮")} (
+                    {t("notebook.highlightsSection", "Highlights")} (
                     {selectedBook.highlightsOnlyCount || 0})
                   </Text>
                 </TouchableOpacity>
@@ -419,7 +419,7 @@ export function NotesView({
                 <SearchIcon size={14} color={colors.mutedForeground} />
                 <TextInput
                   style={s.detailSearchInput}
-                  placeholder={t("notes.searchPlaceholder", "搜索...")}
+                  placeholder={t("notes.searchPlaceholder", "Search...")}
                   placeholderTextColor={colors.mutedForeground}
                   value={searchQuery}
                   onChangeText={setSearchQuery}
@@ -434,10 +434,10 @@ export function NotesView({
           <View style={s.detailEmpty}>
             <Text style={s.detailEmptyText}>
               {searchQuery
-                ? t("notes.noSearchResults", "没有匹配结果")
+                ? t("notes.noSearchResults", "No matching results")
                 : detailTab === "notes"
-                  ? t("notes.noNotes", "暂无笔记")
-                  : t("highlights.noHighlights", "暂无高亮")}
+                  ? t("notes.noNotes", "No notes yet")
+                  : t("highlights.noHighlights", "No highlights yet")}
             </Text>
           </View>
         ) : (
@@ -515,7 +515,7 @@ export function NotesView({
       <View style={s.header}>
         <View style={s.headerRow}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <Text style={s.headerTitle}>{t("notes.title", "笔记")}</Text>
+            <Text style={s.headerTitle}>{t("notes.title", "Notes")}</Text>
             <SyncButton size={18} color={colors.mutedForeground} />
           </View>
           {bookNotebooks.length > 0 && (
@@ -540,17 +540,17 @@ export function NotesView({
           <View style={s.statBadge}>
             <HighlighterIcon size={14} color={colors.amber} />
             <Text style={s.statValue}>{totalHighlights}</Text>
-            <Text style={s.statLabel}>{t("notebook.highlightsSection", "高亮")}</Text>
+            <Text style={s.statLabel}>{t("notebook.highlightsSection", "Highlights")}</Text>
           </View>
           <View style={s.statBadge}>
             <NotebookPenIcon size={14} color={colors.blue} />
             <Text style={s.statValue}>{totalNotes}</Text>
-            <Text style={s.statLabel}>{t("notebook.notesSection", "笔记")}</Text>
+            <Text style={s.statLabel}>{t("notebook.notesSection", "Notes")}</Text>
           </View>
           <View style={s.statBadge}>
             <BookOpenIcon size={14} color={colors.emerald} />
             <Text style={s.statValue}>{totalBooks}</Text>
-            <Text style={s.statLabel}>{t("profile.booksUnit", "本")}</Text>
+            <Text style={s.statLabel}>{t("profile.booksUnit", "books")}</Text>
           </View>
         </View>
 
@@ -559,7 +559,7 @@ export function NotesView({
             <SearchIcon size={14} color={colors.mutedForeground} />
             <TextInput
               style={s.searchInput}
-              placeholder={t("notes.searchPlaceholder", "搜索笔记...")}
+              placeholder={t("notes.searchPlaceholder", "Search notes...")}
               placeholderTextColor={colors.mutedForeground}
               value={searchQuery}
               onChangeText={setSearchQuery}

@@ -412,7 +412,7 @@ function bookRow(overrides: Row = {}): Row {
 function groupRow(overrides: Row = {}): Row {
   return {
     id: "group-test",
-    name: "测试分组",
+    name: "Test Group",
     sort_order: 0,
     created_at: 1000,
     updated_at: 1000,

@@ -159,7 +159,7 @@ export function WebDavImportSourceSheet({
                   <BookOpenIcon size={18} color={colors.primary} />
                 </View>
                 <View style={s.optionText}>
-                  <Text style={s.optionTitle}>{t("library.importSourceLocal", "本地文件")}</Text>
+                  <Text style={s.optionTitle}>{t("library.importSourceLocal", "Local files")}</Text>
                 </View>
                 <ChevronRightIcon size={16} color={colors.mutedForeground} />
               </TouchableOpacity>
@@ -175,7 +175,7 @@ export function WebDavImportSourceSheet({
                 </View>
                 <View style={s.optionText}>
                   <Text style={s.optionTitle}>
-                    {t("library.importSourceSavedWebDav", "我的 WebDAV")}
+                    {t("library.importSourceSavedWebDav", "My WebDAV")}
                   </Text>
                 </View>
                 <ChevronRightIcon size={16} color={colors.mutedForeground} />
@@ -192,7 +192,7 @@ export function WebDavImportSourceSheet({
                 </View>
                 <View style={s.optionText}>
                   <Text style={s.optionTitle}>
-                    {t("library.importSourceTemporaryWebDav", "连接其他 WebDAV")}
+                    {t("library.importSourceTemporaryWebDav", "Connect to another WebDAV")}
                   </Text>
                 </View>
                 <ChevronRightIcon size={16} color={colors.mutedForeground} />

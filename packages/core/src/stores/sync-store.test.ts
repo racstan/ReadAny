@@ -531,10 +531,10 @@ describe("useSyncStore", () => {
       filesUploadFailed: 0,
       filesDownloadFailed: 0,
       durationMs: 0,
-      error: "无法连接到同步服务器，请检查网络和凭据",
+      error: "Could not connect to the sync server. Check the network and credentials",
     });
     expect(useSyncStore.getState().status).toBe("error");
-    expect(useSyncStore.getState().error).toBe("无法连接到同步服务器，请检查网络和凭据");
+    expect(useSyncStore.getState().error).toBe("Could not connect to the sync server. Check the network and credentials");
   });
 
   it("syncNow preserves backend connection failure details", async () => {
@@ -547,7 +547,7 @@ describe("useSyncStore", () => {
       key === "sync_webdav_password" ? "secret" : null,
     );
     mockBackend.testConnection.mockRejectedValue(
-      new Error("WebDAV 认证失败，请检查用户名和应用密码是否正确。"),
+      new Error("WebDAV authentication failed. Check your username and app password."),
     );
 
     const result = await useSyncStore.getState().syncNow();
@@ -560,10 +560,10 @@ describe("useSyncStore", () => {
       filesUploadFailed: 0,
       filesDownloadFailed: 0,
       durationMs: 0,
-      error: "WebDAV 认证失败，请检查用户名和应用密码是否正确。",
+      error: "WebDAV authentication failed. Check your username and app password.",
     });
     expect(useSyncStore.getState().status).toBe("error");
-    expect(useSyncStore.getState().error).toBe("WebDAV 认证失败，请检查用户名和应用密码是否正确。");
+    expect(useSyncStore.getState().error).toBe("WebDAV authentication failed. Check your username and app password.");
   });
 
   it("returns the same promise when sync is already in progress", async () => {

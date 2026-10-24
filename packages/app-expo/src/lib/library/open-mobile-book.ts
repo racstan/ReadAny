@@ -135,8 +135,8 @@ export async function openMobileBook({
 
   if (book.syncStatus === "downloading") {
     Alert.alert(
-      t("library.downloading", "下载中"),
-      t("library.downloadInProgress", "书籍还在下载中，请稍后再打开。"),
+      t("library.downloading", "Downloading"),
+      t("library.downloadInProgress", "The book is still downloading. Please try again later."),
     );
     return false;
   }
@@ -149,13 +149,13 @@ export async function openMobileBook({
   }
 
   const shouldReimport = await useMissingBookPromptStore.getState().showPrompt({
-    title: t("reader.reimportPromptTitle", "本地文件已移除"),
+    title: t("reader.reimportPromptTitle", "Local file removed"),
     description: t(
       "reader.reimportDialogDescription",
-      "重新选择这本书的文件后，就能继续阅读，并接回原来的笔记和阅读记录。",
+      "Select this book's file again to continue reading and reconnect its original notes and reading history.",
     ),
-    confirmLabel: t("reader.reimportSelectFile", "重新选择文件"),
-    cancelLabel: t("common.cancel", "取消"),
+    confirmLabel: t("reader.reimportSelectFile", "Choose file again"),
+    cancelLabel: t("common.cancel", "Cancel"),
   });
 
   if (!shouldReimport) {
@@ -180,17 +180,17 @@ export async function openMobileBook({
     });
     if (candidate && shouldConfirmReimportCandidate(book, candidate)) {
       const shouldContinue = await useMissingBookPromptStore.getState().showPrompt({
-        title: t("reader.reimportMismatchTitle", "这份文件看起来和原书不太一致"),
+        title: t("reader.reimportMismatchTitle", "This file doesn't quite match the original book"),
         description: t(
           "reader.reimportMismatchDescription",
-          "原书《{{originalTitle}}》与当前文件《{{candidateTitle}}》信息差异较大。仍要把它接回原来的笔记和阅读统计吗？",
+          "The original book \"{{originalTitle}}\" and the selected file \"{{candidateTitle}}\" differ significantly. Reconnect it to the original notes and reading stats anyway?",
           {
             originalTitle: book.meta.title,
-            candidateTitle: candidate.title || t("reader.unknownBook", "未命名书籍"),
+            candidateTitle: candidate.title || t("reader.unknownBook", "Untitled book"),
           },
         ),
-        confirmLabel: t("reader.reimportContinue", "继续接回"),
-        cancelLabel: t("reader.reimportPickAnotherFile", "重新选择"),
+        confirmLabel: t("reader.reimportContinue", "Reconnect anyway"),
+        cancelLabel: t("reader.reimportPickAnotherFile", "Choose another file"),
       });
       if (!shouldContinue) {
         return false;
@@ -211,7 +211,7 @@ export async function openMobileBook({
     const message =
       error instanceof Error
         ? error.message
-        : t("reader.reimportFailed", "重新导入失败，请稍后再试。");
+        : t("reader.reimportFailed", "Re-import failed. Please try again later.");
     // Ignore "Different document picking in progress" — not actionable for the user
     if (typeof message === "string" && message.includes("Different document picking")) {
       return false;

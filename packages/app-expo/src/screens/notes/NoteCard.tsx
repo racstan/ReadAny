@@ -54,18 +54,18 @@ export function NoteCard({
             <RichTextEditor
               initialContent={editNote}
               onChange={setEditNote}
-              placeholder={t("notebook.addNote", "添加笔记...")}
+              placeholder={t("notebook.addNote", "Add a note...")}
               autoFocus
             />
           </View>
           <View style={s.editActions}>
             <TouchableOpacity style={s.editCancelBtn} onPress={onCancelEdit}>
               <XIcon size={14} color={colors.mutedForeground} />
-              <Text style={s.editCancelText}>{t("common.cancel", "取消")}</Text>
+              <Text style={s.editCancelText}>{t("common.cancel", "Cancel")}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={s.editSaveBtn} onPress={onSaveNote}>
               <CheckIcon size={14} color={colors.primaryForeground} />
-              <Text style={s.editSaveText}>{t("common.save", "保存")}</Text>
+              <Text style={s.editSaveText}>{t("common.save", "Save")}</Text>
             </TouchableOpacity>
           </View>
         </View>

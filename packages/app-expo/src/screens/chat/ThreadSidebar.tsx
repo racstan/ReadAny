@@ -61,10 +61,10 @@ export function ThreadSidebar({
   const groupedThreads = useMemo(() => {
     const grouped = groupThreadsByTime(threads);
     const sections: { key: string; label: string; threads: Thread[] }[] = [
-      { key: "today", label: t("chat.today", "今天"), threads: grouped.today },
-      { key: "yesterday", label: t("chat.yesterday", "昨天"), threads: grouped.yesterday },
-      { key: "last7Days", label: t("chat.last7Days", "7 天内"), threads: grouped.last7Days },
-      { key: "last30Days", label: t("chat.last30Days", "30 天内"), threads: grouped.last30Days },
+      { key: "today", label: t("chat.today", "Today"), threads: grouped.today },
+      { key: "yesterday", label: t("chat.yesterday", "Yesterday"), threads: grouped.yesterday },
+      { key: "last7Days", label: t("chat.last7Days", "Last 7 days"), threads: grouped.last7Days },
+      { key: "last30Days", label: t("chat.last30Days", "Last 30 days"), threads: grouped.last30Days },
     ];
 
     const olderByMonth = new Map<string, Thread[]>();
@@ -91,7 +91,7 @@ export function ThreadSidebar({
         style={[s.sidebar, { paddingTop: insetTop, transform: [{ translateX: sidebarAnim }] }]}
       >
         <View style={s.header}>
-          <Text style={s.title}>{t("chat.history", "历史记录")}</Text>
+          <Text style={s.title}>{t("chat.history", "History")}</Text>
           <TouchableOpacity style={s.iconBtn} onPress={onClose}>
             <XIcon size={16} color={colors.foreground} />
           </TouchableOpacity>
@@ -99,7 +99,7 @@ export function ThreadSidebar({
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 20 }} showsVerticalScrollIndicator={false}>
           {threads.length === 0 ? (
             <View style={s.empty}>
-              <Text style={s.emptyText}>{t("chat.noConversations", "暂无对话")}</Text>
+              <Text style={s.emptyText}>{t("chat.noConversations", "No conversations yet")}</Text>
             </View>
           ) : (
             groupedThreads.map(({ key, label, threads: sectionThreads }) => {
@@ -121,7 +121,7 @@ export function ThreadSidebar({
                         <View style={s.itemContent}>
                           <View style={s.itemTitleRow}>
                             <Text style={[s.itemTitle, isActive && s.itemTitleActive]} numberOfLines={1}>
-                              {thread.title || t("chat.newChat", "新对话")}
+                              {thread.title || t("chat.newChat", "New chat")}
                             </Text>
                             <Text style={s.itemTime}>{formatTime(thread.updatedAt)}</Text>
                           </View>

@@ -158,6 +158,8 @@ describe("getEndpointFetch custom endpoint compatibility", () => {
         return new Response(
           JSON.stringify({
             error: {
+              // Chinese error text on purpose: exercises the CJK branch of the
+              // retry-detection regex in llm-provider.ts (超过 100 → over 100).
               message: "参数错误超过100个",
               type: "invalid_request_error",
             },
@@ -182,7 +184,7 @@ describe("getEndpointFetch custom endpoint compatibility", () => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         model: "gpt-5.5",
-        messages: [{ role: "user", content: "总结我最近的阅读" }],
+        messages: [{ role: "user", content: "Summarize my recent reading" }],
         max_completion_tokens: 4096,
         tools: [
           {

@@ -20,7 +20,7 @@ export function useBookDownload({ loadBooks, onSuccess }: UseBookDownloadOptions
 
   const downloadBook = useCallback(
     async (book: Book) => {
-      const bookTitle = book.meta.title || "未知书籍";
+      const bookTitle = book.meta.title || "Unknown book";
       setDownloadingBookId(book.id);
       setDownloadingBookTitle(bookTitle);
       setDownloadProgress(null);
@@ -35,7 +35,7 @@ export function useBookDownload({ loadBooks, onSuccess }: UseBookDownloadOptions
           setDownloadingBookId(null);
           setDownloadingBookTitle("");
           setDownloadProgress(null);
-          Alert.alert(t("common.error", "错误"), t("library.syncNotConfigured", "请先配置同步"));
+          Alert.alert(t("common.error", "Error"), t("library.syncNotConfigured", "Please configure sync first"));
           return false;
         }
 
@@ -48,8 +48,8 @@ export function useBookDownload({ loadBooks, onSuccess }: UseBookDownloadOptions
           setDownloadingBookTitle("");
           setDownloadProgress(null);
           Alert.alert(
-            t("common.error", "错误"),
-            t("library.passwordNotFound", "未找到同步密码，请重新配置"),
+            t("common.error", "Error"),
+            t("library.passwordNotFound", "Sync password not found. Please configure sync again"),
           );
           return false;
         }
@@ -67,16 +67,16 @@ export function useBookDownload({ loadBooks, onSuccess }: UseBookDownloadOptions
 
         if (outcome === "not-found") {
           Alert.alert(
-            t("common.error", "错误"),
+            t("common.error", "Error"),
             t(
               "library.downloadNotFound",
-              "远端没有这本书的文件，可能源设备还未上传成功。请回到那台设备重新打开/同步一次，或在此处重新导入。",
+              "The book's file is not available on the remote server. The source device may not have finished uploading. Reopen or sync once on that device, or re-import the book here.",
             ),
           );
           return false;
         }
         if (outcome === "error") {
-          Alert.alert(t("common.error", "错误"), t("library.downloadFailed", "下载失败，请重试"));
+          Alert.alert(t("common.error", "Error"), t("library.downloadFailed", "Download failed. Please try again"));
           return false;
         }
 
@@ -97,7 +97,7 @@ export function useBookDownload({ loadBooks, onSuccess }: UseBookDownloadOptions
         return true;
       } catch (err) {
         console.error("Download failed:", err);
-        Alert.alert(t("common.error", "错误"), t("library.downloadFailed", "下载失败，请重试"));
+        Alert.alert(t("common.error", "Error"), t("library.downloadFailed", "Download failed. Please try again"));
         return false;
       } finally {
         setDownloadingBookId(null);

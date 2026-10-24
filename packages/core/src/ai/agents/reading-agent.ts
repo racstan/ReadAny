@@ -57,7 +57,7 @@ const TOOL_TIMEOUT_MS_BY_NAME: Record<string, number> = {
   mindmap: 10_000,
 };
 const MAX_USER_INPUT_TOKENS = 8_000;
-const USER_INPUT_TOO_LONG_MESSAGE = "内容过长，请分段提问。";
+const USER_INPUT_TOO_LONG_MESSAGE = "Your input is too long. Please split your question into smaller parts.";
 
 const OUTPUT_LIMIT_FINISH_REASONS = new Set([
   "length",
@@ -517,7 +517,7 @@ function buildChapterReferenceLimitResult(
     detectedChapterNumber: undefined,
     attemptLimitReached: true,
     attemptedQueries,
-    notice: "未能可靠定位章节，请补充更准确的章节名",
+    notice: "I could not reliably locate that chapter. Please provide a more accurate chapter title.",
     reason:
       "Chapter lookup attempt limit reached. Stop chapter search in this turn and ask the user for a more accurate chapter title.",
   };
@@ -1410,13 +1410,14 @@ export async function* streamReadingAgent(
       }
       yield {
         type: "token",
-        content: "未能可靠定位章节，请补充更准确的章节名",
+        content: "I could not reliably locate that chapter. Please provide a more accurate chapter title.",
       };
       return;
     }
     if (isRecursionError) {
       const noticeResult = {
-        notice: "本轮检索步骤过多，没有稳定完成。请换个更具体的问法，或直接重试一次。",
+        notice:
+          "This turn used too many retrieval steps and did not complete reliably. Try rephrasing your question more specifically, or simply retry once.",
         reason: errorMessage,
       };
       const uniquePendingNames = Array.from(new Set(pendingToolCallNames));
@@ -1425,7 +1426,8 @@ export async function* streamReadingAgent(
       }
       yield {
         type: "token",
-        content: "本轮检索步骤过多，没有稳定完成。请换个更具体的问法，或直接重试一次。",
+        content:
+          "This turn used too many retrieval steps and did not complete reliably. Try rephrasing your question more specifically, or simply retry once.",
       };
       return;
     }

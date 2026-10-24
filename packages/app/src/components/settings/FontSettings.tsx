@@ -18,7 +18,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export function FontSettings() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const fonts = useFontStore((s) => s.fonts);
   const addFont = useFontStore((s) => s.addFont);

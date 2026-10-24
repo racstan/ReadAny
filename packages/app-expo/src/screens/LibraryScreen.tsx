@@ -414,7 +414,7 @@ export function LibraryScreen() {
       const files = result.assets.map((a) => ({ uri: a.uri, name: a.name }));
       const summary = await importBooks(files);
       Alert.alert(
-        t("common.success", "成功！"),
+        t("common.success", "Success!"),
         t("library.importResultSummary", {
           imported: summary.imported.length,
           skipped: summary.skippedDuplicates.length,
@@ -485,15 +485,15 @@ export function LibraryScreen() {
 
     if (syncBackendType !== "webdav" || syncConfig?.type !== "webdav") {
       Alert.alert(
-        t("library.importSourceSavedWebDavMissingTitle", "还没有可用的 WebDAV 书库"),
+        t("library.importSourceSavedWebDavMissingTitle", "No WebDAV library available yet"),
         t(
           "library.importSourceSavedWebDavMissing",
-          "还没有可用的 WebDAV 配置，先去同步设置里连上你的书库。",
+          "There is no usable WebDAV configuration yet. Connect your library in the sync settings first.",
         ),
         [
-          { text: t("common.cancel", "取消"), style: "cancel" },
+          { text: t("common.cancel", "Cancel"), style: "cancel" },
           {
-            text: t("settings.syncTitle", "WebDAV 同步"),
+            text: t("settings.syncTitle", "WebDAV sync"),
             onPress: () => nav.navigate("SyncSettings"),
           },
         ],
@@ -505,15 +505,15 @@ export function LibraryScreen() {
     const password = await platform.kvGetItem(SYNC_SECRET_KEYS.webdav);
     if (!password) {
       Alert.alert(
-        t("library.importSourceSavedWebDavMissingTitle", "还没有可用的 WebDAV 书库"),
+        t("library.importSourceSavedWebDavMissingTitle", "No WebDAV library available yet"),
         t(
           "library.importSourceSavedWebDavMissingSecret",
-          "已经找到 WebDAV 地址，但缺少密码。去同步设置里重新保存一次就能继续。",
+          "The WebDAV address was found, but the password is missing. Save it again in the sync settings to continue.",
         ),
         [
-          { text: t("common.cancel", "取消"), style: "cancel" },
+          { text: t("common.cancel", "Cancel"), style: "cancel" },
           {
-            text: t("settings.syncTitle", "WebDAV 同步"),
+            text: t("settings.syncTitle", "WebDAV sync"),
             onPress: () => nav.navigate("SyncSettings"),
           },
         ],
@@ -633,12 +633,12 @@ export function LibraryScreen() {
   const handleBatchDelete = useCallback(() => {
     if (selectedBookIds.size === 0) return;
     Alert.alert(
-      t("common.confirm", "确认"),
-      t("library.batchDeleteConfirm", `确定要删除选中的 ${selectedBookIds.size} 本书吗？`),
+      t("common.confirm", "Confirm"),
+      t("library.batchDeleteConfirm", `Delete the ${selectedBookIds.size} selected books?`),
       [
-        { text: t("common.cancel", "取消"), style: "cancel" },
+        { text: t("common.cancel", "Cancel"), style: "cancel" },
         {
-          text: t("common.delete", "删除"),
+          text: t("common.delete", "Delete"),
           style: "destructive",
           onPress: async () => {
             for (const id of selectedBookIds) {
@@ -690,15 +690,15 @@ export function LibraryScreen() {
     (group: BookGroup) => {
       Alert.alert(group.name, undefined, [
         {
-          text: t("common.rename", "重命名"),
+          text: t("common.rename", "Rename"),
           onPress: () => openGroupNameModal("rename", group),
         },
         {
-          text: t("common.delete", "删除"),
+          text: t("common.delete", "Delete"),
           style: "destructive",
           onPress: () => void removeGroup(group.id),
         },
-        { text: t("common.cancel", "取消"), style: "cancel" },
+        { text: t("common.cancel", "Cancel"), style: "cancel" },
       ]);
     },
     [openGroupNameModal, removeGroup, t],
@@ -804,7 +804,7 @@ export function LibraryScreen() {
                 <Text style={s.headerTitle}>
                   {t("library.selectedCount", {
                     count: selectedBookIds.size,
-                    defaultValue: `已选 ${selectedBookIds.size} 本`,
+                    defaultValue: `${selectedBookIds.size} selected`,
                   })}
                 </Text>
               </View>
@@ -845,7 +845,7 @@ export function LibraryScreen() {
                   </TouchableOpacity>
                 )}
                 <Text style={s.headerTitle} numberOfLines={1}>
-                  {activeGroup?.name ?? t("sidebar.library", "书库")}
+                  {activeGroup?.name ?? t("sidebar.library", "Library")}
                 </Text>
               </View>
               <View style={s.headerActions}>
@@ -930,7 +930,7 @@ export function LibraryScreen() {
                   <TextInput
                     ref={searchInputRef}
                     style={s.searchInput}
-                    placeholder={t("library.searchPlaceholder", "搜索...")}
+                    placeholder={t("library.searchPlaceholder", "Search...")}
                     placeholderTextColor={colors.mutedForeground}
                     value={filter.search}
                     onChangeText={(text) => setFilter({ search: text })}
@@ -967,7 +967,7 @@ export function LibraryScreen() {
                     <Text
                       style={[s.tagChipText, !activeTag && !activeGroupId && s.tagChipTextActive]}
                     >
-                      {t("library.all", "全部")}
+                      {t("library.all", "All")}
                     </Text>
                   </TouchableOpacity>
                   {allTags.map((tag) => (
@@ -993,7 +993,7 @@ export function LibraryScreen() {
                         activeTag === "__uncategorized__" && s.tagChipTextActive,
                       ]}
                     >
-                      {t("sidebar.uncategorized", "未分类")}
+                      {t("sidebar.uncategorized", "Uncategorized")}
                     </Text>
                   </TouchableOpacity>
                 </ScrollView>
@@ -1044,7 +1044,7 @@ export function LibraryScreen() {
           {isImporting && (
             <View style={s.importBanner}>
               <ActivityIndicator size="small" color={colors.primary} />
-              <Text style={s.importBannerText}>{t("library.importing", "正在导入...")}</Text>
+              <Text style={s.importBannerText}>{t("library.importing", "Importing...")}</Text>
             </View>
           )}
           {isLoaded && books.length === 0 && (
@@ -1053,8 +1053,8 @@ export function LibraryScreen() {
                 source={isDark ? BOOK_DARK_PNG : BOOK_PNG}
                 style={{ width: 160, height: 160 }}
               />
-              <Text style={s.emptyTitle}>{t("library.empty", "暂无书籍")}</Text>
-              <Text style={s.emptyHint}>{t("library.emptyHint", "导入电子书开始阅读之旅")}</Text>
+              <Text style={s.emptyTitle}>{t("library.empty", "No books yet")}</Text>
+              <Text style={s.emptyHint}>{t("library.emptyHint", "Import an ebook to start your reading journey")}</Text>
               <View ref={emptyImportAnchorRef} collapsable={false}>
                 <TouchableOpacity
                   style={s.emptyImportBtn}
@@ -1062,7 +1062,7 @@ export function LibraryScreen() {
                   disabled={isPickingImport}
                   activeOpacity={0.8}
                 >
-                  <Text style={s.emptyImportText}>{t("library.importFirst", "导入书籍")}</Text>
+                  <Text style={s.emptyImportText}>{t("library.importFirst", "Import books")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -1070,7 +1070,7 @@ export function LibraryScreen() {
           {isLoaded && hasBooks && isEmpty && (
             <View style={s.noResultsWrap}>
               <SearchIcon size={40} color={withOpacity(colors.mutedForeground, 0.3)} />
-              <Text style={s.noResultsText}>{t("library.noResults", "没有找到匹配的书籍")}</Text>
+              <Text style={s.noResultsText}>{t("library.noResults", "No matching books found")}</Text>
             </View>
           )}
           {isLoaded && hasBooks && filter.search && !isEmpty && (
@@ -1109,14 +1109,14 @@ export function LibraryScreen() {
             <Pressable style={s.groupModalCard} onPress={() => {}}>
               <Text style={s.groupModalTitle}>
                 {groupNameModal?.mode === "rename"
-                  ? t("common.rename", "重命名")
-                  : t("library.createGroup", "新建分组")}
+                  ? t("common.rename", "Rename")
+                  : t("library.createGroup", "New group")}
               </Text>
               <TextInput
                 style={s.groupModalInput}
                 value={groupNameInput}
                 onChangeText={setGroupNameInput}
-                placeholder={t("library.groupNamePrompt", "分组名称")}
+                placeholder={t("library.groupNamePrompt", "Group name")}
                 placeholderTextColor={colors.mutedForeground}
                 autoFocus
                 returnKeyType="done"
@@ -1127,13 +1127,13 @@ export function LibraryScreen() {
                   style={s.groupModalSecondary}
                   onPress={() => setGroupNameModal(null)}
                 >
-                  <Text style={s.groupModalSecondaryText}>{t("common.cancel", "取消")}</Text>
+                  <Text style={s.groupModalSecondaryText}>{t("common.cancel", "Cancel")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={s.groupModalPrimary}
                   onPress={() => void submitGroupName()}
                 >
-                  <Text style={s.groupModalPrimaryText}>{t("common.confirm", "确定")}</Text>
+                  <Text style={s.groupModalPrimaryText}>{t("common.confirm", "OK")}</Text>
                 </TouchableOpacity>
               </View>
             </Pressable>

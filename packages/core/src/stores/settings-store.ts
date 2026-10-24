@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { AIConfig, AIEndpoint, ReadSettings } from "../types";
+import type { AIConfig, AIEndpoint, AIMode, ReadSettings } from "../types";
 import type { TranslationConfig, TranslationTargetLang } from "../types/translation";
 import {
   buildProviderModelsUrl,
@@ -64,7 +64,7 @@ const defaultReadSettings: ReadSettings = {
 };
 
 const defaultTranslationConfig: TranslationConfig = {
-  provider: { id: "microsoft", name: "微软翻译 (免费)" },
+  provider: { id: "microsoft", name: "Microsoft Translate (Free)" },
   targetLang: "zh-CN",
 };
 
@@ -167,7 +167,7 @@ async function fetchOpenAIModels(endpoint: AIEndpoint): Promise<string[]> {
     method: "GET",
     requestUrl,
   });
-  // 使用跨域适配fetch，和AI对话逻辑一致
+  // Use the CORS-adapted fetch, consistent with the AI chat logic
   const endpointFetch = getEndpointFetch(endpoint);
   const response = await endpointFetch(requestUrl, {
     headers: { Authorization: `Bearer ${endpoint.apiKey}` },
@@ -341,7 +341,7 @@ async function fetchOllamaModels(endpoint: AIEndpoint): Promise<string[]> {
     endpoint.apiKey,
     endpoint.useExactRequestUrl,
   );
-  // 使用跨域适配fetch，和AI对话逻辑一致
+  // Use the CORS-adapted fetch, consistent with the AI chat logic
   const endpointFetch = getEndpointFetch(endpoint);
   const response = await endpointFetch(requestUrl);
   if (!response.ok) {
@@ -360,7 +360,7 @@ async function fetchLMStudioModels(endpoint: AIEndpoint): Promise<string[]> {
     endpoint.apiKey,
     endpoint.useExactRequestUrl,
   );
-  // 使用跨域适配fetch，和AI对话逻辑一致
+  // Use the CORS-adapted fetch, consistent with the AI chat logic
   const endpointFetch = getEndpointFetch(endpoint);
   const response = await endpointFetch(requestUrl);
   if (!response.ok) {

@@ -154,8 +154,8 @@ export class TrackPlayerEdgeTTSPlayer implements ITTSPlayer {
         // Misclassifying any of these as starvation makes _addFetchedChunk
         // call _resumeStarvedQueue → TrackPlayer.skip(currentIndex + 1), which
         // chops off the currently playing track and jumps to the next one —
-        // the user-visible bug where "山穷水尽" cuts straight to "国祚已竭"
-        // and the sentences in between are skipped.
+        // the user-visible bug where the current sentence cuts straight to a
+        // later one and the sentences in between are skipped.
         //
         // Treat Paused as starvation only when (a) we already started real
         // playback and (b) we genuinely have no chunk queued past the current

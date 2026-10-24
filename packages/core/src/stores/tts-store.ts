@@ -492,8 +492,9 @@ export const useTTSStore = create<TTSState>()(
         ) {
           scheduleRespeak();
         } else {
-          // 非重读变更（切引擎、或改了当前引擎不关心的字段）必须取消上一次合成变更排下的
-          // 待执行 respeak，否则陈旧防抖定时器会 fire 并强制重启播放。
+          // Non-respeak changes (switching engines, or changing fields the current
+          // engine ignores) must cancel any pending respeak scheduled by a previous
+          // synthesis change; otherwise a stale debounce timer fires and restarts playback.
           clearRespeakTimer();
         }
       },

@@ -51,15 +51,17 @@ function useProviderOptions(): { value: AIProviderType; label: string }[] {
     { value: "atlascloud", label: "Atlas Cloud" },
     { value: "anthropic", label: "Anthropic" },
     { value: "google", label: "Google Gemini" },
+    { value: "nvidia", label: "NVIDIA NIM" },
     { value: "deepseek", label: "DeepSeek" },
     { value: "ollama", label: "Ollama" },
     { value: "lmstudio", label: "LM Studio" },
     { value: "openrouter", label: "OpenRouter" },
     { value: "siliconflow", label: "SiliconFlow" },
     { value: "moonshot", label: "Moonshot (Kimi)" },
-    { value: "zhipu", label: t("settings.ai_provider_zhipu") },
-    { value: "aliyun", label: t("settings.ai_provider_aliyun") },
+    { value: "zhipu", label: "Zhipu GLM (BigModel)" },
+    { value: "aliyun", label: "Alibaba Qwen (DashScope)" },
     { value: "opencode", label: t("settings.ai_provider_opencode", "OpenCode (Local Proxy)") },
+    { value: "opencode-go", label: "OpenCode Go" },
     { value: "pi", label: t("settings.ai_provider_pi", "Pi Agent (Local RPC/Bridge)") },
     { value: "custom", label: t("settings.ai_provider_custom") },
   ], [t]);
@@ -757,11 +759,11 @@ export function AISettings() {
           <div className="rounded-md border border-purple-500/30 bg-purple-500/10 p-2.5 text-xs text-purple-600 dark:text-purple-400 flex items-start gap-2">
             <Cpu className="h-4 w-4 shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <p className="font-medium">Pi Agent Mode Active</p>
+              <p className="font-medium">Pi Agent Harness (PI Mode)</p>
               <p className="text-[11px] leading-relaxed text-muted-foreground">
                 {t(
                   "settings.ai_pi_hint",
-                  "Ensure the Pi CLI agent / RPC server is running at http://localhost:31415/v1 for multi-model agentic routing.",
+                  "Install the Pi agent harness (`npm install -g --ignore-scripts @earendil-works/pi-coding-agent`, or `powershell -c \"irm https://pi.dev/install.ps1 | iex\"` on Windows) and keep your Pi bridge running so it serves the OpenAI-compatible endpoint at http://localhost:31415/v1.",
                 )}
               </p>
             </div>

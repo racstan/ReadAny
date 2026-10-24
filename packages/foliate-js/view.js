@@ -400,7 +400,7 @@ export class View extends HTMLElement {
         }
         const range = doc ? anchor(doc) : anchor;
 
-        // 根据指示器类型选择绘制方法
+        // Select the draw method based on the indicator type
         let drawMethod;
         switch (indicatorType) {
           case "arrow":

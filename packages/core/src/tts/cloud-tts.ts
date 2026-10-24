@@ -52,7 +52,7 @@ export function buildXiaomiTTSMessages(text: string, config: TTSConfig) {
   return [
     {
       role: "user",
-      content: config.xiaomiStylePrompt || "自然、平稳、适合长时间听书。",
+      content: config.xiaomiStylePrompt || "Natural, steady, and suitable for long listening sessions.",
     },
     {
       role: "assistant",
@@ -66,7 +66,7 @@ export function buildXiaomiTTSUrl(config: Pick<TTSConfig, "xiaomiBaseUrl">): str
 }
 
 export function buildOpenAIChatTTSMessages(text: string, config: TTSConfig) {
-  const stylePrompt = config.openaiTtsStylePrompt || "自然、平稳、适合长时间听书。";
+  const stylePrompt = config.openaiTtsStylePrompt || "Natural, steady, and suitable for long listening sessions.";
   return [
     {
       role: "user",
