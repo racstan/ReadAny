@@ -37,9 +37,7 @@ const PROVIDERS: { id: AIProviderType; label: string }[] = [
   { id: "moonshot", label: "Moonshot" },
   { id: "zhipu", label: "Zhipu GLM (BigModel)" },
   { id: "aliyun", label: "Alibaba Qwen (DashScope)" },
-  { id: "opencode", label: "OpenCode (Local Proxy)" },
   { id: "opencode-go", label: "OpenCode Go" },
-  { id: "pi", label: "Pi Agent (Local RPC/Bridge)" },
   { id: "custom", label: "Custom" },
 ];
 
@@ -289,6 +287,13 @@ export function EndpointEditor({
 
       <View style={styles.fieldGroup}>
         <Text style={styles.fieldLabel}>{t("settings.ai_providerLabel", "Provider")}</Text>
+        {(ep.provider === "pi" || ep.provider === "opencode") ? (
+          <Text style={{ fontSize: 12, color: colors.mutedForeground, lineHeight: 18 }}>
+            {ep.provider === "pi"
+              ? "Managed by PI Mode — this agent harness has no API key. Switch the operation mode at the top of AI settings to enable or disable it."
+              : "Managed by OpenCode Mode — this local proxy has no API key. Switch the operation mode at the top of AI settings to enable or disable it."}
+          </Text>
+        ) : (
         <View style={styles.providerGrid}>
           {PROVIDERS.map((p) => (
             <TouchableOpacity
@@ -317,6 +322,7 @@ export function EndpointEditor({
             </TouchableOpacity>
           ))}
         </View>
+        )}
       </View>
 
       <View style={styles.fieldGroup}>

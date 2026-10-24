@@ -30,9 +30,7 @@ const PROVIDER_OPTIONS: { id: AIProviderType; name: string }[] = [
   { id: "lmstudio", name: "LM Studio" },
   { id: "openrouter", name: "OpenRouter" },
   { id: "siliconflow", name: "SiliconFlow" },
-  { id: "opencode", name: "OpenCode (Local Proxy)" },
   { id: "opencode-go", name: "OpenCode Go" },
-  { id: "pi", name: "Pi Agent (Local RPC/Bridge)" },
   { id: "custom", name: "Custom" },
 ];
 
@@ -201,6 +199,12 @@ export function AIPage({ onNext, onPrev, step, totalSteps }: any) {
                 ))}
               </SelectContent>
             </Select>
+            <p className="text-[11px] text-muted-foreground">
+              {t(
+                "settings.ai_provider_modeHint",
+                "Using the OpenCode or Pi agent harness? Those are operation modes — switch them in Settings → AI after setup.",
+              )}
+            </p>
           </div>
 
           <div className="space-y-1.5">

@@ -38,9 +38,7 @@ const PROVIDER_OPTIONS: { id: AIProviderType; name: string }[] = [
   { id: "lmstudio", name: "LM Studio" },
   { id: "openrouter", name: "OpenRouter" },
   { id: "siliconflow", name: "SiliconFlow" },
-  { id: "opencode", name: "OpenCode (Local Proxy)" },
   { id: "opencode-go", name: "OpenCode Go" },
-  { id: "pi", name: "Pi Agent (Local RPC/Bridge)" },
   { id: "custom", name: "Custom" },
 ];
 
@@ -212,6 +210,19 @@ export function AIPage() {
                 );
               })}
             </View>
+            <Text
+              style={{
+                fontSize: 11,
+                color: colors.mutedForeground,
+                marginTop: 8,
+                lineHeight: 16,
+              }}
+            >
+              {t(
+                "settings.ai_provider_modeHint",
+                "Using the OpenCode or Pi agent harness? Those are operation modes — switch them in Settings → AI after setup.",
+              )}
+            </Text>
           </View>
 
           {providerRequiresApiKey(provider) && (

@@ -60,9 +60,7 @@ function useProviderOptions(): { value: AIProviderType; label: string }[] {
     { value: "moonshot", label: "Moonshot (Kimi)" },
     { value: "zhipu", label: "Zhipu GLM (BigModel)" },
     { value: "aliyun", label: "Alibaba Qwen (DashScope)" },
-    { value: "opencode", label: t("settings.ai_provider_opencode", "OpenCode (Local Proxy)") },
     { value: "opencode-go", label: "OpenCode Go" },
-    { value: "pi", label: t("settings.ai_provider_pi", "Pi Agent (Local RPC/Bridge)") },
     { value: "custom", label: t("settings.ai_provider_custom") },
   ], [t]);
 }
@@ -331,6 +329,13 @@ function EndpointCard({
             >
               {t("settings.ai_provider")}
             </label>
+            {(endpoint.provider === "pi" || endpoint.provider === "opencode") ? (
+              <div className="rounded-md border border-border/60 bg-background/50 px-3 py-2 text-xs text-muted-foreground">
+                {endpoint.provider === "pi"
+                  ? "Managed by PI Mode — this agent harness has no API key. Switch the operation mode above to enable or disable it."
+                  : "Managed by OpenCode Mode — this local proxy has no API key. Switch the operation mode above to enable or disable it."}
+              </div>
+            ) : (
             <Select
               value={endpoint.provider || "openai"}
               onValueChange={(v) => {
@@ -358,6 +363,7 @@ function EndpointCard({
                 ))}
               </SelectContent>
             </Select>
+            )}
           </div>
 
           {/* API Key */}
